@@ -1,0 +1,89 @@
+body {
+    background-color: #1a1a1a;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0; 
+    background-attachment: fixed;
+    display: grid; /* Aplicar un layout de cuadrícula al cuerpo */
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto; /* Auto-template grid */
+}
+
+/* Estilos para el header */
+.navbar {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: center; /* Centra el texto en el header */
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start; /* Elementos del navbar a la izquierda */
+}
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px; /* Tamaño de fuente para los enlaces */
+    transition: color 0.3s; /* Transición de color suave al pasar el cursor */
+}
+
+.navbar a:hover {
+    color: #ffcc00; /* Cambia de color al pasar el cursor */
+}
+
+
+/* Estilos para pantallas más pequeñas (por ejemplo, dispositivos móviles) */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar li {
+        margin: 10px 0;
+    }
+}
+
+
+/* Estilos para el pie de página */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #ffcc00; /* Cambia de color al pasar el cursor */
+}
+
+.fa-lock,
+.fa-facebook,
+.fa-instagram,
+.fa-twitter,
+.fa-info-circle {
+    font-size: 20px;
+    margin-right: 5px;
+}
+/* Estilos para el contenido principal */
+.main-content {
+    margin: 20px 0; /* Agrega margen en la parte superior e inferior */
+}

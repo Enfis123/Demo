@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotron</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+    <header class="navbar">
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="barco.html"><i class="fas fa-ship"></i> Barco</a></li>
+                <li><a href="estadisticas.html"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
+                <li><a href="control.html"><i class="fas fa-cogs"></i> Control</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <div class="login-container">
+        <form class="login-form">
+            <h1>Iniciar Sesión</h1>
+            <label for="username">Usuario Administrador:</label>
+            <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" placeholder="Contraseña" required>
+
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+
+
+    <footer>
+        <div class="footer-links">
+            <a href="enlace-de-privacidad"><i class="fas fa-lock"></i> Términos de privacidad</a> |
+            <a href="enlace-de-facebook"><i class="fab fa-facebook"></i> Facebook</a> |
+            <a href="enlace-de-instagram"><i class="fab fa-instagram"></i> Instagram</a> |
+            <a href="enlace-de-twitter"><i class="fab fa-twitter"></i> Twitter</a> |
+            <a href="https://www.robotron.com.ec/"><i class="fas fa-info-circle"></i> Información general</a>
+        </div>
+        <p>&copy; 2023 Robotron. Todos los derechos reservados.</p>
+    </footer>
+    <script src="/scripts/control.js"></script>
+    <script src="/scripts/login.js"></script>
+
+</body>
+</html>
