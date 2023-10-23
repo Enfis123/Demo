@@ -1,82 +1,138 @@
 body {
-    background-color: #1a1a1a;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-attachment: fixed;
-    display: grid;
-    /* Aplicar un layout de cuadrícula al cuerpo */
-    min-height: 100vh;
-    grid-template-rows: auto 1fr auto;
-    /* Auto-template grid */
+  background-color: #222121;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* Aplicar un layout de cuadrícula al cuerpo */
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+  /* Auto-template grid */
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .navbar {
-    background-color: #333;
-    padding: 10px 200px;
-    /* Añade márgenes horizontales de 20px y márgenes verticales de 10px */
-    text-align: center;
-    /* Centra el texto en el header */
-    display: flex;
-    justify-content: space-between;
-    /* Coloca la sección del usuario a la izquierda */
+  background-color: rgb(36, 43, 53);
+  padding: 10px 50px;
+  /* Añade márgenes horizontales de 20px y márgenes verticales de 10px */
+  text-align: center;
+  /* Centra el texto en el header */
+  display: flex;
+  justify-content: space-between;
 }
 
-
 .navbar a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 16px;
-    /* Tamaño de fuente para los enlaces */
-    transition: color 0.3s;
-    /* Transición de color suave al pasar el cursor */
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  /* Tamaño de fuente para los enlaces */
+  transition: color 0.3s;
+  /* Transición de color suave al pasar el cursor */
 }
 
 .navbar a:hover {
-    color: #ffcc00;
-    /* Cambia de color al pasar el cursor */
+  color: #ffcc00;
+  /* Cambia de color al pasar el cursor */
 }
-
 
 .user-profile img {
-    width: 30px;
-    /* Tamaño de la imagen del perfil */
-    height: 30px;
-    margin-right: 10px;
-    border-radius: 50%;
-    /* Para hacer la imagen redonda */
+  width: 25px;
+  /* Tamaño de la imagen del perfil */
+  height: 25px;
+  border-radius: 50%;
+  /* Para hacer la imagen redonda */
 }
-
 
 /* Estilos para pantallas más pequeñas (por ejemplo, dispositivos móviles) */
 @media (max-width: 768px) {
-    .navbar ul {
-        flex-direction: column;
-        align-items: center;
-    }
+  .navbar ul {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .navbar li {
-        margin: 10px 0;
-    }
+  .navbar li {
+    margin: 10px 0;
+  }
 }
-
 
 /* Estilos para el pie de página */
 footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    font-size: 14px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
 }
 
 /* Estilos para el contenido principal */
 .main-content {
-    margin: 20px 0;
-    /* Agrega margen en la parte superior e inferior */
+  margin: 20px 0;
+  /* Agrega margen en la parte superior e inferior */
+}
+.sidebar {
+  background-color: rgb(36, 43, 53);
+  color: #fff;
+  width: 200px;
+  height: 100%;
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+
+.menu {
+  padding: 20px;
+}
+
+.menu h2 {
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-item {
+  cursor: pointer;
+  margin: 30px 0;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.menu-item:hover {
+  color: #ffcc00;
+}
+
+/* Estilos para el contenido de los menús */
+.menu-content {
+  display: none;
+  padding: 20px;
+  background-color: rgb(36, 43, 53);
+  color: #fff;
+}
+
+.menu-content.active {
+  display: block;
+}
+
+/* Estilo para el listado al desplegar el menú */
+.menu-content.active ul {
+  list-style: disc inside;
+  padding-left: 20px;
+}
+/* Estilos para la content-container (contenedor de contenido dinámico) */
+.content-container {
+  background-color: rgb(36, 43, 53);
+  color: #fff;
+  display: flex;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+  overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+  padding: 20px;
 }

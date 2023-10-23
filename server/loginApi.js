@@ -22,7 +22,19 @@ router.post("/login", (req, res) => {
 
     if (results.length === 1) {
       // Usuario autenticado con éxito
-      res.cookie('username', results[0].username); // Almacena el nombre de usuario en la cookie
+      const user = results[0];
+      const currentDateTime = new Date();
+      const expirationDate = new Date(currentDateTime.getTime() + 30 * 60 * 1000);
+
+      // Actualiza la hora de último acceso en la base de datos
+      const updateLastAccessSql = "UPDATE usuarios SET last_access = ? WHERE id = ?";
+      db.query(updateLastAccessSql, [currentDateTime, user.id], (err, updateResults) => {
+        if (err) {
+          console.error("Error al actualizar la hora de último acceso: " + err);
+          return res.status(500).send("Error interno del servidor");
+        }
+      });
+      res.cookie('username', user.username, { expires: expirationDate }); // Almacena el nombre de usuario en la cookie con expiración
 
       // Envia una respuesta JSON con un mensaje de éxito
       res.status(200).json({ message: "Inicio de sesión exitoso" });

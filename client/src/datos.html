@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Robotron</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles/datos.css" />
+  </head>
+
+  <body>
+    <h1>Control de Datos</h1>
+
+    <header class="navbar">
+      <div class="user-profile">
+        <img src="fotos/perfil.ico" alt="Foto de Perfil" />
+        <span id="user-name">Nombre de Usuario</span>
+      </div>
+      <a id="logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+    </header>
+    <div class="sidebar">
+      <div class="menu">
+        <h2 class="menu-title"><i class="fas fa-users"></i> Usuarios</h2>
+        <ul class="menu-content">
+          <li class="menu-item">
+            <i class="fas fa-user-plus"></i> Crear Usuario
+          </li>
+          <li class="menu-item">
+            <i class="fas fa-users"></i> Visualizar Usuarios
+          </li>
+        </ul>
+      </div>
+      <div class="menu">
+        <h2 class="menu-title"><i class="fas fa-cogs"></i> Variables</h2>
+        <ul class="menu-content">
+          <li class="menu-item"><i class="fas fa-plus"></i> Crear Variable</li>
+          <li class="menu-item">
+            <i class="fas fa-eye"></i> Visualizar Variable
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="content-container">
+      <!-- El contenido seleccionado se cargará aquí -->
+    </div>
+
+    <footer>
+      <p>&copy; 2023 Robotron. Todos los derechos reservados.</p>
+    </footer>
+    <script src="/scripts/header.js"></script>
+    <script src="/scripts/logout.js"></script>
+    <script src="/scripts/sidebar.js"></script>
+    <script src="/scripts/menus.js"></script>
+
+  </body>
+</html>
