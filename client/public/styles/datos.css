@@ -3,38 +3,53 @@ body {
     color: #fff;
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0; 
+    padding: 0;
     background-attachment: fixed;
-    display: grid; /* Aplicar un layout de cuadrícula al cuerpo */
+    display: grid;
+    /* Aplicar un layout de cuadrícula al cuerpo */
     min-height: 100vh;
-    grid-template-rows: auto 1fr auto; /* Auto-template grid */
+    grid-template-rows: auto 1fr auto;
+    /* Auto-template grid */
 }
 
-/* Estilos para el header */
+h1 {
+    text-align: center;
+}
+
 .navbar {
     background-color: #333;
-    padding: 10px 0;
-    text-align: center; /* Centra el texto en el header */
+    padding: 10px 200px;
+    /* Añade márgenes horizontales de 20px y márgenes verticales de 10px */
+    text-align: center;
+    /* Centra el texto en el header */
+    display: flex;
+    justify-content: space-between;
+    /* Coloca la sección del usuario a la izquierda */
 }
 
-.navbar ul {
-    list-style: none;
-    display: flex;
-    justify-content: flex-start; /* Elementos del navbar a la izquierda */
-}
-.navbar li {
-    margin: 0 15px;
-}
 
 .navbar a {
     text-decoration: none;
     color: #fff;
-    font-size: 16px; /* Tamaño de fuente para los enlaces */
-    transition: color 0.3s; /* Transición de color suave al pasar el cursor */
+    font-size: 16px;
+    /* Tamaño de fuente para los enlaces */
+    transition: color 0.3s;
+    /* Transición de color suave al pasar el cursor */
 }
 
 .navbar a:hover {
-    color: #ffcc00; /* Cambia de color al pasar el cursor */
+    color: #ffcc00;
+    /* Cambia de color al pasar el cursor */
+}
+
+
+.user-profile img {
+    width: 30px;
+    /* Tamaño de la imagen del perfil */
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+    /* Para hacer la imagen redonda */
 }
 
 
@@ -60,30 +75,8 @@ footer {
     font-size: 14px;
 }
 
-.footer-links {
-    margin-bottom: 10px;
-}
-
-.footer-links a {
-    text-decoration: none;
-    color: #fff;
-    margin: 0 10px;
-    transition: color 0.3s;
-}
-
-.footer-links a:hover {
-    color: #ffcc00; /* Cambia de color al pasar el cursor */
-}
-
-.fa-lock,
-.fa-facebook,
-.fa-instagram,
-.fa-twitter,
-.fa-info-circle {
-    font-size: 20px;
-    margin-right: 5px;
-}
 /* Estilos para el contenido principal */
 .main-content {
-    margin: 20px 0; /* Agrega margen en la parte superior e inferior */
+    margin: 20px 0;
+    /* Agrega margen en la parte superior e inferior */
 }
