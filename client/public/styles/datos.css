@@ -1,138 +1,133 @@
 body {
-  background-color: #222121;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  /* Aplicar un layout de cuadrícula al cuerpo */
-  min-height: 100vh;
-  grid-template-rows: auto 1fr auto;
-  /* Auto-template grid */
-}
+    background-color: #222121;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+  }
+  /* Establece un contenedor que dividirá el sidebar y el content-container */
 
-h1 {
-  text-align: center;
-}
-
-.navbar {
-  background-color: rgb(36, 43, 53);
-  padding: 10px 50px;
-  /* Añade márgenes horizontales de 20px y márgenes verticales de 10px */
-  text-align: center;
-  /* Centra el texto en el header */
-  display: flex;
-  justify-content: space-between;
-}
-
-.navbar a {
-  text-decoration: none;
-  color: #fff;
-  font-size: 16px;
-  /* Tamaño de fuente para los enlaces */
-  transition: color 0.3s;
-  /* Transición de color suave al pasar el cursor */
-}
-
-.navbar a:hover {
-  color: #ffcc00;
-  /* Cambia de color al pasar el cursor */
-}
-
-.user-profile img {
-  width: 25px;
-  /* Tamaño de la imagen del perfil */
-  height: 25px;
-  border-radius: 50%;
-  /* Para hacer la imagen redonda */
-}
-
-/* Estilos para pantallas más pequeñas (por ejemplo, dispositivos móviles) */
-@media (max-width: 768px) {
-  .navbar ul {
-    flex-direction: column;
-    align-items: center;
+  h1 {
+    text-align: center;
+    
   }
 
-  .navbar li {
-    margin: 10px 0;
+  .navbar {
+    background-color: #333;
+    padding: 10px 50px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Utiliza grid para dividir la barra de navegación en dos partes */
+    justify-items: center; /* Centra horizontalmente los elementos de la barra de navegación */
   }
-}
-
-/* Estilos para el pie de página */
-footer {
-  background-color: #333;
-  color: #fff;
-  padding: 20px 0;
-  text-align: center;
-  font-size: 14px;
-}
-
-/* Estilos para el contenido principal */
-.main-content {
-  margin: 20px 0;
-  /* Agrega margen en la parte superior e inferior */
-}
-.sidebar {
-  background-color: rgb(36, 43, 53);
-  color: #fff;
-  width: 200px;
-  height: 100%;
-  display: grid;
-  min-height: 100vh;
-  grid-template-rows: auto 1fr auto;
-}
-
-.menu {
-  padding: 20px;
-}
-
-.menu h2 {
-  font-size: 18px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-.menu-item {
-  cursor: pointer;
-  margin: 30px 0;
-  font-size: 16px;
-  transition: color 0.3s;
-}
-
-.menu-item:hover {
-  color: #ffcc00;
-}
-
-/* Estilos para el contenido de los menús */
-.menu-content {
-  display: none;
-  padding: 20px;
-  background-color: rgb(36, 43, 53);
-  color: #fff;
-}
-
-.menu-content.active {
-  display: block;
-}
-
-/* Estilo para el listado al desplegar el menú */
-.menu-content.active ul {
-  list-style: disc inside;
-  padding-left: 20px;
-}
-/* Estilos para la content-container (contenedor de contenido dinámico) */
-.content-container {
-  background-color: rgb(36, 43, 53);
-  color: #fff;
-  display: flex;
-  min-height: 100vh;
-  grid-template-rows: auto 1fr auto;
-  overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
-  padding: 20px;
-}
+  
+  .navbar a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    transition: color 0.3s;
+  }
+  
+  .navbar a:hover {
+    color: #ffcc00;
+  }
+  
+  .user-profile img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
+  
+  /* Estilos para pantallas más pequeñas (por ejemplo, dispositivos móviles) */
+  @media (max-width: 768px) {
+    .navbar {
+      grid-template-columns: 1fr; /* Una sola columna en pantallas más pequeñas */
+    }
+  }
+  
+  /* Estilos para el pie de página */
+  footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  /* Estilos para el contenido principal */
+  .main-content {
+    margin: 20px 0;
+  }
+  
+  .sidebar {
+    background-color: #333;
+    color: #fff;
+    width: 200px;
+    height: 100%;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+  }
+  
+  .menu {
+    padding: 20px;
+  }
+  
+  .menu h2 {
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .menu ul {
+    list-style: square;
+    padding: 20;
+  }
+  
+  .menu-item {
+    cursor: pointer;
+    margin: 30px 0;
+    font-size: 16px;
+    transition: color 0.3s;
+  }
+  
+  .menu-item:hover {
+    color: #ffcc00;
+  }
+  
+  /* Estilos para el contenido de los menús */
+  .menu-content {
+    display: none;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .menu-content.active {
+    display: block;
+  }
+  
+  /* Estilos para la content-container (contenedor de contenido dinámico) */
+  .content-container {
+    background-color: #222121;
+    color: #fff;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+    overflow-y: auto;
+    padding: 20px;
+    grid-template-columns: 250px 1fr; /* Sidebar y contenido principal ocupan columnas */
+  }
+  .main-content {
+    background-color: #333;
+    color: #fff;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+    overflow-y: auto;
+    padding: 20px;
+    grid-template-columns: 250px 1fr; /* Sidebar y contenido principal ocupan columnas */
+  }

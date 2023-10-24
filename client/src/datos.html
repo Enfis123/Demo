@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Robotron</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <link rel="stylesheet" href="styles/datos.css" />
-  </head>
 
-  <body>
-    <h1>Control de Datos</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robotron</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="/styles/datos.css" />
+</head>
 
-    <header class="navbar">
-      <div class="user-profile">
-        <img src="fotos/perfil.ico" alt="Foto de Perfil" />
-        <span id="user-name">Nombre de Usuario</span>
-      </div>
-      <a id="logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
-    </header>
+<body>
+  <h1>Control de Datos</h1>
+
+  <header class="navbar">
+    <div class="user-profile">
+      <img src="fotos/perfil.ico" alt="Foto de Perfil" />
+      <span id="user-name">Nombre de Usuario</span>
+    </div>
+    <a id="logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+  </header>
+
+  <div class="content-container">
     <div class="sidebar">
       <div class="menu">
         <h2 class="menu-title"><i class="fas fa-users"></i> Usuarios</h2>
@@ -43,17 +43,20 @@
         </ul>
       </div>
     </div>
-    <div class="content-container">
-      <!-- El contenido seleccionado se cargará aquí -->
-    </div>
 
-    <footer>
-      <p>&copy; 2023 Robotron. Todos los derechos reservados.</p>
-    </footer>
-    <script src="/scripts/header.js"></script>
-    <script src="/scripts/logout.js"></script>
-    <script src="/scripts/sidebar.js"></script>
-    <script src="/scripts/menus.js"></script>
+    <div class="main-content">
+        <!-- Conatenido principal -->
+      </div>
+  </div>
 
-  </body>
+  <footer>
+    <p>&copy; 2023 Robotron. Todos los derechos reservados.</p>
+  </footer>
+  <script src="/scripts/header.js"></script>
+  <script src="/scripts/logout.js"></script>
+  <script src="/scripts/sidebar.js"></script>
+  <script src="/scripts/menus.js"></script>
+
+</body>
+
 </html>
