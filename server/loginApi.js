@@ -26,23 +26,30 @@ router.post("/login", (req, res) => {
       const currentDateTime = new Date();
       const expirationDate = new Date(currentDateTime.getTime() + 30 * 60 * 1000);
 
-      // Actualiza la hora de último acceso en la base de datos
-      const updateLastAccessSql = "UPDATE usuarios SET last_access = ? WHERE id = ?";
-      db.query(updateLastAccessSql, [currentDateTime, user.id], (err, updateResults) => {
-        if (err) {
-          console.error("Error al actualizar la hora de último acceso: " + err);
-          return res.status(500).send("Error interno del servidor");
-        }
-      });
-      res.cookie('username', user.username, { expires: expirationDate }); // Almacena el nombre de usuario en la cookie con expiración
+      // Verifica si el usuario es de tipo "admin"
+      if (user.user_role === 'admin') {
+        // Actualiza la hora de último acceso en la base de datos
+        const updateLastAccessSql = "UPDATE usuarios SET last_access = ? WHERE id = ?";
+        db.query(updateLastAccessSql, [currentDateTime, user.id], (err, updateResults) => {
+          if (err) {
+            console.error("Error al actualizar la hora de último acceso: " + err);
+            return res.status(500).send("Error interno del servidor");
+          }
+        });
+        res.cookie('username', user.username, { expires: expirationDate }); // Almacena el nombre de usuario en la cookie con expiración
 
-      // Envia una respuesta JSON con un mensaje de éxito
-      res.status(200).json({ message: "Inicio de sesión exitoso" });
+        // Envia una respuesta JSON con un mensaje de éxito
+        res.status(200).json({ message: "Inicio de sesión exitoso" });
+      } else {
+        // Usuario no es de tipo "admin"
+        res.status(403).json({ message: "No tienes permisos de administrador" });
+      }
     } else {
       // Usuario no encontrado o contraseña incorrecta
       res.status(401).json({ message: "Credenciales incorrectas" });
     }
   });
 });
+
 
 module.exports = router;

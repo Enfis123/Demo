@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (response.status === 200) {
         // Autenticación exitosa, redirige al usuario a otra página (por ejemplo, "dashboard.html")
         window.location.href = '/datos.html';
-      } else {
+      } else if (response.status === 403){
+        alert('No tienes permisos de administrador');
+
+      }else{
         // Muestra un mensaje de error en caso de credenciales incorrectas
         alert('Credenciales incorrectas. Inténtalo de nuevo.');
       }

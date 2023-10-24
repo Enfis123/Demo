@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser'); 
-const db = require('./db'); 
-const loginApi = require('./loginApi'); 
+const cookieParser = require('cookie-parser');
+const db = require('./db');
+const loginApi = require('./loginApi');
+const usuarioApi = require('./usuarioApi'); // Asegúrate de que la ruta sea correcta
 
 const app = express();
 const port = 3000;
@@ -15,6 +16,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 app.use('/api', loginApi);
+app.use('/api', usuarioApi);
 
 // Middleware de autenticación
 function requireAuthentication(req, res, next) {
@@ -50,6 +52,7 @@ app.get('/estadisticas.html', (req, res) => {
   console.log('Accediendo a estadisticas.html');
   res.sendFile(path.join(__dirname, '../client/src/estadisticas.html'));
 });
+
 
 // Ruta de inicio
 app.get('/', (req, res) => {

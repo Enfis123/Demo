@@ -1,133 +1,345 @@
 body {
-    background-color: #222121;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    min-height: 100vh;
-    grid-template-rows: auto 1fr auto;
-  }
-  /* Establece un contenedor que dividirá el sidebar y el content-container */
+  background-color: #222121;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+/* Establece un contenedor que dividirá el sidebar y el content-container */
 
-  h1 {
-    text-align: center;
-    
-  }
+h1 {
+  text-align: center;
+}
 
+.navbar {
+  background-image: url("../fotos/side.jpg"); /* Reemplaza 'tu-imagen-de-fondo.jpg' con la URL de tu imagen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #333;
+  padding: 10px 50px;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Utiliza grid para dividir la barra de navegación en dos partes */
+  justify-items: center; /* Centra horizontalmente los elementos de la barra de navegación */
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #ffcc00;
+}
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+.user-profile img {
+  margin-left: 30px; /* Ajusta el espacio a tu preferencia */
+  margin-right: 10px; /* Ajusta el espacio a tu preferencia */
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+/* Estilos para pantallas más pequeñas (por ejemplo, dispositivos móviles) */
+@media (max-width: 768px) {
   .navbar {
-    background-color: #333;
-    padding: 10px 50px;
-    text-align: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Utiliza grid para dividir la barra de navegación en dos partes */
-    justify-items: center; /* Centra horizontalmente los elementos de la barra de navegación */
+    grid-template-columns: 1fr; /* Una sola columna en pantallas más pequeñas */
   }
-  
-  .navbar a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 16px;
-    transition: color 0.3s;
-  }
-  
-  .navbar a:hover {
-    color: #ffcc00;
-  }
-  
-  .user-profile img {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-  }
-  
-  /* Estilos para pantallas más pequeñas (por ejemplo, dispositivos móviles) */
-  @media (max-width: 768px) {
-    .navbar {
-      grid-template-columns: 1fr; /* Una sola columna en pantallas más pequeñas */
-    }
-  }
-  
-  /* Estilos para el pie de página */
-  footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  /* Estilos para el contenido principal */
-  .main-content {
-    margin: 20px 0;
-  }
-  
-  .sidebar {
-    background-color: #333;
-    color: #fff;
-    width: 200px;
-    height: 100%;
-    display: grid;
-    min-height: 100vh;
-    grid-template-rows: auto 1fr auto;
-  }
-  
-  .menu {
-    padding: 20px;
-  }
-  
-  .menu h2 {
-    font-size: 18px;
-    cursor: pointer;
-    margin-bottom: 10px;
-  }
-  
-  .menu ul {
-    list-style: square;
-    padding: 20;
-  }
-  
-  .menu-item {
-    cursor: pointer;
-    margin: 30px 0;
-    font-size: 16px;
-    transition: color 0.3s;
-  }
-  
-  .menu-item:hover {
-    color: #ffcc00;
-  }
-  
-  /* Estilos para el contenido de los menús */
-  .menu-content {
-    display: none;
-    padding: 20px;
-    background-color: #333;
-    color: #fff;
-  }
-  
-  .menu-content.active {
-    display: block;
-  }
-  
-  /* Estilos para la content-container (contenedor de contenido dinámico) */
-  .content-container {
-    background-color: #222121;
-    color: #fff;
-    display: grid;
-    min-height: 100vh;
-    grid-template-rows: auto 1fr auto;
-    overflow-y: auto;
-    padding: 20px;
-    grid-template-columns: 250px 1fr; /* Sidebar y contenido principal ocupan columnas */
-  }
-  .main-content {
-    background-color: #333;
-    color: #fff;
-    display: grid;
-    min-height: 100vh;
-    grid-template-rows: auto 1fr auto;
-    overflow-y: auto;
-    padding: 20px;
-    grid-template-columns: 250px 1fr; /* Sidebar y contenido principal ocupan columnas */
-  }
+}
+
+/* Estilos para el pie de página */
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Estilos para el contenido principal */
+.main-content {
+  margin: 20px 0;
+}
+
+.sidebar {
+  position: relative;
+  background-image: url("../fotos/side.jpg"); /* Reemplaza 'tu-imagen-de-fondo.jpg' con la URL de tu imagen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  width: 200px;
+  height: 100%;
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* Resto de tus estilos CSS aquí */
+
+.menu {
+  padding: 20px;
+}
+
+.menu h2 {
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.menu ul {
+  list-style: square;
+  padding: 20;
+}
+
+.menu-item {
+  cursor: pointer;
+  margin: 30px 0;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.menu-item:hover {
+  color: #ffcc00;
+}
+
+/* Estilos para el contenido de los menús */
+.menu-content {
+  display: none;
+  padding: 20px;
+  background-color: transparent; /* Fondo transparente */
+  color: #fff;
+}
+
+.menu-content.active {
+  display: block;
+}
+
+/* Estilos para la content-container (contenedor de contenido dinámico) */
+.content-container {
+  background-color: #222121;
+  color: #fff;
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+  overflow-y: auto;
+  padding: 20px;
+  grid-template-columns: 250px 1fr; /* Sidebar y contenido principal ocupan columnas */
+}
+.main-content {
+  background-image: url("../fotos/side.jpg"); /* Reemplaza 'tu-imagen-de-fondo.jpg' con la URL de tu imagen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #333;
+  color: #fff;
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Estilos para el formulario */
+#crear-usuario-form {
+  display: none; /* Ocultar el formulario por defecto */
+}
+
+#usuario-form {
+  background-color: #222;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#usuario-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+#usuario-form input[type="text"],
+#usuario-form input[type="password"],
+#usuario-form input[type="email"] {
+  width: 60%;
+  padding: 10px;
+  margin: 5px 0; /* Agregamos un margen vertical de 5px y ningún margen horizontal */
+  border: 1px solid #777;
+  border-radius: 3px;
+}
+
+#usuario-form select {
+  width: 20%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #777;
+  border-radius: 3px;
+}
+
+#usuario-form button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#usuario-form button:hover {
+  background-color: #0056b3;
+}
+/* Estilos para la tabla de usuarios */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.user-table th {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.user-table tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.user-table tr:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Estilo para la tabla: Hover */
+.user-table tr:hover td {
+  background-color: #333;
+  color: #fff;
+}
+
+.user-table-content {
+  max-height: 600px; /* Establece la altura máxima que desees */
+  overflow-y: auto; /* Activa la barra de desplazamiento vertical si es necesario */
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el encabezado de la tabla (opcional) */
+.user-table-header {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.user-table-header th {
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.user-table-header th:last-child {
+  border-right: none;
+}
+
+/* Estilos para el pie de la tabla (opcional) */
+.user-table-footer {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.user-table-footer td {
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.user-table-footer td:last-child {
+  border-right: none;
+}
+
+/* Estilos generales para el modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1; /* Asegura que el modal esté en la parte superior */
+  overflow: auto; /* Permite el desplazamiento si el contenido del modal es largo */
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  margin: 10% auto; /* Centra verticalmente y ajusta el margen lateral */
+  padding: 20px;
+  border-radius: 5px;
+  width: 60%; /* Ajusta el ancho del modal según tus preferencias */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #777;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000; /* Cambia el color al pasar el mouse */
+}
+
+/* Estilo adicional para la apariencia del modal */
+/* ... */
+
+/* Estilos para ocultar los modales por defecto */
+#editarModal,
+#eliminarModal {
+  display: none;
+}
+
+/* Estilos para los botones de Editar y Eliminar */
+.editar-button,
+.eliminar-button {
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.editar-button {
+  background-color: #0056b3;
+}
+.eliminar-button {
+  background-color: #b30018;
+}
+.editar-button:hover,
+.eliminar-button:hover {
+  background-color: #0056b3;
+}
