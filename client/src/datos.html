@@ -51,7 +51,19 @@
       </div>
 
       <div class="main-content">
-        <!-- Contenido principal -->
+        <div class="page-description">
+          <div class="description-text">
+            <h2>Bienvenido al Panel de Control de Datos</h2>
+            <p>
+              En esta plataforma, puedes administrar y controlar todos los datos
+              importantes de tu aplicación. Realiza tareas como crear, editar y
+              eliminar usuarios, gestionar variables, y más.
+            </p>
+          </div>
+          <div class="description-image">
+            <img src="/fotos/puente.jpg" alt="Control de Datos" />
+          </div>
+        </div>
         <div id="crear-usuario-form" style="display: none">
           <h3>Crear Usuario</h3>
           <form id="usuario-form">
@@ -81,24 +93,52 @@
         </div>
       </div>
     </div>
-<!-- Modal para editar usuario -->
-<div id="editarModal" class="modal">
-  <div class="modal-content">
-      <span class="close" id="cerrarEditarModal">&times;</span>
-      <h2>Editar Usuario</h2>
-      <!-- Agrega los campos de edición de usuario aquí -->
-  </div>
-</div>
+    <!-- Modal para editar usuario -->
+    <div id="editarModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="cerrarEditarModal">&times;</span>
+        <h2>Editar Usuario</h2>
+        <form id="editar-usuario-form">
+          <label for="edit-username">Nombre de Usuario:</label>
+          <input type="text" id="edit-username" name="edit-username" required />
+          <br />
+          <label for="edit-password">Contraseña:</label>
+          <input
+            type="password"
+            id="edit-password"
+            name="edit-password"
+            required
+          />
+          <br />
+          <label for="edit-email">Correo Electrónico:</label>
+          <input type="email" id="edit-email" name="edit-email" required />
+          <br />
+          <label for="edit-user_role">Rol de Usuario:</label>
+          <select id="edit-user_role" name="edit-user_role">
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+          <br />
+          <label for="edit-account_status">Estado de la Cuenta:</label>
+          <select id="edit-account_status" name="edit-account_status">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+          <br />
+          <button id="guardarCambiosBtn" type="submit">Guardar Cambios</button>
+        </form>
+      </div>
+    </div>
 
-<!-- Modal para eliminar usuario -->
-<div id="eliminarModal" class="modal">
-  <div class="modal-content">
-      <span class="close" id="cerrarEliminarModal">&times;</span>
-      <h2>Eliminar Usuario</h2>
-      <p>¿Estás seguro de que deseas eliminar este usuario?</p>
-      <button id="confirmarEliminar">Eliminar</button>
-  </div>
-</div>
+    <!-- Modal para eliminar usuario -->
+    <div id="eliminarModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="cerrarEliminarModal">&times;</span>
+        <h2>Eliminar Usuario</h2>
+        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+        <button id="confirmarEliminar">Eliminar</button>
+      </div>
+    </div>
 
     <footer>
       <p>&copy; 2023 Robotron. Todos los derechos reservados.</p>

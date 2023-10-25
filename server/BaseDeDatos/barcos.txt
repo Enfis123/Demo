@@ -1,0 +1,6 @@
+INSERT INTO barcos (nombre, anio, tipo_motor, horas_trabajo_motor, tipo_control, imagen)
+VALUES
+    ('Barco 1', 2020, 'Motor Diesel', 120.5, 'Control Manual', 'barco1.jpg'),
+    ('Barco 2', 2019, 'Motor Eléctrico', 85.2, 'Control Remoto', 'barco2.jpg'),
+    ('Barco 3', 2022, 'Motor de Gasolina', 45.8, 'Control Manual', 'barco3.jpg'),
+    ('Barco 4', 2021, 'Motor Diesel', 175.0, 'Control Remoto', 'barco4.jpg');

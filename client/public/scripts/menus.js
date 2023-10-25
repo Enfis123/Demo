@@ -69,14 +69,14 @@ function mostrarUsuarios() {
         editarButtons.forEach((button) => {
           button.addEventListener("click", (e) => {
             const userId = e.currentTarget.getAttribute("data-id");
-            abrirEditarModal();
+            abrirEditarModal(userId);
           });
         });
 
         eliminarButtons.forEach((button) => {
           button.addEventListener("click", (e) => {
             const userId = e.currentTarget.getAttribute("data-id");
-            abrirEliminarModal();
+            abrirEliminarModal(userId);
           });
         });
       } else {
@@ -155,18 +155,76 @@ usuarioForm.addEventListener("submit", async (e) => {
     console.error("Error al enviar datos del formulario al servidor:", error);
   }
 });
-// Mostrar modal de edición al hacer clic en "Editar"
+// Mostrar modal de edición al hacer clic en "Editar" y cargar los datos del usuario
 function abrirEditarModal(userId) {
   const modal = document.getElementById("editarModal");
   const cerrarModal = document.getElementById("cerrarEditarModal");
-  // Agrega lógica para cargar los datos del usuario y permitir la edición
+  const guardarCambiosBtn = document.getElementById("guardarCambiosBtn");
+
   modal.style.display = "block";
 
   cerrarModal.onclick = function () {
     modal.style.display = "none";
   };
 
-  // Puedes cargar los datos del usuario y habilitar la edición aquí
+  // Obtener los datos del usuario seleccionado mediante Fetch
+  fetch(`/api/users/${userId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      // Llena el formulario en el modal con los datos del usuario
+      const usernameInput = document.getElementById("edit-username");
+      const passwordInput = document.getElementById("edit-password");
+      const emailInput = document.getElementById("edit-email");
+      const userRoleSelect = document.getElementById("edit-user_role");
+      const accountStatusSelect = document.getElementById(
+        "edit-account_status"
+      );
+
+      usernameInput.value = data.username;
+      passwordInput.value = data.password;
+      emailInput.value = data.email;
+      userRoleSelect.value = data.user_role;
+      accountStatusSelect.value = data.account_status;
+    });
+
+  // Actualizar los datos del usuario al hacer clic en "Guardar" mediante Fetch
+  guardarCambiosBtn.onclick = function () {
+    const editedUserData = {
+      username: document.getElementById("edit-username").value,
+      password: document.getElementById("edit-password").value,
+      email: document.getElementById("edit-email").value,
+      user_role: document.getElementById("edit-user_role").value,
+      account_status: document.getElementById("edit-account_status").value,
+    };
+
+    // Realizar una solicitud PUT para actualizar los datos del usuario
+    fetch(`/api/users/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedUserData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error al actualizar el usuario");
+        }
+      })
+      .then((data) => {
+        if (data.message === "Usuario editado con éxito") {
+          alert("Usuario actualizado exitosamente");
+          modal.style.display = "none"; // Cierra el modal
+          // Puedes agregar más lógica de actualización en la interfaz de usuario si es necesario
+        } else {
+          alert("Error al actualizar el usuario");
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 }
 
 // Mostrar modal de eliminación al hacer clic en "Eliminar"
@@ -174,6 +232,7 @@ function abrirEliminarModal(userId) {
   const modal = document.getElementById("eliminarModal");
   const cerrarModal = document.getElementById("cerrarEliminarModal");
   const confirmarEliminar = document.getElementById("confirmarEliminar");
+
   // Agrega lógica para confirmar la eliminación del usuario
   modal.style.display = "block";
 
@@ -183,8 +242,30 @@ function abrirEliminarModal(userId) {
 
   confirmarEliminar.onclick = function () {
     // Realiza la acción de eliminación aquí
+    eliminarUsuario(userId);
     modal.style.display = "none";
+    mostrarUsuarios();
   };
+}
+
+function eliminarUsuario(userId) {
+  // Realiza una solicitud DELETE para eliminar el usuario por su ID
+  fetch(`/api/users/${userId}`, {
+    method: "DELETE",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.message === "Usuario eliminado con éxito") {
+        // Puedes agregar lógica adicional, como actualizar la interfaz de usuario
+        alert("Usuario eliminado exitosamente");
+      } else {
+        alert("Error al eliminar el usuario");
+      }
+    })
+    .catch((error) => {
+      console.error("Error al eliminar el usuario: " + error);
+      alert("Error al eliminar el usuario");
+    });
 }
 
 // Llamar a estas funciones cuando se haga clic en los botones "Editar" y "Eliminar"

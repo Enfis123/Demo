@@ -87,3 +87,46 @@ footer {
 .main-content {
     margin: 20px 0; /* Agrega margen en la parte superior e inferior */
 }
+.barco-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px;
+    max-height: 500px; /* Altura máxima antes de mostrar barras de desplazamiento vertical */
+    overflow-y: auto;
+}
+
+.barco-card {
+    width: 200px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+
+.barco-card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.actions {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.actions a {
+    text-decoration: none;
+    margin: 5px;
+    padding: 8px 12px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.actions a:hover {
+    background-color: #fff;
+    color: #333;
+}
