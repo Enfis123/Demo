@@ -97,7 +97,9 @@ footer {
 }
 
 .barco-card {
+    display: grid;
     width: 200px;
+    background-color: #333;
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px;
@@ -109,24 +111,145 @@ footer {
     height: auto;
 }
 
-.actions {
-    display: grid;
-    justify-content: center;
-    align-items: center;
+
+/* CSS */
+.button-86 {
+  all: unset;
+  width: 100px;
+  height: 30px;
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  position: relative;
+  color: #f0f0f0;
+  cursor: pointer;
+  z-index: 1;
+  padding: 10px 50px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
-.actions a {
-    text-decoration: none;
-    margin: 5px;
-    padding: 8px 12px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    background-color: #333;
+.button-86::after,
+.button-86::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -99999;
+  transition: all .4s;
+}
+
+.button-86::before {
+  transform: translate(0%, 0%);
+  width: 100%;
+  height: 100%;
+  background: #007BFF;
+  border-radius: 10px;
+}
+
+.button-86::after {
+  transform: translate(10px, 10px);
+  width: 35px;
+  height: 35px;
+  background: #33333336;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 50px;
+}
+
+.button-86:hover::before {
+  transform: translate(5%, 20%);
+  width: 110%;
+  height: 110%;
+}
+
+.button-86:hover::after {
+  border-radius: 10px;
+  transform: translate(0, 0);
+  width: 100%;
+  height: 100%;
+}
+
+.button-86:active::after {
+  transition: 0s;
+  transform: translate(0, 5%);
+}
+/* styles.css (o tu archivo CSS principal) */
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      display: none;
+    }
+  }
+  /* Estilos para la content-container (contenedor de contenido dinámico) */
+.detalle-container {
+    background-color: #36373f;
     color: #fff;
-    transition: background-color 0.3s, color 0.3s;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+    overflow-y: auto;
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    margin: 20px; /* Márgenes exteriores */
+  }
+  .detalle-container h2 {
+    font-size: 24px; /* Tamaño de fuente para el encabezado */
+    color: #ffffff; /* Color del texto del encabezado */
+    margin-bottom: 10px; /* Espaciado inferior */
 }
-
-.actions a:hover {
-    background-color: #fff;
-    color: #333;
-}
+/* Estilos para el formulario de filtrado */
+.search-bar {
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+  
+  #filter-form {
+    margin-left:200px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  #filter-form input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  #filter-form button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  #filter-form button:hover {
+    background-color: #0056b3;
+  }
+  
