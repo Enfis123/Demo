@@ -1,78 +1,75 @@
 body {
-    background-color: #1a1a1a;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0; 
-    background-attachment: fixed;
-    display: grid; /* Aplicar un layout de cuadrícula al cuerpo */
-    min-height: 100vh;
-    grid-template-rows: auto 1fr auto; /* Auto-template grid */
+  background-color: #1a1a1a;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-attachment: fixed;
+  display: grid; /* Aplicar un layout de cuadrícula al cuerpo */
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto; /* Auto-template grid */
 }
 
-
 .navbar {
-    background-color: #333;
-    padding: 10px 0;
+  background-color: #333;
+  padding: 10px 0;
 }
 
 .navbar ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
+  list-style: none;
+  display: flex;
+  justify-content: center;
 }
 
 .navbar li {
-    margin: 0 15px;
+  margin: 0 15px;
 }
 
 .navbar a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 16px; /* Tamaño de fuente para los enlaces */
-    transition: color 0.3s; /* Transición de color suave al pasar el cursor */
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px; /* Tamaño de fuente para los enlaces */
+  transition: color 0.3s; /* Transición de color suave al pasar el cursor */
 }
 
 .navbar a:hover {
-    color: #ffcc00; /* Cambia de color al pasar el cursor */
+  color: #ffcc00; /* Cambia de color al pasar el cursor */
 }
-
 
 /* Estilos para pantallas más pequeñas (por ejemplo, dispositivos móviles) */
 @media (max-width: 768px) {
-    .navbar ul {
-        flex-direction: column;
-        align-items: center;
-    }
+  .navbar ul {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .navbar li {
-        margin: 10px 0;
-    }
+  .navbar li {
+    margin: 10px 0;
+  }
 }
-
 
 /* Estilos para el pie de página */
 footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    font-size: 14px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
 }
 
 .footer-links {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .footer-links a {
-    text-decoration: none;
-    color: #fff;
-    margin: 0 10px;
-    transition: color 0.3s;
+  text-decoration: none;
+  color: #fff;
+  margin: 0 10px;
+  transition: color 0.3s;
 }
 
 .footer-links a:hover {
-    color: #ffcc00; /* Cambia de color al pasar el cursor */
+  color: #ffcc00; /* Cambia de color al pasar el cursor */
 }
 
 .fa-lock,
@@ -80,37 +77,36 @@ footer {
 .fa-instagram,
 .fa-twitter,
 .fa-info-circle {
-    font-size: 20px;
-    margin-right: 5px;
+  font-size: 20px;
+  margin-right: 5px;
 }
 /* Estilos para el contenido principal */
 .main-content {
-    margin: 20px 0; /* Agrega margen en la parte superior e inferior */
+  margin: 20px 0; /* Agrega margen en la parte superior e inferior */
 }
 .barco-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 20px;
-    max-height: 500px; /* Altura máxima antes de mostrar barras de desplazamiento vertical */
-    overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px;
+  max-height: 500px; /* Altura máxima antes de mostrar barras de desplazamiento vertical */
+  overflow-y: auto;
 }
 
 .barco-card {
-    display: grid;
-    width: 200px;
-    background-color: #333;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    text-align: center;
+  display: grid;
+  width: 200px;
+  background-color: #333;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
 }
 
 .barco-card img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
-
 
 /* CSS */
 .button-86 {
@@ -136,19 +132,19 @@ footer {
 
 .button-86::after,
 .button-86::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   right: 0;
   z-index: -99999;
-  transition: all .4s;
+  transition: all 0.4s;
 }
 
 .button-86::before {
   transform: translate(0%, 0%);
   width: 100%;
   height: 100%;
-  background: #007BFF;
+  background: #007bff;
   border-radius: 10px;
 }
 
@@ -182,74 +178,160 @@ footer {
 /* styles.css (o tu archivo CSS principal) */
 
 @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  from {
+    opacity: 0;
   }
-  
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-      display: none;
-    }
+  to {
+    opacity: 1;
   }
-  /* Estilos para la content-container (contenedor de contenido dinámico) */
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+/* Estilos para la content-container (contenedor de contenido dinámico) */
 .detalle-container {
-    background-color: #36373f;
-    color: #fff;
-    display: grid;
-    min-height: 100vh;
-    grid-template-rows: auto 1fr auto;
-    overflow-y: auto;
-    padding: 20px;
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra ligera */
-    margin: 20px; /* Márgenes exteriores */
-  }
-  .detalle-container h2 {
-    font-size: 24px; /* Tamaño de fuente para el encabezado */
-    color: #ffffff; /* Color del texto del encabezado */
-    margin-bottom: 10px; /* Espaciado inferior */
+  background-color: #77788641;
+  color: #fff;
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+  overflow-y: auto;
+  padding: 20px;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+  margin: 20px; /* Márgenes exteriores */
+}
+.detalle-container h2 {
+  font-size: 24px; /* Tamaño de fuente para el encabezado */
+  color: #ffffff; /* Color del texto del encabezado */
+  margin-bottom: 10px; /* Espaciado inferior */
 }
 /* Estilos para el formulario de filtrado */
 .search-bar {
-    margin: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: flex-start;
-  }
-  
-  #filter-form {
-    margin-left:200px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  #filter-form input[type="text"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  #filter-form button {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-  }
-  
-  #filter-form button:hover {
-    background-color: #0056b3;
-  }
-  
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+#filter-form {
+  margin-left: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+#filter-form input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#filter-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+#filter-form button:hover {
+  background-color: #0056b3;
+}
+/* Estilo para el botón de Volver */
+#volver-button {
+  position: relative;
+  top: 10px;
+  padding: 10px 10px;
+  background-color: #077ff0;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px; /* Espaciado inferior */
+}
+
+#volver-button:hover {
+  background-color: #0058a0;
+}
+/* Agrega estos estilos al CSS para definir la cuadrícula */
+.grid-container {
+  display: grid;
+  min-height: 90vh;
+  grid-template-columns: 1fr 1fr 1fr; /* Divide en tres columnas iguales */
+  gap: 10px; /* Espacio entre los contenedores */
+  margin-top: 20px; /* Espacio desde el título */
+}
+
+.grid-item {
+  background-color: #1d1c1c; /* Color de fondo de los contenedores */
+  color: #fff; /* Color de texto */
+  padding: 10px; /* Espacio interno de los contenedores */
+  border: 1px solid #666; /* Borde de los contenedores */
+  border-radius: 5px; /* Bordes redondeados */
+}
+/* Estilos para los gráficos */
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px;
+}
+
+/* Estilos para el contenedor del gráfico de barras */
+.bar-chart {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Estilos para el contenedor del gráfico de líneas */
+.line-chart {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Estilos para el contenedor del gráfico de donas */
+.doughnut-chart {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Estilos para los títulos de los gráficos */
+.chart-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Estilos para los botones de acción */
+.chart-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chart-button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para el contenedor de los botones de acción */
+.button-container {
+  text-align: center;
+  margin-top: 10px;
+}

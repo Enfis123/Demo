@@ -85,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Agrega un evento de envío al formulario para realizar el filtrado
   filterForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    barcoContainer.style.animation = "fadeIn 0.5s forwards";
     detalleContainer.style.animation = "fadeOut 0.5s forwards";
     detalleContainer.style.display = "none";
+    barcoContainer.style.animation = "fadeIn 0.5s forwards";
     fetchAndDisplayBarcos();
   });
   // Llama a la función inicialmente para cargar todos los barcos

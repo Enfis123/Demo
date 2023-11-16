@@ -31,39 +31,38 @@
         </ul>
       </nav>
     </header>
-<!-- Agrega este código debajo del elemento <nav> en tu header -->
-  <div class="search-bar">
-    <form id="filter-form">
-      <input
-        type="text"
-        id="nombre-filter"
-        placeholder="Nombre"
-      />
-      <input
-        type="text"
-        id="anio-filter"
-        placeholder="Año"
-      />
-      <input
-        type="text"
-        id="tipo-motor-filter"
-        placeholder="Tipo de Motor"
-      />
-      <input
-        type="text"
-        id="tipo-control-filter"
-        placeholder="Tipo de Control"
-      />
-      <button type="submit">Filtrar</button>
-    </form>
-  </div>
-  
+    <!-- Agrega este código debajo del elemento <nav> en tu header -->
+    <div class="search-bar">
+      <form id="filter-form">
+        <input type="text" id="nombre-filter" placeholder="Nombre" />
+        <input type="text" id="anio-filter" placeholder="Año" />
+        <input type="text" id="tipo-motor-filter" placeholder="Tipo de Motor" />
+        <input
+          type="text"
+          id="tipo-control-filter"
+          placeholder="Tipo de Control"
+        />
+        <button type="submit">Filtrar</button>
+      </form>
+    </div>
+
     <div class="barco-list"></div>
     <!-- Agrega una sección de detalle con un contenedor oculto -->
     <div class="detalle-container" style="display: none">
-      <!-- Contenido de detalles del barco -->
+      <button id="volver-button">Volver</button>
       <h2>Detalles del Barco</h2>
-      <!-- Agrega aquí el contenido específico del detalle del barco -->
+
+      <div class="grid-container">
+        <div class="grid-item">
+          <canvas id="chart1"></canvas>
+        </div>
+        <div class="grid-item">
+          <canvas id="chart2"></canvas>
+        </div>
+        <div class="grid-item">
+          <canvas id="chart3"></canvas>
+        </div>
+      </div>
     </div>
 
     <footer>
@@ -88,6 +87,8 @@
       <p>&copy; 2023 Robotron. Todos los derechos reservados.</p>
     </footer>
     <script src="/scripts/listaBarcos.js"></script>
-    <script src="/scripts/detalleBarco.js"></script>
+    <script src="/scripts/volver.js"></script>
+    <script src="/scripts/graficos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </body>
 </html>
