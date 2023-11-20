@@ -18,5 +18,31 @@ router.get('/barcos', (req, res) => {
     res.status(200).json(results);
   });
 });
+// Ruta para crear un nuevo barco
+router.post('/barcos', (req, res) => {
+  // Obtén los datos del cuerpo de la solicitud
+  const { nombre, anio, tipo_motor, horas_trabajo_motor, tipo_control, imagen } = req.body;
 
+  // Realiza las validaciones necesarias antes de insertar en la base de datos
+  if (!nombre || !anio || !tipo_motor || !tipo_control || !imagen) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  // Consulta SQL para insertar un nuevo barco en la base de datos
+  const sql = 'INSERT INTO barcos (nombre, anio, tipo_motor, horas_trabajo_motor, tipo_control, imagen) VALUES (?, ?, ?, ?, ?, ?)';
+
+  // Ejecuta la consulta en la base de datos
+  db.query(
+    sql,
+    [nombre, anio, tipo_motor, horas_trabajo_motor, tipo_control, imagen],
+    (err, results) => {
+      if (err) {
+        console.error('Error al insertar en la base de datos: ' + err);
+        return res.status(500).json({ error: 'Error interno del servidor' });
+      }
+
+      res.status(201).json({ message: 'Barco creado correctamente', barcoId: results.insertId });
+    }
+  );
+});
 module.exports = router;

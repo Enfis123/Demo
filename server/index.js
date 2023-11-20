@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
 const db = require('./db');
 const loginApi = require('./loginApi');
 const usuarioApi = require('./usuarioApi'); // Asegúrate de que la ruta sea correcta
@@ -8,6 +9,18 @@ const barcoApi = require('./barcoApi'); // Asegúrate de que la ruta sea correct
 
 const app = express();
 const port = 3000;
+// Configuración de Multer para manejar la subida de archivos
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../client/public/fotos/barcos'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname); // Puedes personalizar el nombre del archivo si lo deseas
+  },
+});
+
+const upload = multer({ storage: storage }); // Inicializa multer con la configuración
+
 
 // Configura Express para servir archivos estáticos desde la carpeta 'public'
 app.use(express.static(path.join(__dirname, '../client/public')));
@@ -26,12 +39,27 @@ function requireAuthentication(req, res, next) {
 
   if (!username) {
     console.log('Middleware: Usuario no autenticado. Redirigiendo a la página de inicio.');
-    return res.redirect('/'); 
+    return res.redirect('/');
   }
   console.log(`Middleware: Usuario autenticado como ${username}`);
 
   next();
 }
+// Ruta para manejar la subida de la imagen
+app.post('/api/subir-imagen', upload.single('imagen'), (req, res) => {
+  // Aquí puedes acceder a la información de la imagen subida
+  if (!req.file) {
+    return res.status(400).json({ error: 'No se proporcionó ninguna imagen' });
+  }
+
+  const imagenPath = `/fotos/barcos/${req.file.filename}`;
+
+  // Realiza las operaciones necesarias con la información de la imagen y otros datos
+
+  // Devuelve la respuesta adecuada al cliente
+  res.status(200).json({ url: imagenPath });
+});
+
 
 // Agrega el middleware de autenticación a la ruta de datos.html
 app.get('/datos.html', requireAuthentication, (req, res) => {

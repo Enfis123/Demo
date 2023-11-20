@@ -8,3 +8,16 @@ CREATE TABLE usuarios (
     last_access DATETIME,
     account_status ENUM('activo', 'inactivo')
 );
+
+-- Insertar usuarios de ejemplo
+INSERT INTO usuarios (username, password, email, registration_date, user_role, last_access, account_status)
+VALUES ('john_doe', 'password123', 'john.doe@example.com', '2023-11-12 08:45:00', 'user', '2023-11-12 08:45:00', 'activo');
+
+INSERT INTO usuarios (username, password, email, registration_date, user_role, last_access, account_status)
+VALUES ('jane_smith', 'securepass456', 'jane.smith@example.com', '2023-11-12 09:30:00', 'admin', '2023-11-12 09:30:00', 'activo');
+
+INSERT INTO usuarios (username, password, email, registration_date, user_role, last_access, account_status)
+VALUES ('alice_jones', 'strongpassword789', 'alice.jones@example.com', '2023-11-12 10:15:00', 'user', '2023-11-12 10:15:00', 'inactivo');
+
+INSERT INTO usuarios (username, password, email, registration_date, user_role, last_access, account_status)
+VALUES ('bob_miller', 'secret_passphrase', 'bob.miller@example.com', '2023-11-12 11:00:00', 'admin', '2023-11-12 11:00:00', 'activo');

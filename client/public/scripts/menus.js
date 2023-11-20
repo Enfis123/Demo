@@ -1,9 +1,10 @@
 // Obtenemos todos los elementos con la clase "menu-item"
 const menuItems = document.querySelectorAll(".menu-item");
 const mainContent = document.querySelector(".main-content"); // Elemento de contenido principal
+const crearBarcoForm = document.getElementById("crear-barco-form");
 const crearUsuarioForm = document.getElementById("crear-usuario-form");
 const usuarioForm = document.getElementById("usuario-form");
-
+const barcoForm = document.getElementById("barco-form");
 // Asignamos un evento 'click' a cada elemento del menú
 menuItems.forEach((item) => {
   item.addEventListener("click", () => {
@@ -19,6 +20,15 @@ menuItems.forEach((item) => {
     } else if (selectedMenuItem.includes("Visualizar Usuarios")) {
       // Cargar el contenido para "Visualizar Usuarios"
       mostrarUsuarios();
+    } else if (selectedMenuItem.includes("Crear Barco")) {
+      mainContent.innerHTML = ""; // Limpiamos el contenido principal
+      mainContent.appendChild(crearBarcoForm); // Agregamos el formulario
+      crearBarcoForm.style.display = "block";
+      previewImage();
+
+    } else if (selectedMenuItem.includes("Visualizar Barcos")) {
+      mainContent.innerHTML = "<h3>Contenido de ver Variable</h3>";
+      // ...
     } else if (selectedMenuItem.includes("Crear Variable")) {
       // Cargar el contenido para "Crear Variable"
       mainContent.innerHTML = "<h3>Contenido de Crear Variable</h3>";
@@ -28,6 +38,103 @@ menuItems.forEach((item) => {
     }
   });
 });
+// Agregar un evento submit al formulario de creación
+barcoForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Obtener los valores del formulario
+  const nombre = barcoForm.nombre.value;
+  const anio = barcoForm.anio.value;
+  const tipoMotor = barcoForm.tipo_motor.value;
+  const horasTrabajoMotor = barcoForm.horas_trabajo_motor.value;
+  const tipoControl = barcoForm.tipo_control.value;
+  const imagen = barcoForm.imagen.files[0]; // Obtener el archivo de imagen
+
+  // Realizar validaciones (puedes agregar más validaciones según tus requisitos)
+  if (nombre.trim() === "" || anio.trim() === "" || tipoMotor.trim() === "" || tipoControl.trim() === "") {
+    alert("Por favor, complete todos los campos obligatorios.");
+    return;
+  }
+
+  // Subir la imagen al servidor antes de enviar el formulario
+  const imagenURL = await subirImagenAlServidor(imagen);
+
+  // Crear un objeto FormData solo con datos (sin imagen)
+  const formData ={
+    nombre,
+    anio,
+    tipo_motor: tipoMotor,
+    horas_trabajo_motor: horasTrabajoMotor,
+    tipo_control:tipoControl,
+    imagen: imagenURL
+  }
+  console.log(formData);
+  console.log(formData instanceof FormData);
+
+  try {
+    // Enviar los datos del formulario al servidor utilizando fetch
+    const response = await fetch("/api/barcos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData), // Convertir el objeto a JSON antes de enviarlo
+    });
+
+    if (response.ok) {
+      // Barco creado con éxito, mostrar mensaje o redirigir si es necesario
+      alert("Barco creado con éxito");
+      // Puedes agregar un redireccionamiento a otra página aquí si es necesario.
+    } else {
+      alert("Error al crear el barco");
+    }
+  } catch (error) {
+    console.error("Error al enviar datos del formulario al servidor:", error);
+  }
+});
+// Función para subir la imagen al servidor y obtener la URL
+async function subirImagenAlServidor(imagen) {
+  const formData = new FormData();
+  formData.append("imagen", imagen);
+
+  try {
+    const response = await fetch("/api/subir-imagen", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data.url; // Suponiendo que el servidor devuelve la URL de la imagen
+    } else {
+      throw new Error("Error al subir la imagen al servidor");
+    }
+  } catch (error) {
+    console.error("Error al subir la imagen al servidor:", error);
+    throw error;
+  }
+}
+function previewImage() {
+  var input = document.getElementById('imagen');
+  var preview = document.getElementById('imagen-preview-img');
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      preview.src = e.target.result;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  // Oculta la imagen por defecto
+  var defaultImage = document.getElementById('imagen-preview-default');
+  if (defaultImage) {
+    defaultImage.style.display = 'none';
+  }
+}
+
+
 function mostrarUsuarios() {
   // Realiza una solicitud fetch al servidor para obtener la lista de usuarios
   fetch("/api/users")

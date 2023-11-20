@@ -1,6 +1,15 @@
 INSERT INTO barcos (nombre, anio, tipo_motor, horas_trabajo_motor, tipo_control, imagen)
 VALUES
-    ('Barco 1', 2020, 'Motor Diesel', 120.5, 'Control Manual', 'barco1.jpg'),
-    ('Barco 2', 2019, 'Motor Eléctrico', 85.2, 'Control Remoto', 'barco2.jpg'),
-    ('Barco 3', 2022, 'Motor de Gasolina', 45.8, 'Control Manual', 'barco3.jpg'),
-    ('Barco 4', 2021, 'Motor Diesel', 175.0, 'Control Remoto', 'barco4.jpg');
+    ('Barco 1', 2020, 'Motor Diesel', 120.5, 'Control Manual', '/fotos/barco1.jpg'),
+    ('Barco 2', 2019, 'Motor Eléctrico', 85.2, 'Control Remoto', '/fotos/barco2.jpg'),
+    ('Barco 3', 2022, 'Motor de Gasolina', 45.8, 'Control Manual', '/fotos/barco3.jpg'),
+    ('Barco 4', 2021, 'Motor Diesel', 175.0, 'Control Remoto', 'https://www.boatjump.com/blog/wp-content/uploads/2017/11/El-barco-uno-de-los-medios-de-transporte-mas-antiguo-2.jpg');
+CREATE TABLE barcos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    anio INT,
+    tipo_motor VARCHAR(50),
+    horas_trabajo_motor DECIMAL(10, 2),
+    tipo_control VARCHAR(50),
+    imagen VARCHAR(255)
+);
