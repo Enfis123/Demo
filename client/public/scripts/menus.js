@@ -27,8 +27,8 @@ menuItems.forEach((item) => {
       previewImage();
 
     } else if (selectedMenuItem.includes("Visualizar Barcos")) {
-      mainContent.innerHTML = "<h3>Contenido de ver Variable</h3>";
-      // ...
+
+      mostrarBarcos();
     } else if (selectedMenuItem.includes("Crear Variable")) {
       // Cargar el contenido para "Crear Variable"
       mainContent.innerHTML = "<h3>Contenido de Crear Variable</h3>";
@@ -134,6 +134,69 @@ function previewImage() {
   }
 }
 
+function mostrarBarcos() {
+  // Realiza una solicitud fetch al servidor para obtener la lista de barcos
+  fetch("/api/barcos")
+    .then((response) => response.json())
+    .then((data) => {
+      // Verifica si se obtuvieron datos de barcos
+      if (data && data.length > 0) {
+        // Construye una tabla HTML con los datos de barcos
+        let tableHtml = "<h3>Lista de Barcos</h3>";
+        tableHtml += '<div class="barco-table-content">'; // Contenedor scrollable
+        tableHtml += '<table class="barco-table">';
+
+        // Encabezados de la tabla con la clase barco-table-header
+        tableHtml +=
+          '<tr class="barco-table-row barco-table-header"><th>Nombre</th><th>Año</th><th>Tipo de Motor</th><th>Horas de Trabajo del Motor</th><th>Tipo de Control</th><th>Imagen</th><th>Acciones</th></tr>';
+
+        data.forEach((barco) => {
+          // Filas de la tabla con la clase barco-table-row
+          tableHtml += `<tr class="barco-table-row">
+                        <td>${barco.nombre}</td>
+                        <td>${barco.anio}</td>
+                        <td>${barco.tipo_motor}</td>
+                        <td>${barco.horas_trabajo_motor}</td>
+                        <td>${barco.tipo_control}</td>
+                        <td><img src="${barco.imagen}" alt="Imagen del Barco"></td>
+                        <td>
+                            <button class="editar-barco-button" data-id="${barco.id}">Editar</button>
+                            <button class="eliminar-barco-button" data-id="${barco.id}">Eliminar</button>
+                        </td>
+                    </tr>`;
+        });
+
+        tableHtml += "</table>";
+        tableHtml += "</div>"; // Cierra el contenedor scrollable
+        mainContent.innerHTML = tableHtml;
+
+        // Agrega manejo de eventos para los botones "Editar" y "Eliminar"
+        const editarButtons = document.querySelectorAll(".editar-barco-button");
+        const eliminarButtons = document.querySelectorAll(".eliminar-barco-button");
+
+        editarButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const barcoId = e.currentTarget.getAttribute("data-id");
+            abrirEditarModalBarco(barcoId);
+          });
+        });
+
+        eliminarButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const barcoId = e.currentTarget.getAttribute("data-id");
+            abrirEliminarModalBarco(barcoId);
+          });
+        });
+
+      } else {
+        mainContent.innerHTML = "<h3>No hay barcos para mostrar.</h3>";
+      }
+    })
+    .catch((error) => {
+      console.error("Error al obtener la lista de barcos:", error);
+      mainContent.innerHTML = "<h3>Error al cargar la lista de barcos.</h3>";
+    });
+}
 
 function mostrarUsuarios() {
   // Realiza una solicitud fetch al servidor para obtener la lista de usuarios
@@ -274,7 +337,7 @@ function abrirEditarModal(userId) {
     modal.style.display = "none";
   };
 
-  // Obtener los datos del usuario seleccionado mediante Fetch
+  // Obtener los datos del usuario seleccionado mediante Fetch  
   fetch(`/api/users/${userId}`)
     .then((response) => response.json())
     .then((data) => {
@@ -376,3 +439,121 @@ function eliminarUsuario(userId) {
 }
 
 // Llamar a estas funciones cuando se haga clic en los botones "Editar" y "Eliminar"
+// Mostrar modal de edición al hacer clic en "Editar" y cargar los datos del barco
+function abrirEditarModalBarco(barcoId) {
+  const modal = document.getElementById("editarBarcoModal");
+  const cerrarModal = document.getElementById("cerrarEditarBarcoModal");
+  const guardarCambiosBtn = document.getElementById("guardarCambiosBarcoBtn");
+
+  modal.style.display = "block";
+
+  cerrarModal.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // Obtener los datos del barco seleccionado mediante Fetch  
+  fetch(`/api/barcos/${barcoId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      // Llena el formulario en el modal con los datos del barco
+      const nombreInput = document.getElementById("edit-nombre");
+      const anioInput = document.getElementById("edit-anio");
+      const tipoMotorInput = document.getElementById("edit-tipo_motor");
+      const horasTrabajoMotorInput = document.getElementById("edit-horas_trabajo_motor");
+      const tipoControlInput = document.getElementById("edit-tipo_control");
+      const imagenPreview = document.getElementById("imagen-preview-img");
+
+      nombreInput.value = data.nombre;
+      anioInput.value = data.anio;
+      tipoMotorInput.value = data.tipo_motor;
+      horasTrabajoMotorInput.value = data.horas_trabajo_motor;
+      tipoControlInput.value = data.tipo_control;
+      imagenPreview.src = data.imagen;
+    });
+
+  // Actualizar los datos del barco al hacer clic en "Guardar" mediante Fetch
+  guardarCambiosBtn.onclick = function () {
+    const editedBarcoData = {
+      nombre: document.getElementById("edit-nombre").value,
+      anio: document.getElementById("edit-anio").value,
+      tipo_motor: document.getElementById("edit-tipo_motor").value,
+      horas_trabajo_motor: document.getElementById("edit-horas_trabajo_motor").value,
+      tipo_control: document.getElementById("edit-tipo_control").value,
+      imagen: document.getElementById("imagen-preview-img").src,
+    };
+
+    // Realizar una solicitud PUT para actualizar los datos del barco
+    fetch(`/api/barcos/${barcoId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedBarcoData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error al actualizar el barco");
+        }
+      })
+      .then((data) => {
+        if (data.message === "Barco editado con éxito") {
+          alert("Barco actualizado exitosamente");
+          modal.style.display = "none"; // Cierra el modal
+          // Puedes agregar más lógica de actualización en la interfaz de usuario si es necesario
+        } else {
+          alert("Error al actualizar el barco");
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+}
+
+// Mostrar modal de eliminación al hacer clic en "Eliminar"
+function abrirEliminarModalBarco(barcoId) {
+  const modal = document.getElementById("eliminarBarcoModal");
+  const cerrarModal = document.getElementById("cerrarEliminarBarcoModal");
+  const confirmarEliminar = document.getElementById("confirmarEliminarBarco");
+
+  // Agrega lógica para confirmar la eliminación del barco
+  modal.style.display = "block";
+
+  cerrarModal.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  confirmarEliminar.onclick = function () {
+    // Realiza la acción de eliminación aquí
+    eliminarBarco(barcoId);
+    modal.style.display = "none";
+  };
+}
+function eliminarBarco(barcoId) {
+  // Realiza una solicitud DELETE para eliminar el barco por su ID
+  fetch(`/api/barcos/${barcoId}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error al eliminar el barco");
+      }
+    })
+    .then((data) => {
+      if (data.message === "Barco eliminado correctamente") {
+        // Puedes agregar lógica adicional, como actualizar la interfaz de usuario
+        alert("Barco eliminado exitosamente");
+        mostrarBarcos(); // Actualiza la lista de barcos después de eliminar uno
+      } else {
+        alert("Error al eliminar el barco: " + data.message);
+      }
+    })
+    .catch((error) => {
+      console.error("Error al eliminar el barco:", error);
+      alert("Error al eliminar el barco");
+    });
+}

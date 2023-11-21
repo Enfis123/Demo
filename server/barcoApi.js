@@ -45,4 +45,64 @@ router.post('/barcos', (req, res) => {
     }
   );
 });
+
+// Ruta para actualizar un barco por su ID
+router.put('/barcos/:id', (req, res) => {
+  // Obtén el ID del barco de los parámetros de la URL
+  const barcoId = req.params.id;
+
+  // Obtén los datos actualizados del cuerpo de la solicitud
+  const { nombre, anio, tipo_motor, horas_trabajo_motor, tipo_control, imagen } = req.body;
+
+  // Realiza las validaciones necesarias antes de actualizar en la base de datos
+  if (!nombre || !anio || !tipo_motor || !tipo_control || !imagen) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  // Consulta SQL para actualizar un barco en la base de datos
+  const sql = 'UPDATE barcos SET nombre=?, anio=?, tipo_motor=?, horas_trabajo_motor=?, tipo_control=?, imagen=? WHERE id=?';
+
+  // Ejecuta la consulta en la base de datos
+  db.query(
+    sql,
+    [nombre, anio, tipo_motor, horas_trabajo_motor, tipo_control, imagen, barcoId],
+    (err, results) => {
+      if (err) {
+        console.error('Error al actualizar en la base de datos: ' + err);
+        return res.status(500).json({ error: 'Error interno del servidor' });
+      }
+
+      // Verifica si se actualizó correctamente
+      if (results.affectedRows === 0) {
+        return res.status(404).json({ error: 'Barco no encontrado' });
+      }
+
+      res.status(200).json({ message: 'Barco actualizado correctamente' });
+    }
+  );
+});
+// Ruta para eliminar un barco por su ID
+router.delete('/barcos/:id', (req, res) => {
+  // Obtén el ID del barco de los parámetros de la URL
+  const barcoId = req.params.id;
+
+  // Consulta SQL para eliminar un barco de la base de datos
+  const sql = 'DELETE FROM barcos WHERE id=?';
+
+  // Ejecuta la consulta en la base de datos
+  db.query(sql, [barcoId], (err, results) => {
+    if (err) {
+      console.error('Error al eliminar de la base de datos: ' + err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+
+    // Verifica si se eliminó correctamente
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: 'Barco no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Barco eliminado correctamente' });
+  });
+});
+
 module.exports = router;

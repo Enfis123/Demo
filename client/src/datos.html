@@ -108,7 +108,7 @@
           <input type="text" id="nombre" name="nombre" required />
           <br />
           <label for="anio">Año:</label>
-          <input type="number" id="anio" name="anio"  />
+          <input type="number" id="anio" name="anio" />
           <br />
           <label for="tipo_motor">Tipo de Motor:</label>
           <input type="text" id="tipo_motor" name="tipo_motor" />
@@ -170,6 +170,47 @@
       <h2>Eliminar Usuario</h2>
       <p>¿Estás seguro de que deseas eliminar este usuario?</p>
       <button id="confirmarEliminar">Eliminar</button>
+    </div>
+  </div>
+  <!-- Modal para editar barco -->
+  <div id="editarBarcoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="cerrarEditarBarcoModal">&times;</span>
+      <h2>Editar Barco</h2>
+      <form id="editar-barco-form">
+        <label for="edit-nombre">Nombre:</label>
+        <input type="text" id="edit-nombre" name="edit-nombre" required />
+        <br />
+        <label for="edit-anio">Año:</label>
+        <input type="text" id="edit-anio" name="edit-anio" required />
+        <br />
+        <label for="edit-tipo_motor">Tipo de Motor:</label>
+        <input type="text" id="edit-tipo_motor" name="edit-tipo_motor" required />
+        <br />
+        <label for="edit-horas_trabajo_motor">Horas de Trabajo del Motor:</label>
+        <input type="text" id="edit-horas_trabajo_motor" name="edit-horas_trabajo_motor" required />
+        <br />
+        <label for="edit-tipo_control">Tipo de Control:</label>
+        <input type="text" id="edit-tipo_control" name="edit-tipo_control" required />
+        <br />
+        <label for="edit-imagen">Imagen:</label>
+        <input type="file" id="imagen" name="imagen" accept="image/*" onchange="previewImage()" />
+        <div id="imagen-preview">
+          <img id="imagen-preview-img" src="" alt="Imagen por Defecto" />
+        </div>
+        <br />
+        <button id="guardarCambiosBarcoBtn" type="submit">Guardar Cambios</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para eliminar barco -->
+  <div id="eliminarBarcoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="cerrarEliminarBarcoModal">&times;</span>
+      <h2>Eliminar Barco</h2>
+      <p>¿Estás seguro de que deseas eliminar este barco?</p>
+      <button id="confirmarEliminarBarco">Eliminar</button>
     </div>
   </div>
 

@@ -374,6 +374,94 @@ button:hover {
 .user-table-footer td:last-child {
   border-right: none;
 }
+/* Estilos para la tabla de barcos */
+.barco-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.barco-table th {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.barco-table th,
+.barco-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+.barco-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.barco-table tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.barco-table tr:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Estilo para la tabla: Hover */
+.barco-table tr:hover td {
+  background-color: #333;
+  color: #fff;
+}
+
+.barco-table-content {
+  max-height: 600px;
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el encabezado de la tabla (opcional) */
+.barco-table-header {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.barco-table-header th {
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.barco-table-header th:last-child {
+  border-right: none;
+}
+
+/* Estilos para el pie de la tabla (opcional) */
+.barco-table-footer {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.barco-table-footer td {
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.barco-table-footer td:last-child {
+  border-right: none;
+}
+
+/* Estilos para la imagen del barco en la tabla */
+.barco-table img {
+  max-width: 100px; /* Ajusta el ancho máximo según tus preferencias */
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
 
 /* Estilos generales para el modal */
 .modal {
@@ -535,22 +623,29 @@ button:hover {
 }
 
 /* Estilos para los botones de Editar y Eliminar */
-.editar-button,
-.eliminar-button {
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 8px;
-}
+
 .editar-button {
-  background-color: #0056b3;
+  background-color: #3498db;
 }
 .eliminar-button {
-  background-color: #b30018;
+  background-color: #c51930;
 }
-.editar-button:hover,
+.editar-button:hover{
+  background-color: #2980b9;
+}
 .eliminar-button:hover {
-  background-color: #777;
+  background-color: rgb(129, 13, 29);
+}
+
+.editar-barco-button {
+  background-color: #3498db;
+}
+.eliminar-barco-button {
+  background-color: #c51930;
+}
+.editar-barco-button:hover{
+  background-color: #2980b9;
+}
+.eliminar-barco-button:hover {
+  background-color: rgb(129, 13, 29);
 }
