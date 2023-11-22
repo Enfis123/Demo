@@ -649,3 +649,23 @@ button:hover {
 .eliminar-barco-button:hover {
   background-color: rgb(129, 13, 29);
 }
+#edit-imagen-preview {
+  margin-top: 16px;
+  text-align: center;
+}
+
+#edit-imagen-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 4px;
+  margin-top: 8px;
+}
+
+/* Agrega un estilo para el icono por defecto */
+#edit-imagen-preview .default-icon {
+  font-size: 24px;
+  color: #ccc;
+  margin-top: 8px;
+}

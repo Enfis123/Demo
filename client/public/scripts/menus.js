@@ -60,12 +60,12 @@ barcoForm.addEventListener("submit", async (e) => {
   const imagenURL = await subirImagenAlServidor(imagen);
 
   // Crear un objeto FormData solo con datos (sin imagen)
-  const formData ={
+  const formData = {
     nombre,
     anio,
     tipo_motor: tipoMotor,
     horas_trabajo_motor: horasTrabajoMotor,
-    tipo_control:tipoControl,
+    tipo_control: tipoControl,
     imagen: imagenURL
   }
   console.log(formData);
@@ -438,12 +438,11 @@ function eliminarUsuario(userId) {
     });
 }
 
-// Llamar a estas funciones cuando se haga clic en los botones "Editar" y "Eliminar"
-// Mostrar modal de edición al hacer clic en "Editar" y cargar los datos del barco
 function abrirEditarModalBarco(barcoId) {
   const modal = document.getElementById("editarBarcoModal");
   const cerrarModal = document.getElementById("cerrarEditarBarcoModal");
   const guardarCambiosBtn = document.getElementById("guardarCambiosBarcoBtn");
+  let barcoData; // Declarar la variable en un ámbito más amplio
 
   modal.style.display = "block";
 
@@ -451,7 +450,7 @@ function abrirEditarModalBarco(barcoId) {
     modal.style.display = "none";
   };
 
-  // Obtener los datos del barco seleccionado mediante Fetch  
+  // Obtener los datos del barco seleccionado mediante Fetch
   fetch(`/api/barcos/${barcoId}`)
     .then((response) => response.json())
     .then((data) => {
@@ -461,7 +460,8 @@ function abrirEditarModalBarco(barcoId) {
       const tipoMotorInput = document.getElementById("edit-tipo_motor");
       const horasTrabajoMotorInput = document.getElementById("edit-horas_trabajo_motor");
       const tipoControlInput = document.getElementById("edit-tipo_control");
-      const imagenPreview = document.getElementById("imagen-preview-img");
+      const imagenPreview = document.getElementById("edit-imagen-preview-img");
+      barcoData = data;
 
       nombreInput.value = data.nombre;
       anioInput.value = data.anio;
@@ -472,14 +472,21 @@ function abrirEditarModalBarco(barcoId) {
     });
 
   // Actualizar los datos del barco al hacer clic en "Guardar" mediante Fetch
-  guardarCambiosBtn.onclick = function () {
+  guardarCambiosBtn.onclick = async function (e) {
+    e.preventDefault();
+    const imagenEditInput = document.getElementById("edit-imagen");
+    const imagenEdit = imagenEditInput.files[0]; // Obtener el archivo de imagen
+
+    // Verificar si se cargó una nueva imagen, de lo contrario, usar la URL del API
+    const imagenBarcoURL = imagenEdit ? await subirImagenAlServidor(imagenEdit) : barcoData;
+
     const editedBarcoData = {
       nombre: document.getElementById("edit-nombre").value,
       anio: document.getElementById("edit-anio").value,
       tipo_motor: document.getElementById("edit-tipo_motor").value,
       horas_trabajo_motor: document.getElementById("edit-horas_trabajo_motor").value,
       tipo_control: document.getElementById("edit-tipo_control").value,
-      imagen: document.getElementById("imagen-preview-img").src,
+      imagen: imagenBarcoURL,
     };
 
     // Realizar una solicitud PUT para actualizar los datos del barco
@@ -498,10 +505,10 @@ function abrirEditarModalBarco(barcoId) {
         }
       })
       .then((data) => {
-        if (data.message === "Barco editado con éxito") {
+        if (data.message === "Barco actualizado correctamente") {
           alert("Barco actualizado exitosamente");
           modal.style.display = "none"; // Cierra el modal
-          // Puedes agregar más lógica de actualización en la interfaz de usuario si es necesario
+          mostrarBarcos();
         } else {
           alert("Error al actualizar el barco");
         }
@@ -511,6 +518,21 @@ function abrirEditarModalBarco(barcoId) {
       });
   };
 }
+
+
+function previewEditImage() {
+  var input = document.getElementById('edit-imagen');
+  var preview = document.getElementById('edit-imagen-preview-img');
+
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    preview.src = e.target.result;
+  };
+
+  reader.readAsDataURL(input.files[0]);
+
+}
+
 
 // Mostrar modal de eliminación al hacer clic en "Eliminar"
 function abrirEliminarModalBarco(barcoId) {

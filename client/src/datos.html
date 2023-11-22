@@ -193,10 +193,10 @@
         <label for="edit-tipo_control">Tipo de Control:</label>
         <input type="text" id="edit-tipo_control" name="edit-tipo_control" required />
         <br />
-        <label for="edit-imagen">Imagen:</label>
-        <input type="file" id="imagen" name="imagen" accept="image/*" onchange="previewImage()" />
-        <div id="imagen-preview">
-          <img id="imagen-preview-img" src="" alt="Imagen por Defecto" />
+        <label for="edit-imagen">Imagen del Barco:</label>
+        <input type="file" id="edit-imagen" name="edit-imagen" accept="image/*" onchange="previewEditImage()" />
+        <div id="edit-imagen-preview">
+          <img id="edit-imagen-preview-img" src="/fotos/default.png" alt="Imagen por Defecto" />
         </div>
         <br />
         <button id="guardarCambiosBarcoBtn" type="submit">Guardar Cambios</button>
