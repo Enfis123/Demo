@@ -1,0 +1,23 @@
+-- Definición de la tabla Variable
+CREATE TABLE Variable (
+    idVariable INT AUTO_INCREMENT PRIMARY KEY,
+    idBarco INT, -- Clave foránea para vincular con la tabla barcos
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    unidadMedida VARCHAR(50),
+    tipoDato VARCHAR(50),
+    fechaCreacion DATE,
+    graficoEstadistico VARCHAR(255), -- Esto puede ser una referencia a otra tabla que almacene la configuración del gráfico
+    FOREIGN KEY (idBarco) REFERENCES barcos(id)
+);
+
+-- Definición de la tabla Escala
+CREATE TABLE Escala (
+    idEscala INT AUTO_INCREMENT PRIMARY KEY,
+    idVariable INT, -- Clave foránea para vincular con la tabla Variable
+    nombre VARCHAR(100) NOT NULL,
+    unidadMedida VARCHAR(50),
+    rangoMin DECIMAL(12, 2),
+    rangoMax DECIMAL(12, 2),
+    FOREIGN KEY (idVariable) REFERENCES Variable(idVariable)
+);

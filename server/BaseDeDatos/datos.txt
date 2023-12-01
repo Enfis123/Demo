@@ -1,0 +1,40 @@
+CREATE TABLE datos_fijos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_barco INT,
+    id_variable INT,
+    id_escala INT,
+    timestamp DATETIME,
+    valor DOUBLE,
+    INDEX(id_barco, id_variable, timestamp),
+    FOREIGN KEY (id_barco) REFERENCES barcos(id),
+    FOREIGN KEY (id_variable) REFERENCES Variable(idVariable),
+    FOREIGN KEY (id_escala) REFERENCES Escala(idEscala)
+);
+
+CREATE TABLE datos_temporales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_barco INT,
+    id_variable INT,
+    id_escala INT,
+    timestamp DATETIME,
+    valor DOUBLE,
+    INDEX(id_barco, id_variable, timestamp),
+    FOREIGN KEY (id_barco) REFERENCES barcos(id),
+    FOREIGN KEY (id_variable) REFERENCES Variable(idVariable),
+    FOREIGN KEY (id_escala) REFERENCES Escala(idEscala)
+);
+
+DELIMITER //
+CREATE PROCEDURE EliminarDatosTemporalesAntiguos()
+BEGIN
+    DELETE FROM datos_temporales
+    WHERE timestamp < NOW() - INTERVAL 2 HOUR;
+END //
+DELIMITER ;
+
+SET GLOBAL event_scheduler = ON;
+
+CREATE EVENT EliminarDatosTemporalesEvent
+ON SCHEDULE EVERY 1 HOUR
+DO
+    CALL EliminarDatosTemporalesAntiguos();
