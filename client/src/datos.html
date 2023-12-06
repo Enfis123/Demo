@@ -7,6 +7,8 @@
   <title>Robotron</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link rel="stylesheet" href="/styles/datos.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -128,6 +130,49 @@
           <button type="submit">Crear Barco</button>
         </form>
       </div>
+      <div id="crear-variable-form" style="display: none">
+        <h3>Crear Variable</h3>
+        <form id="variable-form">
+          <div class="form-group">
+            <label for="barco">Seleccionar Barco:</label>
+            <select class="form-control" id="barco" name="barco" required>
+              <!-- Opciones se llenarán dinámicamente desde la API -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="nombreVariable">Nombre de la variable:</label>
+            <input type="text" class="form-control" id="nombreVariable" name="nombreVariable" required>
+          </div>
+          <div class="form-group">
+            <label for="unidadMedida">Unidad de Medida:</label>
+            <select class="form-control" id="unidadMedida" name="unidadMedida">
+              <option value="celcius">Grados Celsius (°C)</option>
+              <option value="fahrenheit">Grados Fahrenheit (°F)</option>
+              <option value="psi">Libras por pulgada cuadrada (PSI)</option>
+              <option value="bar">Bar</option>
+              <option value="metros">Metros (m)</option>
+              <option value="kilometros">Kilómetros (km)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="graficoEstadistico">Gráfico Estadístico:</label>
+            <select class="form-control" id="graficoEstadistico" name="graficoEstadistico">
+              <option value="bar">Gráfico de Barras</option>
+              <option value="line">Gráfico de Línea</option>
+              <option value="radar">Gráfico Radar</option>
+              <option value="polarArea">Gráfico de Área Polar</option>
+              <option value="doughnut">Gráfico Donut</option>
+              <option value="pie">Gráfico de Pastel</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Vista Previa del Gráfico:</label>
+            <canvas id="chartPreview" width="400" height="200"></canvas>
+          </div>
+          <button type="submit" class="btn btn-primary">Crear Variable</button>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -211,6 +256,53 @@
       <h2>Eliminar Barco</h2>
       <p>¿Estás seguro de que deseas eliminar este barco?</p>
       <button id="confirmarEliminarBarco">Eliminar</button>
+    </div>
+  </div>
+  <!-- Modal para editar variable -->
+  <div id="editarVariableModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="cerrarEditarVariableModal">&times;</span>
+      <h2>Editar Variable</h2>
+      <form id="editar-variable-form">
+        <label for="edit-nombre-variable">Nombre de Variable:</label>
+        <input type="text" id="edit-nombre-variable" name="edit-nombre-variable" required />
+        <br />
+        <label for="edit-unidad-medida">Unidad de Medida:</label>
+        <select class="form-control" id="editUnidadMedida" name="unidadMedida">
+          <option value="celcius">Grados Celsius (°C)</option>
+          <option value="fahrenheit">Grados Fahrenheit (°F)</option>
+          <option value="psi">Libras por pulgada cuadrada (PSI)</option>
+          <option value="bar">Bar</option>
+          <option value="metros">Metros (m)</option>
+          <option value="kilometros">Kilómetros (km)</option>
+        </select>
+        <br />
+        <label for="edit-grafico-estadistico">Gráfico Estadístico:</label>
+        <select class="form-control" id="editGraficoEstadistico" name="graficoEstadistico">
+          <option value="bar">Gráfico de Barras</option>
+          <option value="line">Gráfico de Línea</option>
+          <option value="radar">Gráfico Radar</option>
+          <option value="polarArea">Gráfico de Área Polar</option>
+          <option value="doughnut">Gráfico Donut</option>
+          <option value="pie">Gráfico de Pastel</option>
+        </select>
+        <br />
+        <label for="edit-nombre-barco">Nombre del Barco:</label>
+        <select class="form-control" id="editBarco" name="barco" required>
+          <!-- Opciones se llenarán dinámicamente desde la API -->
+        </select>        <br />
+        <button id="guardarCambiosVariableBtn" type="submit">Guardar Cambios</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para eliminar variable -->
+  <div id="eliminarVariableModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="cerrarEliminarVariableModal">&times;</span>
+      <h2>Eliminar Variable</h2>
+      <p>¿Estás seguro de que deseas eliminar esta variable?</p>
+      <button id="confirmarEliminarVariable">Eliminar</button>
     </div>
   </div>
 

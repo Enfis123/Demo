@@ -5,6 +5,9 @@ const crearBarcoForm = document.getElementById("crear-barco-form");
 const crearUsuarioForm = document.getElementById("crear-usuario-form");
 const usuarioForm = document.getElementById("usuario-form");
 const barcoForm = document.getElementById("barco-form");
+const crearVariableForm = document.getElementById("crear-variable-form");
+const variableForm = document.getElementById("variable-form");
+
 // Asignamos un evento 'click' a cada elemento del menú
 menuItems.forEach((item) => {
   item.addEventListener("click", () => {
@@ -30,14 +33,207 @@ menuItems.forEach((item) => {
 
       mostrarBarcos();
     } else if (selectedMenuItem.includes("Crear Variable")) {
-      // Cargar el contenido para "Crear Variable"
-      mainContent.innerHTML = "<h3>Contenido de Crear Variable</h3>";
+      mainContent.innerHTML = ""; // Limpiamos el contenido principal
+      mainContent.appendChild(crearVariableForm); // Agregamos el formulario
+      crearVariableForm.style.display = "block";
+      llenarOpcionesBarcos('barco');
+      initChartPreview();
+
     } else if (selectedMenuItem.includes("Visualizar Variable")) {
-      // Cargar el contenido para "Visualizar Variable"
-      mainContent.innerHTML = "<h3>Contenido de Visualizar Variable</h3>";
+      mostrarVariables();
     }
   });
 });
+// Función para llenar dinámicamente las opciones del select con barcos desde la API
+function llenarOpcionesBarcos(selectId) {
+  // Obtener el select
+  var selectBarco = document.getElementById(selectId);
+
+  // Verificar si se encontró el select
+  if (!selectBarco) {
+    console.error(`No se encontró un elemento con el id ${selectId}`);
+    return;
+  }
+
+  // Fetch para obtener la lista de barcos desde la API
+  fetch('/api/barcos')
+    .then(response => response.json())
+    .then(data => {
+      // Limpiar opciones existentes en el select
+      selectBarco.innerHTML = "";
+
+      // Iterar sobre los resultados y agregar opciones al select
+      data.forEach(barco => {
+        var option = document.createElement('option');
+        option.value = barco.id;
+        option.textContent = barco.nombre;
+        selectBarco.appendChild(option);
+      });
+    })
+    .catch(error => console.error('Error al obtener barcos:', error));
+}
+
+function mostrarVariables() {
+  // Realiza una solicitud fetch al servidor para obtener la lista de variables
+  fetch("/api/variables")
+    .then((response) => response.json())
+    .then((data) => {
+      // Verifica si se obtuvieron datos de variables
+      if (data && data.length > 0) {
+        // Construye una tabla HTML con los datos de variables
+        let tableHtml = "<h3>Lista de Variables</h3>";
+        tableHtml += '<div class="variable-table-content">'; // Contenedor scrollable
+        tableHtml += '<table class="variable-table">';
+
+        // Encabezados de la tabla con la clase variable-table-header
+        tableHtml +=
+          '<tr class="variable-table-row variable-table-header"><th>Nombre</th><th>Unidad de Medida</th><th>Grafico Estadistico</th><th>Nombre del Barco</th><th>Acciones</th></tr>';
+
+        data.forEach((variable) => {
+          // Filas de la tabla con la clase variable-table-row
+          tableHtml += `<tr class="variable-table-row">
+                        <td>${variable.nombreVariable}</td>
+                        <td>${variable.unidadMedida}</td>
+                        <td>${variable.graficoEstadistico}</td>
+                        <td>${variable.nombreBarco}</td>
+                        <td>
+                        <button class="editar-variable-button" data-id="${variable.idVariable}">Editar</button>
+                        <button class="eliminar-variable-button" data-id="${variable.idVariable}">Eliminar</button>
+                    </td>
+                    </tr>`;
+        });
+
+        tableHtml += "</table>";
+        tableHtml += "</div>"; // Cierra el contenedor scrollable
+        mainContent.innerHTML = tableHtml;
+
+        // Agrega manejo de eventos para los botones "Editar" y "Eliminar"
+        const editarButtons = document.querySelectorAll(".editar-variable-button");
+        const eliminarButtons = document.querySelectorAll(".eliminar-variable-button");
+
+        editarButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const variableId = e.currentTarget.getAttribute("data-id");
+            abrirEditarVariableModal(variableId);
+          });
+        });
+
+        eliminarButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const variableId = e.currentTarget.getAttribute("data-id");
+            abrirEliminarModalVariable(variableId);
+          });
+        });
+
+
+      } else {
+        mainContent.innerHTML = "<h3>No hay variables para mostrar.</h3>";
+      }
+    })
+    .catch((error) => {
+      console.error("Error al obtener la lista de variables:", error);
+      mainContent.innerHTML = "<h3>Error al cargar la lista de variables.</h3>";
+    });
+}
+
+
+function initChartPreview() {
+  document.getElementById('graficoEstadistico').addEventListener('change', function () {
+    var selectedOption = this.value;
+    generateChartPreview(selectedOption);
+  });
+
+  var chartPreview = null; // Mantener una referencia a la instancia de Chart
+
+  function generateChartPreview(chartType) {
+    var ctx = document.getElementById('chartPreview').getContext('2d');
+    var chartData = generateRandomChartData();
+
+    // Destruir el gráfico anterior si existe
+    if (chartPreview) {
+      chartPreview.destroy();
+    }
+
+    // Crear una nueva instancia de Chart con tamaño fijo
+    chartPreview = new Chart(ctx, {
+      type: chartType,
+      data: chartData,
+      options: {
+        responsive: true, // Desactivar la responsividad
+        maintainAspectRatio: true
+
+      }
+    });
+  }
+
+  function generateRandomChartData() {
+    // Generar datos de ejemplo para el gráfico
+    var labels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'];
+    var data = [];
+    for (var i = 0; i < labels.length; i++) {
+      data.push(Math.floor(Math.random() * 100));
+    }
+
+    return {
+      labels: labels,
+      datasets: [{
+        label: 'Datos de ejemplo',
+        data: data,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    };
+  }
+}
+
+// Event listener for the form submission
+variableForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Obtain values from the form
+  const nombreVariable = variableForm.nombreVariable.value;
+  const unidadMedida = variableForm.unidadMedida.value;
+  const graficoEstadistico = variableForm.graficoEstadistico.value;
+  const idBarco = document.getElementById("barco").value;
+
+  // Perform basic form validation
+  if (nombreVariable.trim() === "" || unidadMedida.trim() === "" || graficoEstadistico.trim() === "" || idBarco.trim() === "") {
+    alert("Porfavor complete todos los campos.");
+    return;
+  }
+
+  // Create an object with the form data
+  const formData = {
+    nombreVariable,
+    unidadMedida,
+    graficoEstadistico,
+    idBarco
+  };
+
+  try {
+    // Send the form data to the server using fetch
+    const response = await fetch("/api/variables", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      // Variable created successfully, show message or redirect if needed
+      alert("Variable creada exitosamente");
+      // You can add a redirection to another page here if necessary.
+    } else {
+      alert("Error en crear la variable");
+    }
+  } catch (error) {
+    console.error("Error al enviar la información al servidor:", error);
+  }
+});
+
+
 // Agregar un evento submit al formulario de creación
 barcoForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -325,6 +521,114 @@ usuarioForm.addEventListener("submit", async (e) => {
     console.error("Error al enviar datos del formulario al servidor:", error);
   }
 });
+
+// Mostrar modal de edición al hacer clic en "Editar" y cargar los datos de la variable
+function abrirEditarVariableModal(variableId) {
+  const modal = document.getElementById("editarVariableModal");
+  const cerrarModal = document.getElementById("cerrarEditarVariableModal");
+  const guardarCambiosBtn = document.getElementById("guardarCambiosVariableBtn");
+
+  modal.style.display = "block";
+  cerrarModal.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // Obtener los datos de la variable seleccionada mediante Fetch  
+  fetch(`/api/variables/${variableId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      // Llena el formulario en el modal con los datos de la variable
+      const nombreVariableInput = document.getElementById("edit-nombre-variable");
+      const unidadMedidaSelect = document.getElementById("editUnidadMedida");
+      const graficoEstadisticoSelect = document.getElementById("editGraficoEstadistico");
+      llenarOpcionesBarcos('editBarco')
+
+      nombreVariableInput.value = data.nombreVariable;
+      unidadMedidaSelect.value = data.unidadMedida;
+      graficoEstadisticoSelect.value = data.graficoEstadistico;
+      document.getElementById("editBarco").value = data.idBarco;
+    });
+
+  // Actualizar los datos de la variable al hacer clic en "Guardar" mediante Fetch
+  guardarCambiosBtn.onclick = function () {
+    const editedVariableData = {
+      nombreVariable: document.getElementById("edit-nombre-variable").value,
+      unidadMedida: document.getElementById("editUnidadMedida").value,
+      graficoEstadistico: document.getElementById("editGraficoEstadistico").value,
+      idBarco: document.getElementById("editBarco").value,
+    };
+
+    // Realizar una solicitud PUT para actualizar los datos de la variable
+    fetch(`/api/variables/${variableId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedVariableData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error al actualizar la variable");
+        }
+      })
+      .then((data) => {
+        if (data.message === "Variable actualizada con éxito") {
+          alert("Variable actualizada exitosamente");
+          modal.style.display = "none"; // Cierra el modal
+          // Puedes agregar más lógica de actualización en la interfaz de usuario si es necesario
+        } else {
+          alert("Error al actualizar la variable");
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+}
+// Mostrar modal de eliminación al hacer clic en "Eliminar Variable"
+function abrirEliminarModalVariable(variableId) {
+  const modal = document.getElementById("eliminarVariableModal");
+  const cerrarModal = document.getElementById("cerrarEliminarVariableModal");
+  const confirmarEliminar = document.getElementById("confirmarEliminarVariable");
+
+  // Agrega lógica para confirmar la eliminación de la variable
+  modal.style.display = "block";
+
+  cerrarModal.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  confirmarEliminar.onclick = function () {
+    // Realiza la acción de eliminación aquí
+    eliminarVariable(variableId);
+    modal.style.display = "none";
+    mostrarVariables();
+  };
+}
+
+function eliminarVariable(variableId) {
+  // Realiza una solicitud DELETE para eliminar la variable por su ID
+  fetch(`/api/variables/${variableId}`, {
+    method: "DELETE",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.message === "Variable eliminada con éxito") {
+        // Puedes agregar lógica adicional, como actualizar la interfaz de usuario
+        alert("Variable eliminada exitosamente");
+        mostrarVariables();
+      } else {
+        alert("Error al eliminar la variable");
+      }
+    })
+    .catch((error) => {
+      console.error("Error al eliminar la variable: " + error);
+      alert("Error al eliminar la variable");
+    });
+}
+
 // Mostrar modal de edición al hacer clic en "Editar" y cargar los datos del usuario
 function abrirEditarModal(userId) {
   const modal = document.getElementById("editarModal");

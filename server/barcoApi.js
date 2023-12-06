@@ -104,5 +104,29 @@ router.delete('/barcos/:id', (req, res) => {
     res.status(200).json({ message: 'Barco eliminado correctamente' });
   });
 });
+// Ruta para obtener un barco por su ID
+router.get('/barcos/:id', (req, res) => {
+  // Obtén el ID del barco de los parámetros de la URL
+  const barcoId = req.params.id;
+
+  // Consulta SQL para seleccionar un barco por su ID
+  const sql = 'SELECT * FROM barcos WHERE id = ?';
+
+  // Ejecuta la consulta en la base de datos
+  db.query(sql, [barcoId], (err, results) => {
+    if (err) {
+      console.error('Error al consultar la base de datos: ' + err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+
+    // Verifica si se encontró un barco con el ID proporcionado
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Barco no encontrado' });
+    }
+
+    // Devuelve el resultado como respuesta
+    res.status(200).json(results[0]);
+  });
+});
 
 module.exports = router;

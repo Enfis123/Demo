@@ -3,9 +3,7 @@ CREATE TABLE Variable (
     idVariable INT AUTO_INCREMENT PRIMARY KEY,
     idBarco INT, -- Clave foránea para vincular con la tabla barcos
     nombre VARCHAR(100) NOT NULL,
-    descripcion TEXT,
     unidadMedida VARCHAR(50),
-    tipoDato VARCHAR(50),
     fechaCreacion DATE,
     graficoEstadistico VARCHAR(255), -- Esto puede ser una referencia a otra tabla que almacene la configuración del gráfico
     FOREIGN KEY (idBarco) REFERENCES barcos(id)

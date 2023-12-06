@@ -6,6 +6,7 @@ const db = require('./db');
 const loginApi = require('./loginApi');
 const usuarioApi = require('./usuarioApi'); // Asegúrate de que la ruta sea correcta
 const barcoApi = require('./barcoApi'); // Asegúrate de que la ruta sea correcta
+const varibalesApi = require('./variablesApi'); // Asegúrate de que la ruta sea correcta
 
 const app = express();
 const port = 3000;
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use('/api', loginApi);
 app.use('/api', usuarioApi);
 app.use('/api', barcoApi);
+app.use('/api', varibalesApi);
 
 // Middleware de autenticación
 function requireAuthentication(req, res, next) {

@@ -173,7 +173,7 @@ footer {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #333;
+  background-color: #33333379;
   color: #fff;
   display: grid;
   min-height: 100vh;
@@ -668,4 +668,145 @@ button:hover {
   font-size: 24px;
   color: #ccc;
   margin-top: 8px;
+}
+
+/*ESTILOS VARIABLES*/
+#crear-variable-form {
+  display: none;
+  
+}
+#variable-form {
+  background-color: #7777778e;
+  padding: 20px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);}
+
+#variable-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+#variable-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#variable-form .form-group {
+  margin-bottom: 16px;
+}
+
+#variable-form label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+#variable-form input[type="text"],
+#variable-form textarea,
+#variable-form select {
+  width: 60%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#chartPreview {
+  width: 400px; /* Ancho fijo deseado */
+  margin: 16px auto; /* Centrado horizontal y espacio superior e inferior */
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #fff; /* Fondo blanco para resaltar el gráfico */
+}
+
+/* Estilos para la tabla de variables */
+.variable-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.variable-table th {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.variable-table th,
+.variable-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+.variable-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.variable-table tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.variable-table tr:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Estilo para la tabla: Hover */
+.variable-table tr:hover td {
+  background-color: #333;
+  color: #fff;
+}
+
+.variable-table-content {
+  max-height: 600px; /* Establece la altura máxima que desees */
+  overflow-y: auto; /* Activa la barra de desplazamiento vertical si es necesario */
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el encabezado de la tabla (opcional) */
+.variable-table-header {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.variable-table-header th {
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.variable-table-header th:last-child {
+  border-right: none;
+}
+
+/* Estilos para el pie de la tabla (opcional) */
+.variable-table-footer {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.variable-table-footer td {
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.variable-table-footer td:last-child {
+  border-right: none;
+}
+.editar-variable-button {
+  background-color: #3498db;
+}
+.eliminar-variable-button {
+  background-color: #c51930;
+}
+.editar-variable-button:hover{
+  background-color: #2980b9;
+}
+.eliminar-variable-button:hover {
+  background-color: rgb(129, 13, 29);
 }
