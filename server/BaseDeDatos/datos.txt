@@ -38,3 +38,15 @@ CREATE EVENT EliminarDatosTemporalesEvent
 ON SCHEDULE EVERY 1 HOUR
 DO
     CALL EliminarDatosTemporalesAntiguos();
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_datos_fijos
+AFTER INSERT ON datos_fijos
+FOR EACH ROW
+BEGIN
+    INSERT INTO datos_temporales (id_barco, id_variable, id_escala, timestamp, valor)
+    VALUES (NEW.id_barco, NEW.id_variable, NEW.id_escala, NEW.timestamp, NEW.valor);
+END //
+
+DELIMITER ;

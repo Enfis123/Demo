@@ -1,6 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const db = require("./db"); // Reemplaza la ruta con la ubicación real de db.js
+const { db, obtenerNuevosRegistros } = require('./db');
 
 const router = express.Router();
 

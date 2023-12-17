@@ -19,3 +19,51 @@ CREATE TABLE Escala (
     rangoMax DECIMAL(12, 2),
     FOREIGN KEY (idVariable) REFERENCES Variable(idVariable)
 );
+
+DELIMITER //
+
+CREATE EVENT insertar_datos_fijos_event
+ON SCHEDULE EVERY 3 SECOND
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    DECLARE contador INT DEFAULT 0;
+    DECLARE id_variable_nueva INT;
+    DECLARE id_escala_nueva INT;
+    DECLARE id_barco_nuevo INT;
+
+    -- Obtener el id de la variable más reciente
+    SELECT idVariable, idBarco INTO id_variable_nueva, id_barco_nuevo
+    FROM Variable
+    WHERE fechaCreacion = CURRENT_DATE
+    ORDER BY fechaCreacion DESC
+    LIMIT 1;
+
+    -- Obtener el id de la escala asociada a la variable más reciente
+    SELECT idEscala INTO id_escala_nueva
+    FROM Escala
+    WHERE idVariable = id_variable_nueva
+    ORDER BY fechaCreacion DESC
+    LIMIT 1;
+
+    WHILE contador < 10 DO
+        -- Insertar datos en datos_fijos con el id de la variable, la escala y el barco
+        INSERT INTO datos_fijos (id_barco, id_variable, id_escala, timestamp, valor)
+        VALUES (id_barco_nuevo, id_variable_nueva, id_escala_nueva, NOW(), RAND() * 100);
+
+        SET contador = contador + 1;
+    END WHILE;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_variable
+AFTER INSERT ON Variable
+FOR EACH ROW
+BEGIN
+    -- No es necesario realizar ninguna acción aquí, ya que el evento se encarga de la inserción en datos_fijos.
+END //
+
+DELIMITER ;

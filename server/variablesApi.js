@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("./db"); // Replace the path with the actual location of db.js
+const { db, obtenerNuevosRegistros } = require('./db');
 
 // Función para verificar la existencia de un usuario por nombre de usuario
 router.post("/variables", async (req, res) => {
@@ -191,5 +191,31 @@ router.get("/variables/:id", async (req, res) => {
         res.status(500).send("Error interno del servidor");
     } 
 });
+// Ruta GET para obtener datos temporales filtrados por ID de variable
+router.get('/variables/:id/datos_temporales', async (req, res) => {
+  const variableId = req.params.id;
 
-module.exports = router;
+  try {
+    // Consulta SQL para obtener datos temporales filtrados por ID de variable
+    const selectDatosTemporalesSql = `
+      SELECT id, id_barco, id_variable, id_escala, timestamp, valor
+      FROM datos_temporales
+      WHERE id_variable = ?
+    `;
+
+    // Ejecuta la consulta
+    const [datosTemporales] = await db.promise().query(selectDatosTemporalesSql, [variableId]);
+
+    // Envia la respuesta con los datos temporales
+    res.status(200).json(datosTemporales);
+  } catch (error) {
+    console.error("Error al obtener datos temporales por ID de variable: " + error.message);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
+
+
+module.exports = {
+    router
+  };

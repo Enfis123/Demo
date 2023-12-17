@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("./db"); // Reemplaza la ruta con la ubicación real de db.js
+const { db, obtenerNuevosRegistros } = require('./db');
 // Función para verificar la existencia de un usuario por nombre de usuario
 function checkUserExists(username, callback) {
   const checkUserExistsQuery = "SELECT * FROM usuarios WHERE username = ?";

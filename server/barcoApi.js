@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./db'); // Asegúrate de reemplazar la ruta con la ubicación real de tu archivo de conexión a la base de datos
+const { db, obtenerNuevosRegistros } = require('./db');
 
 // Ruta para obtener todos los barcos
 router.get('/barcos', (req, res) => {
@@ -122,6 +122,51 @@ router.get('/barcos/:id', (req, res) => {
     // Verifica si se encontró un barco con el ID proporcionado
     if (results.length === 0) {
       return res.status(404).json({ error: 'Barco no encontrado' });
+    }
+
+    // Devuelve el resultado como respuesta
+    res.status(200).json(results[0]);
+  });
+});
+// Ruta para obtener todas las variables de un barco por su ID
+router.get('/barcos/:id/variables', (req, res) => {
+  // Obtén el ID del barco de los parámetros de la URL
+  const barcoId = req.params.id;
+
+  // Consulta SQL con JOIN para seleccionar todas las variables de un barco por su ID
+  const sql = 'SELECT Variable.*, barcos.nombre as nombreBarco FROM Variable JOIN barcos ON Variable.idBarco = barcos.id WHERE idBarco = ?';
+
+  // Ejecuta la consulta en la base de datos
+  db.query(sql, [barcoId], (err, results) => {
+    if (err) {
+      console.error('Error al consultar la base de datos: ' + err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+
+    // Devuelve los resultados como respuesta
+    res.status(200).json(results);
+  });
+});
+
+// Ruta para obtener una variable de un barco por su ID
+router.get('/barcos/:barcoId/variables/:variableId', (req, res) => {
+  // Obtén el ID del barco y de la variable de los parámetros de la URL
+  const barcoId = req.params.barcoId;
+  const variableId = req.params.variableId;
+
+  // Consulta SQL con JOIN para seleccionar una variable de un barco por su ID
+  const sql = 'SELECT Variable.*, barcos.nombre as nombreBarco FROM Variable JOIN barcos ON Variable.idBarco = barcos.id WHERE idBarco = ? AND idVariable = ?';
+
+  // Ejecuta la consulta en la base de datos
+  db.query(sql, [barcoId, variableId], (err, results) => {
+    if (err) {
+      console.error('Error al consultar la base de datos: ' + err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+
+    // Verifica si se encontró una variable con el ID proporcionado
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Variable no encontrada' });
     }
 
     // Devuelve el resultado como respuesta

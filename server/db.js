@@ -15,4 +15,24 @@ db.connect((err) => {
   console.log('Conexión a la base de datos MySQL exitosa');
 });
 
-module.exports = db;
+function obtenerNuevosRegistros() {
+  return new Promise((resolve, reject) => {
+    const consultaSQL = `
+      SELECT * FROM datos_temporales
+      WHERE timestamp > (NOW() - INTERVAL 3  SECOND);  -- Ajusta el intervalo según tus necesidades
+    `;
+
+    db.query(consultaSQL, (error, resultados) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(resultados);
+      }
+    });
+  });
+}
+
+module.exports = {
+  db,
+  obtenerNuevosRegistros
+};
