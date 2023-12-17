@@ -276,17 +276,14 @@ footer {
 
 /* Estilos para los elementos del grid */
 .grid-item {
-  background-color: #1d1c1c; /* Color de fondo de los contenedores */
-  color: #fff; /* Color de texto */
-  padding: 10px; /* Espacio interno de los contenedores */
-  border: 1px solid #666; /* Borde de los contenedores */
-  border-radius: 5px; /* Bordes redondeados */
-
-  /* Estilos para centrar los elementos internos */
-  display: grid;
+  background-color: #77788641;
+  color: #fff;
+  padding: 10px;
+  border: 1px solid #666;
+  border-radius: 5px;
   align-items: center;
-  justify-content: center;
 }
+
 /* Estilos para el encabezado del grid */
 .grid-header {
   background-color: #333; /* Color de fondo para el encabezado */
@@ -296,6 +293,101 @@ footer {
   font-size: 1.5rem; /* Tamaño de la fuente del encabezado */
   margin-bottom: 10px; /* Espaciado inferior */
   border-radius: 5px; /* Bordes redondeados */
+}
+/* Estilos para el contenedor de los botones de acción */
+.button-container {
+  text-align: center;
+  margin-top: 10px;
+}
+/* Estilos para el dial y su contenedor */
+.dial-container {
+  width: 150px;
+  height: 150px;
+  position: relative;
+
+}
+
+.dial {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #333;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 50% 100%;
+  transform: rotate(0deg);
+}
+
+.pointer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(0deg);
+  width: 2px;
+  height: 60px;
+  background-color: red;
+}
+
+.data-display {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  text-align: center; /* Alinea el texto al centro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.termometro-container {
+  display: inline-block;
+  margin: 20px;
+
+}
+
+.termometro {
+  width: 10px;
+  height: 200px;
+  position: relative;
+}
+
+.rectangulo {
+  x: 45;
+  y: 10;
+  width: 10;
+  height: 180;
+  fill: #f0f0f0;
+  stroke: #333;
+  stroke-width: 2;
+}
+
+.triangulo {
+  points: 45,10 50,0 55,10;
+  fill: #f0f0f0;
+  stroke: #333;
+  stroke-width: 2;
+}
+
+.indicador {
+  x: 45;
+  y: 10;
+  width: 10;
+  height: 0; /* Esta altura se actualizará dinámicamente */
+  fill: #ff0000; /* Puedes ajustar el color según la temperatura */
+}
+
+.temperatura-display {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  text-align: center; /* Alinea el texto al centro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -349,90 +441,3 @@ footer {
   background-color: #0056b3;
 }
 
-/* Estilos para el contenedor de los botones de acción */
-.button-container {
-  text-align: center;
-  margin-top: 10px;
-}
-/* Estilos para el dial y su contenedor */
-.dial-container {
-  width: 150px;
-  height: 150px;
-  position: relative;
-}
-
-.dial {
-  width: 100%;
-  height: 100%;
-  border: 2px solid #333;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform-origin: 50% 100%;
-  transform: rotate(0deg);
-}
-
-.pointer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-origin: 50% 100%;
-  transform: translate(-50%, -100%) rotate(0deg);
-  width: 2px;
-  height: 60px;
-  background-color: red;
-}
-
-.data-display {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  font-size: 18px;
-  border-radius: 5px;
-  text-align: center; /* Alinea el texto al centro */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.termometro-container {
-  display: inline-block;
-  margin: 20px;
-}
-
-.termometro {
-  width: 10px;
-  height: 200px;
-  position: relative;
-}
-
-.rectangulo {
-  x: 45;
-  y: 10;
-  width: 10;
-  height: 180;
-  fill: #f0f0f0;
-  stroke: #333;
-  stroke-width: 2;
-}
-
-.triangulo {
-  points: 45,10 50,0 55,10;
-  fill: #f0f0f0;
-  stroke: #333;
-  stroke-width: 2;
-}
-
-.indicador {
-  x: 45;
-  y: 10;
-  width: 10;
-  height: 0; /* Esta altura se actualizará dinámicamente */
-  fill: #ff0000; /* Puedes ajustar el color según la temperatura */
-}
-
-.temperatura-display {
-  text-align: center;
-  margin-top: 10px;
-  font-weight: bold;
-}
