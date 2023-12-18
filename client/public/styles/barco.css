@@ -128,6 +128,7 @@ footer {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  
 }
 
 .button-86::after,
@@ -278,10 +279,15 @@ footer {
 .grid-item {
   background-color: #77788641;
   color: #fff;
+  grid-template-columns: 1fr 1fr; /* Dos columnas, una para el dial y otra para la temperatura */
+  gap: 10px; /* Espacio entre las columnas */
   padding: 10px;
   border: 1px solid #666;
   border-radius: 5px;
-  align-items: center;
+  align-items: start; /* Alinea los elementos en la parte superior del grid-item */
+  display: grid;
+  
+
 }
 
 /* Estilos para el encabezado del grid */
@@ -293,6 +299,8 @@ footer {
   font-size: 1.5rem; /* Tamaño de la fuente del encabezado */
   margin-bottom: 10px; /* Espaciado inferior */
   border-radius: 5px; /* Bordes redondeados */
+  grid-column: span 2; /* El header ocupa las dos columnas */
+
 }
 /* Estilos para el contenedor de los botones de acción */
 .button-container {
@@ -301,8 +309,10 @@ footer {
 }
 /* Estilos para el dial y su contenedor */
 .dial-container {
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  max-width: 150px; /* Fijar el ancho máximo a 150px */
+  height: 150px; /* Fijar la altura a 150px */
+  margin: 0 auto; /* Centrar el contenedor en la página */
   position: relative;
 
 }
@@ -341,54 +351,37 @@ footer {
   align-items: center;
   justify-content: center;
 }
+/* Estilo para el contenedor principal del termómetro */
 .termometro-container {
-  display: inline-block;
-  margin: 20px;
-
+  width: 100%;
+  max-width: 150px; /* Fijar el ancho máximo a 150px */
+  height: 100%; /* Utiliza toda la altura disponible */
+  margin: 0 auto; /* Centrar el contenedor en la página */
 }
 
+/* Estilo para el termómetro SVG */
 .termometro {
-  width: 10px;
-  height: 200px;
-  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.rectangulo {
-  x: 45;
-  y: 10;
-  width: 10;
-  height: 180;
-  fill: #f0f0f0;
-  stroke: #333;
-  stroke-width: 2;
+/* Estilo para el rectángulo principal del termómetro */
+.termometro rect {
+  /* Mantener proporciones y centrar el termómetro */
+  x: 40%;
+  width: 20%;
 }
 
-.triangulo {
-  points: 45,10 50,0 55,10;
-  fill: #f0f0f0;
-  stroke: #333;
-  stroke-width: 2;
+/* Estilo para el triángulo superior del termómetro */
+.termometro polygon {
+  fill: none;
 }
 
-.indicador {
-  x: 45;
-  y: 10;
-  width: 10;
-  height: 0; /* Esta altura se actualizará dinámicamente */
+/* Estilo para el indicador de temperatura */
+.termometro rect:last-child {
   fill: #ff0000; /* Puedes ajustar el color según la temperatura */
 }
 
-.temperatura-display {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  font-size: 18px;
-  border-radius: 5px;
-  text-align: center; /* Alinea el texto al centro */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 
 /* Estilos para los gráficos */

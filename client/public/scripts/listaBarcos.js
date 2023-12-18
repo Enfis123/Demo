@@ -164,16 +164,27 @@ document.addEventListener("DOMContentLoaded", () => {
             indicador.setAttribute("y", "10");
             indicador.setAttribute("width", "10");
             indicador.setAttribute("height", "90"); // Ajusta la altura según tus necesidades
-            indicador.setAttribute("fill", "#ff0000"); // Puedes ajustar el color según la temperatura
+            indicador.setAttribute("fill", "#46BCB7"); // Puedes ajustar el color según la temperatura
             termometro.appendChild(indicador);
 
-            // Crear el texto para mostrar la temperatura
-            const temperaturaDisplay = document.createElement("div");
-            temperaturaDisplay.className = "temperatura-display";
-            termometroContainer.appendChild(termometro);
-            termometroContainer.appendChild(temperaturaDisplay);
-            gridItem.appendChild(termometroContainer);
 
+            termometroContainer.appendChild(termometro);
+            gridItem.appendChild(termometroContainer);
+            // Crear el botón
+            const botonIrOtraPagina = document.createElement("button");
+            botonIrOtraPagina.className = "button-86"; // Agrega la clase
+            botonIrOtraPagina.textContent = "Ir Estadisticas";
+
+            // Supongamos que tienes la temperatura actual almacenada en una variable llamada temperaturaActual
+            const temperaturaActual = 25; // Cambia esto según tus datos reales
+
+            // Agregar un evento de clic al botón
+            botonIrOtraPagina.addEventListener("click", function () {
+              irAOtraPagina(temperaturaActual);
+            });
+
+            // Añadir el botón al contenedor o al elemento que prefieras
+            gridItem.appendChild(botonIrOtraPagina);
             socket.emit('subscribeToDatosTemporales', variableId);
 
             // Agregar el gridItem al contenedor principal
@@ -181,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Guardar el dial en un objeto para su posterior actualización
             diales[variableId] = { dial, pointer, dataDisplay };
-            termometros[variableId] = { termometro, indicador, temperaturaDisplay };
+            termometros[variableId] = { termometro, indicador };
 
           });
 
@@ -219,7 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 termometros[variableId].indicador.setAttribute("height", altura);
 
                 // Actualizar el texto de visualización de la temperatura
-                termometros[variableId].temperaturaDisplay.textContent = `Temperatura: ${valorNormalizado}°C`;
 
                 console.log(`Termómetro actualizado con éxito para la variable ${variableId}. Nuevo valor: ${valorNormalizado}`);
               }
@@ -279,7 +289,12 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Error al realizar la solicitud fetch:', error);
       });
   }
-
+  // Supongamos que tienes la siguiente función para cambiar a otra página
+  function irAOtraPagina(parametro) {
+    // Puedes utilizar window.location.href para cambiar a otra página
+    // y pasar el parámetro como parte de la URL, por ejemplo.
+    window.location.href = `/estadisticas.html?temperatura=${parametro}`;
+  }
 
   // Agrega un evento de envío al formulario para realizar el filtrado
   filterForm.addEventListener("submit", (event) => {
