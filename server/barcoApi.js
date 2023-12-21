@@ -134,7 +134,13 @@ router.get('/barcos/:id/variables', (req, res) => {
   const barcoId = req.params.id;
 
   // Consulta SQL con JOIN para seleccionar todas las variables de un barco por su ID
-  const sql = 'SELECT Variable.*, barcos.nombre as nombreBarco FROM Variable JOIN barcos ON Variable.idBarco = barcos.id WHERE idBarco = ?';
+  const sql = `
+    SELECT Variable.*, Escala.rangoMin, Escala.rangoMax, barcos.nombre as nombreBarco
+    FROM Variable
+    JOIN barcos ON Variable.idBarco = barcos.id
+    LEFT JOIN Escala ON Variable.idVariable = Escala.idVariable
+    WHERE idBarco = ?
+  `;
 
   // Ejecuta la consulta en la base de datos
   db.query(sql, [barcoId], (err, results) => {
@@ -147,6 +153,7 @@ router.get('/barcos/:id/variables', (req, res) => {
     res.status(200).json(results);
   });
 });
+
 
 // Ruta para obtener una variable de un barco por su ID
 router.get('/barcos/:barcoId/variables/:variableId', (req, res) => {

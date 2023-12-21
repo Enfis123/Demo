@@ -46,32 +46,41 @@ menuItems.forEach((item) => {
 });
 // Función para llenar dinámicamente las opciones del select con barcos desde la API
 function llenarOpcionesBarcos(selectId) {
-  // Obtener el select
-  var selectBarco = document.getElementById(selectId);
+  return new Promise((resolve, reject) => {
+      // Obtener el select
+      var selectBarco = document.getElementById(selectId);
 
-  // Verificar si se encontró el select
-  if (!selectBarco) {
-    console.error(`No se encontró un elemento con el id ${selectId}`);
-    return;
-  }
+      // Verificar si se encontró el select
+      if (!selectBarco) {
+          console.error(`No se encontró un elemento con el id ${selectId}`);
+          reject(`No se encontró un elemento con el id ${selectId}`);
+          return;
+      }
 
-  // Fetch para obtener la lista de barcos desde la API
-  fetch('/api/barcos')
-    .then(response => response.json())
-    .then(data => {
-      // Limpiar opciones existentes en el select
-      selectBarco.innerHTML = "";
+      // Fetch para obtener la lista de barcos desde la API
+      fetch('/api/barcos')
+          .then(response => response.json())
+          .then(data => {
+              // Limpiar opciones existentes en el select
+              selectBarco.innerHTML = "";
 
-      // Iterar sobre los resultados y agregar opciones al select
-      data.forEach(barco => {
-        var option = document.createElement('option');
-        option.value = barco.id;
-        option.textContent = barco.nombre;
-        selectBarco.appendChild(option);
-      });
-    })
-    .catch(error => console.error('Error al obtener barcos:', error));
+              // Iterar sobre los resultados y agregar opciones al select
+              data.forEach(barco => {
+                  var option = document.createElement('option');
+                  option.value = barco.id;
+                  option.textContent = barco.nombre;
+                  selectBarco.appendChild(option);
+              });
+
+              resolve(); // Resuelve la promesa después de llenar las opciones
+          })
+          .catch(error => {
+              console.error('Error al obtener barcos:', error);
+              reject(error); // Rechaza la promesa en caso de error
+          });
+  });
 }
+
 
 function mostrarVariables() {
   // Realiza una solicitud fetch al servidor para obtener la lista de variables
@@ -196,10 +205,19 @@ variableForm.addEventListener("submit", async (e) => {
   const unidadMedida = variableForm.unidadMedida.value;
   const graficoEstadistico = variableForm.graficoEstadistico.value;
   const idBarco = document.getElementById("barco").value;
+  const rangoMin = variableForm.rangoMin.value; // Obtén el valor del campo de rango mínimo
+  const rangoMax = variableForm.rangoMax.value; // Obtén el valor del campo de rango máximo
 
   // Perform basic form validation
-  if (nombreVariable.trim() === "" || unidadMedida.trim() === "" || graficoEstadistico.trim() === "" || idBarco.trim() === "") {
-    alert("Porfavor complete todos los campos.");
+  if (
+    nombreVariable.trim() === "" ||
+    unidadMedida.trim() === "" ||
+    graficoEstadistico.trim() === "" ||
+    idBarco.trim() === "" ||
+    rangoMin.trim() === "" ||
+    rangoMax.trim() === ""
+  ) {
+    alert("Por favor, complete todos los campos.");
     return;
   }
 
@@ -208,7 +226,9 @@ variableForm.addEventListener("submit", async (e) => {
     nombreVariable,
     unidadMedida,
     graficoEstadistico,
-    idBarco
+    idBarco,
+    rangoMin, // Agrega rangoMin al objeto formData
+    rangoMax, // Agrega rangoMax al objeto formData
   };
 
   try {
@@ -224,9 +244,9 @@ variableForm.addEventListener("submit", async (e) => {
     if (response.ok) {
       // Variable created successfully, show message or redirect if needed
       alert("Variable creada exitosamente");
-      // You can add a redirection to another page here if necessary.
+      // Puedes agregar una redirección a otra página aquí si es necesario.
     } else {
-      alert("Error en crear la variable");
+      alert("Error al crear la variable");
     }
   } catch (error) {
     console.error("Error al enviar la información al servidor:", error);
@@ -541,8 +561,12 @@ function abrirEditarVariableModal(variableId) {
       const nombreVariableInput = document.getElementById("edit-nombre-variable");
       const unidadMedidaSelect = document.getElementById("editUnidadMedida");
       const graficoEstadisticoSelect = document.getElementById("editGraficoEstadistico");
-      llenarOpcionesBarcos('editBarco')
+      const nuevoRangoMax = document.getElementById("nuevoRangoMax");
+      const nuevoRangoMin = document.getElementById("nuevoRangoMin");
 
+      llenarOpcionesBarcos('editBarco')
+      nuevoRangoMax.value=data.rangoMax
+      nuevoRangoMin.value=data.rangoMin
       nombreVariableInput.value = data.nombreVariable;
       unidadMedidaSelect.value = data.unidadMedida;
       graficoEstadisticoSelect.value = data.graficoEstadistico;
@@ -556,6 +580,8 @@ function abrirEditarVariableModal(variableId) {
       unidadMedida: document.getElementById("editUnidadMedida").value,
       graficoEstadistico: document.getElementById("editGraficoEstadistico").value,
       idBarco: document.getElementById("editBarco").value,
+      rangoMax: document.getElementById("nuevoRangoMax").value, // Corregir aquí
+      rangoMin: document.getElementById("nuevoRangoMin").value, // Corregir aquí
     };
 
     // Realizar una solicitud PUT para actualizar los datos de la variable
@@ -574,7 +600,7 @@ function abrirEditarVariableModal(variableId) {
         }
       })
       .then((data) => {
-        if (data.message === "Variable actualizada con éxito") {
+        if (data.message === "Variable y escala actualizadas con éxito") {
           alert("Variable actualizada exitosamente");
           modal.style.display = "none"; // Cierra el modal
           // Puedes agregar más lógica de actualización en la interfaz de usuario si es necesario

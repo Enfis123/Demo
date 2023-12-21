@@ -703,6 +703,7 @@ button:hover {
 }
 
 #variable-form input[type="text"],
+#variable-form input[type="number"], 
 #variable-form textarea,
 #variable-form select {
   width: 60%;

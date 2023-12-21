@@ -120,6 +120,38 @@ document.addEventListener("DOMContentLoaded", () => {
             circle.setAttribute("stroke", "#333");
             circle.setAttribute("stroke-width", "2");
             dial.appendChild(circle);
+
+            const numItems = 10; // Número de elementos en el dial
+            const rangoMinRedondeado = Math.round(variable.rangoMin);
+            const rangoMaxRedondeado = Math.round(variable.rangoMax);
+
+            // Calcula el paso entre cada elemento en el dial
+            const paso = (rangoMaxRedondeado - rangoMinRedondeado) / Math.min(numItems, rangoMaxRedondeado - rangoMinRedondeado);
+
+            for (let i = rangoMinRedondeado; i <= rangoMaxRedondeado; i += paso) {
+              // Calcula la posición angular para el número
+              const angle = ((i - rangoMinRedondeado) / (rangoMaxRedondeado - rangoMinRedondeado)) * 360 - 90;
+
+              // Convierte el ángulo a radianes
+              const radianes = (angle * Math.PI) / 180;
+
+              // Calcula las coordenadas en el círculo
+              const radio = 30; // Radio del círculo
+              const x = 50 + radio * Math.cos(radianes);
+              const y = 50 + radio * Math.sin(radianes);
+              // Crea el elemento de texto y ajusta su posición
+              const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+              text.setAttribute("x", x);
+              text.setAttribute("y", y);
+              text.setAttribute("text-anchor", "middle");
+              text.setAttribute("dominant-baseline", "middle");
+              text.setAttribute("font-size", "8px"); // Ajusta el tamaño de la fuente según tus preferencias
+              text.textContent = i.toFixed(0); // Utiliza el valor redondeado como cadena
+
+              // Añade el número al dial
+              dial.appendChild(text);
+            }
+
             const pointer = document.createElement("div");
             pointer.className = "pointer";
             const dataDisplay = document.createElement("div");
@@ -128,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             dialContainer.appendChild(pointer);
             dialContainer.appendChild(dataDisplay);
             gridItem.appendChild(dialContainer);
-            // Suscribirse a los cambios en la variable actual a través de Socket.IO
+
 
             // Crear el contenedor principal del termómetro
             const termometroContainer = document.createElement("div");
@@ -191,11 +223,11 @@ document.addEventListener("DOMContentLoaded", () => {
             variablesGrid.appendChild(gridItem);
 
             // Guardar el dial en un objeto para su posterior actualización
-            diales[variableId] = { dial, pointer, dataDisplay };
+            diales[variableId] = { dial, pointer, dataDisplay,rangoMinRedondeado,rangoMaxRedondeado };
             termometros[variableId] = { termometro, indicador };
+           
 
           });
-
 
           socket.on('nuevoRegistro', (nuevoRegistro) => {
             try {
@@ -203,14 +235,12 @@ document.addEventListener("DOMContentLoaded", () => {
               if (diales[variableId]) {
                 const nuevoValorNumerico = parseInt(nuevoRegistro.valor);
 
-                // Ajustar el nuevo valor numérico al rango del dial (por ejemplo, de 0 a 100)
-                const valorNormalizado = Math.min(Math.max(nuevoValorNumerico, 0), 100);
+                const valorNormalizado = Math.min(Math.max(nuevoValorNumerico, diales[variableId].rangoMinRedondeado), diales[variableId].rangoMaxRedondeado);
 
-                // Calcular el ángulo correspondiente al nuevo valor en el rango del dial (por ejemplo, de 0 a 180 grados)
-                const angulo = (valorNormalizado / 100) * 180;
+                // Calcular el ángulo correspondiente al nuevo valor en el rango de la variable
+                const angulo = ((valorNormalizado - diales[variableId].rangoMinRedondeado) / (diales[variableId].rangoMaxRedondeado - diales[variableId].rangoMinRedondeado)) * 360;
 
                 // Actualizar la posición del dial
-                diales[variableId].dial.style.transform = `rotate(${angulo}deg)`;
                 diales[variableId].pointer.style.transform = `translate(-50%, -100%) rotate(${angulo}deg)`;
                 diales[variableId].dataDisplay.textContent = valorNormalizado;
 
@@ -237,6 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
               console.error('Error en el manejo de nuevoRegistro:', error);
             }
           });
+
         } else {
           const gridItem = document.createElement("div");
           gridItem.className = "grid-item";

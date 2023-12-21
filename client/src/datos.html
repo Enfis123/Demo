@@ -154,7 +154,14 @@
               <option value="kilometros">Kilómetros (km)</option>
             </select>
           </div>
-
+          <div class="form-group">
+            <label for="rangoMin">Rango Mínimo(Ej:0):</label>
+            <input type="number" class="form-control" id="rangoMin" name="rangoMin" required>
+          </div>
+          <div class="form-group">
+            <label for="rangoMax">Rango Máximo(Ej:100):</label>
+            <input type="number" class="form-control" id="rangoMax" name="rangoMax" required>
+          </div>
           <div class="form-group">
             <label for="graficoEstadistico">Gráfico Estadístico:</label>
             <select class="form-control" id="graficoEstadistico" name="graficoEstadistico">
@@ -277,6 +284,12 @@
           <option value="kilometros">Kilómetros (km)</option>
         </select>
         <br />
+        <label for="rangoMin">Rango Mínimo(Ej:0):</label>
+        <input type="number" class="form-control" id="nuevoRangoMin" name="rangoMin" required>
+        <br />
+        <label for="rangoMax">Rango Máximo(Ej:100):</label>
+        <input type="number" class="form-control" id="nuevoRangoMax" name="rangoMax" required>
+        <br />
         <label for="edit-grafico-estadistico">Gráfico Estadístico:</label>
         <select class="form-control" id="editGraficoEstadistico" name="graficoEstadistico">
           <option value="bar">Gráfico de Barras</option>
@@ -290,7 +303,7 @@
         <label for="edit-nombre-barco">Nombre del Barco:</label>
         <select class="form-control" id="editBarco" name="barco" required>
           <!-- Opciones se llenarán dinámicamente desde la API -->
-        </select>        <br />
+        </select> <br />
         <button id="guardarCambiosVariableBtn" type="submit">Guardar Cambios</button>
       </form>
     </div>

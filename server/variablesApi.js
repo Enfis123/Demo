@@ -4,7 +4,7 @@ const { db, obtenerNuevosRegistros } = require('./db');
 
 // Función para verificar la existencia de un usuario por nombre de usuario
 router.post("/variables", async (req, res) => {
-    const { nombreVariable, unidadMedida, graficoEstadistico, idBarco } = req.body;
+    const { nombreVariable, unidadMedida, graficoEstadistico, idBarco, rangoMin, rangoMax } = req.body;
 
     // Genera una fecha y hora actual para fechaCreacion
     const currentDateTime = new Date();
@@ -43,12 +43,12 @@ router.post("/variables", async (req, res) => {
         const insertEscalaSql =
             "INSERT INTO Escala (nombre, unidadMedida, rangoMin, rangoMax, idVariable) VALUES (?, ?, ?, ?, ?)";
 
-        // Insert the new scale with default values (0 to 100)
+        // Insert the new scale with provided values
         await connection.query(insertEscalaSql, [
             graficoEstadistico,
             unidadMedida,
-            0,
-            100,
+            rangoMin,
+            rangoMax,
             idVariable,
         ]);
 
@@ -67,6 +67,7 @@ router.post("/variables", async (req, res) => {
         res.status(500).send("Error interno del servidor");
     }
 });
+
 router.get("/variables", async (req, res) => {
     const connection = await db.promise();
 
@@ -92,41 +93,51 @@ router.get("/variables", async (req, res) => {
         res.status(500).send("Error interno del servidor");
     } 
 });
-// Ruta PUT para actualizar una variable
 router.put("/variables/:id", async (req, res) => {
-    const { nombreVariable, unidadMedida, graficoEstadistico, idBarco } = req.body;
+    const { nombreVariable, unidadMedida, graficoEstadistico, idBarco, rangoMax, rangoMin } = req.body;
     const variableId = req.params.id;
-  
+
     const connection = await db.promise();
-  
+
     try {
-      // Verificar si el idBarco existe en la tabla barcos
-      const barcoCheckSql = "SELECT * FROM barcos WHERE id = ?";
-      const [barcoRows] = await connection.query(barcoCheckSql, [idBarco]);
-  
-      if (barcoRows.length === 0) {
-        // Si no se encuentra un barco con el id proporcionado, maneja el error
-        throw new Error("Invalid idBarco. No matching record in barcos table.");
-      }
-  
-      // Actualizar la variable en la base de datos
-      const updateVariableSql =
-        "UPDATE Variable SET nombre = ?, unidadMedida = ?, graficoEstadistico = ?, idBarco = ? WHERE idVariable = ?";
-  
-      await connection.query(updateVariableSql, [
-        nombreVariable,
-        unidadMedida,
-        graficoEstadistico,
-        idBarco,
-        variableId,
-      ]);
-  
-      res.status(200).json({ message: "Variable actualizada con éxito" });
+        // Verificar si el idBarco existe en la tabla barcos
+        const barcoCheckSql = "SELECT * FROM barcos WHERE id = ?";
+        const [barcoRows] = await connection.query(barcoCheckSql, [idBarco]);
+
+        if (barcoRows.length === 0) {
+            // Si no se encuentra un barco con el id proporcionado, maneja el error
+            throw new Error("Invalid idBarco. No matching record in barcos table.");
+        }
+
+        // Actualizar la variable en la base de datos
+        const updateVariableSql =
+            "UPDATE Variable SET nombre = ?, unidadMedida = ?, graficoEstadistico = ?, idBarco = ? WHERE idVariable = ?";
+
+        await connection.query(updateVariableSql, [
+            nombreVariable,
+            unidadMedida,
+            graficoEstadistico,
+            idBarco,
+            variableId,
+        ]);
+
+        // Actualizar la escala en la base de datos
+        const updateEscalaSql =
+            "UPDATE Escala SET rangoMax = ?, rangoMin = ? WHERE idVariable = ?";
+
+        await connection.query(updateEscalaSql, [
+            rangoMax,
+            rangoMin,
+            variableId,
+        ]);
+
+        res.status(200).json({ message: "Variable y escala actualizadas con éxito" });
     } catch (error) {
-      console.error("Error al actualizar la variable:", error);
-      res.status(500).send("Error interno del servidor");
+        console.error("Error al actualizar la variable y escala:", error);
+        res.status(500).send("Error interno del servidor");
     } 
-  });
+});
+
   router.delete("/variables/:id", async (req, res) => {
     const variableId = req.params.id;
 

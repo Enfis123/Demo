@@ -31,7 +31,6 @@ const upload = multer({ storage: storage }); // Inicializa multer con la configu
 function insertarDatosAutomaticos(variableIds) {
   // Aquí implementa la lógica para insertar datos automáticamente
   const timestamp = new Date(); // Puedes generar una marca de tiempo actual
-  const valor = Math.random() * 100; // Puedes generar un valor aleatorio (simulación)
 
   // Realiza la inserción en la base de datos para cada variable
   const insertDatosSql = `
@@ -41,6 +40,7 @@ function insertarDatosAutomaticos(variableIds) {
 
   // Itera sobre cada ID de variable y realiza la inserción
   variableIds.forEach((variableId) => {
+    const valor = Math.random() * 100; // Puedes generar un valor aleatorio (simulación)
     db.promise().query(insertDatosSql, [variableId, timestamp, valor])
       .then(() => {
         // Después de la inserción, emite el evento para notificar a los clientes

@@ -351,6 +351,7 @@ footer {
   align-items: center;
   justify-content: center;
 }
+
 /* Estilo para el contenedor principal del termómetro */
 .termometro-container {
   width: 100%;
@@ -368,7 +369,6 @@ footer {
 /* Estilo para el rectángulo principal del termómetro */
 .termometro rect {
   /* Mantener proporciones y centrar el termómetro */
-  x: 40%;
   width: 20%;
 }
 

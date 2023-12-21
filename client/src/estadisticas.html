@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robotron</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="styles/barco.css">
+    <link rel="stylesheet" href="styles/estadisticas.css">
 </head>
+
 <body>
     <header class="navbar">
         <nav>
@@ -21,8 +23,26 @@
 
 
 
+    <section id="analisis-datos">
+        <div class="analisis-container">
+            <div class="chart-container" id="chart-container">
+                <h2>Análisis de Datos</h2>
+                <label for="variable-select">Selecciona una variable:</label>
+                <select id="variable-select"></select>
+                <canvas id="chart"></canvas>
+            </div>
+            <div class="dashboard-container" id="dashboard-container">
+                <h2>Menu</h2>
+                <!-- Agrega aquí tus opciones de dashboard -->
+                <div class="dashboard-options">
+                    <!-- Agrega más opciones según sea necesario -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="dashboard-arrow" id="dashboard-arrow">&#9654;</div>
 
-    
+
     <footer>
         <div class="footer-links">
             <a href="enlace-de-privacidad"><i class="fas fa-lock"></i> Términos de privacidad</a> |
@@ -33,6 +53,10 @@
         </div>
         <p>&copy; 2023 Robotron. Todos los derechos reservados.</p>
     </footer>
-    
+    <script src="/scripts/graficos.js"></script>
+    <script src="/scripts/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </body>
+
 </html>

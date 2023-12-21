@@ -1,0 +1,119 @@
+body {
+  background-color: #1a1a1a;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+
+.navbar {
+  background-color: #333;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar li {
+  margin: 0 15px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #ffcc00;
+}
+
+@media (max-width: 768px) {
+  .navbar ul {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .navbar li {
+      margin: 10px 0;
+  }
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer-links {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #fff;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #ffcc00;
+}
+
+.fa-lock,
+.fa-facebook,
+.fa-instagram,
+.fa-twitter,
+.fa-info-circle {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.analisis-container {
+  display: flex;
+  width: 100%;
+  overflow: hidden; /* Se añade para evitar el desplazamiento horizontal si el contenido es grande */
+}
+
+.chart-container {
+  flex: 1;
+  padding: 20px;
+  background-color: #2a2a2a;
+  transition: margin-right 0.3s;
+  box-sizing: border-box;
+  overflow: auto; /* Se cambia a auto para permitir el desplazamiento vertical si es necesario */
+}
+
+#chart {
+  max-width: 100%;
+  height: auto;
+}
+
+.dashboard-container {
+  overflow: hidden;
+  padding: 20px;
+  background-color: #2a2a2a;
+  transition: width 0.3s;
+  box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  overflow-y: auto; /* Se añade para permitir el desplazamiento vertical dentro del dashboard */
+}
+
+.dashboard-arrow {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%);
+  cursor: pointer;
+  font-size: 30px;
+  color: #ffcc00;
+}
