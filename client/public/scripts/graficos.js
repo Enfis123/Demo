@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Crear el gráfico al cargar la página
   var ctx = document.getElementById('chart').getContext('2d');
   myChart = new Chart(ctx, {
-      type: variableDetails.nombreEscala,
+      type: variableDetails.graficoEstadistico,
       data: data,
       options: options
   });
@@ -90,7 +90,7 @@ function updateChart(variableDetails) {
 
   // Actualiza los datos y opciones de la gráfica
   myChart.data = newData;
-  myChart.config.type = variableDetails.nombreEscala;
+  myChart.config.type = variableDetails.graficoEstadistico;
 
   // Actualiza el gráfico
   myChart.update();
