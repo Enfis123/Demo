@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
             rectangulo.setAttribute("y", "10");
             rectangulo.setAttribute("width", "10");
             rectangulo.setAttribute("height", "180");
-            rectangulo.setAttribute("fill", "#f0f0f0");
+            rectangulo.setAttribute("fill", "#46BCB7");
             rectangulo.setAttribute("stroke", "#333");
             rectangulo.setAttribute("stroke-width", "2");
             termometro.appendChild(rectangulo);
@@ -196,38 +196,71 @@ document.addEventListener("DOMContentLoaded", () => {
             indicador.setAttribute("y", "10");
             indicador.setAttribute("width", "10");
             indicador.setAttribute("height", "90"); // Ajusta la altura según tus necesidades
-            indicador.setAttribute("fill", "#46BCB7"); // Puedes ajustar el color según la temperatura
+            indicador.setAttribute("fill", "#f0f0f0"); // Puedes ajustar el color según la temperatura
             termometro.appendChild(indicador);
 
+            // Número de elementos en el termómetro
+            const numItemsTermometro = 10;
 
-            termometroContainer.appendChild(termometro);
-            gridItem.appendChild(termometroContainer);
-            // Crear el botón
-            const botonIrOtraPagina = document.createElement("button");
-            botonIrOtraPagina.className = "button-86"; // Agrega la clase
-            botonIrOtraPagina.textContent = "Ir Estadisticas";
+            // Rango mínimo y máximo del termómetro
+            const rangoMinTermometro = Math.round(variable.rangoMin);
+            const rangoMaxTermometro = Math.round(variable.rangoMax);
 
-            // Supongamos que tienes la temperatura actual almacenada en una variable llamada temperaturaActual
-            const temperaturaActual = 25; // Cambia esto según tus datos reales
+            // Calcula el paso entre cada elemento en el termómetro
+            // Calcula el paso entre cada elemento en el termómetro
+            const pasoTermometro = (rangoMaxTermometro - rangoMinTermometro) / numItemsTermometro;
 
-            // Agregar un evento de clic al botón
-            botonIrOtraPagina.addEventListener("click", function () {
-              irAOtraPagina(temperaturaActual);
+            // Verifica que el pasoTermometro no sea cero para evitar un bucle infinito
+            if (pasoTermometro !== 0) {
+              for (let i = rangoMinTermometro; i <= rangoMaxTermometro + pasoTermometro / 2; i += pasoTermometro) {
+                // Calcula la posición vertical para el número
+                const posY = 190 - ((i - rangoMinTermometro) / (rangoMaxTermometro - rangoMinTermometro)) * 180;
+
+                // Crea el elemento de texto y ajusta su posición
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", "70"); // Ajusta la posición horizontal según tus necesidades
+                text.setAttribute("y", posY);
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("dominant-baseline", "middle");
+                text.setAttribute("font-size", "8px"); // Ajusta el tamaño de la fuente según tus preferencias
+                const roundedValue = typeof i === 'number' ? i.toFixed(0) : i;
+
+                text.textContent = roundedValue; // Utiliza el valor redondeado como cadena
+
+                // Añade el número al termómetro
+                termometro.appendChild(text);
+              }
+            }
+
+              termometroContainer.appendChild(termometro);
+              gridItem.appendChild(termometroContainer);
+
+              // Crear el botón
+              const botonIrOtraPagina = document.createElement("button");
+              botonIrOtraPagina.className = "button-86"; // Agrega la clase
+              botonIrOtraPagina.textContent = "Ir Estadisticas";
+
+              // Supongamos que tienes la temperatura actual almacenada en una variable llamada temperaturaActual
+              //T
+
+              // Agregar un evento de clic al botón
+              botonIrOtraPagina.addEventListener("click", function () {
+                irAOtraPagina(variableId);
+              });
+
+              // Añadir el botón al contenedor o al elemento que prefieras
+              gridItem.appendChild(botonIrOtraPagina);
+              socket.emit('subscribeToDatosTemporales', variableId);
+
+              // Agregar el gridItem al contenedor principal
+              variablesGrid.appendChild(gridItem);
+
+              // Guardar el dial en un objeto para su posterior actualización
+              diales[variableId] = { dial, pointer, dataDisplay, rangoMinRedondeado, rangoMaxRedondeado };
+              termometros[variableId] = { termometro, indicador,rangoMinRedondeado,rangoMaxRedondeado };
+
+
             });
-
-            // Añadir el botón al contenedor o al elemento que prefieras
-            gridItem.appendChild(botonIrOtraPagina);
-            socket.emit('subscribeToDatosTemporales', variableId);
-
-            // Agregar el gridItem al contenedor principal
-            variablesGrid.appendChild(gridItem);
-
-            // Guardar el dial en un objeto para su posterior actualización
-            diales[variableId] = { dial, pointer, dataDisplay,rangoMinRedondeado,rangoMaxRedondeado };
-            termometros[variableId] = { termometro, indicador };
-           
-
-          });
 
           socket.on('nuevoRegistro', (nuevoRegistro) => {
             try {
@@ -251,10 +284,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const nuevoValorNumerico = parseInt(nuevoRegistro.valor);
 
                 // Ajustar el nuevo valor numérico al rango del termómetro (por ejemplo, de 0 a 100)
-                const valorNormalizado = Math.min(Math.max(nuevoValorNumerico, 0), 100);
+                const valorNormalizado = Math.min(Math.max(nuevoValorNumerico, termometros[variableId].rangoMinRedondeado), termometros[variableId].rangoMaxRedondeado);
 
                 // Calcular la altura correspondiente al nuevo valor en el rango del termómetro (por ejemplo, de 0 a 180 unidades)
-                const altura = (valorNormalizado / 100) * 180;
+                const altura = 180 - (valorNormalizado / 100) * 180; // Restar la altura al valor máximo
 
                 // Actualizar la posición del indicador del termómetro
                 termometros[variableId].indicador.setAttribute("height", altura);
@@ -324,7 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function irAOtraPagina(parametro) {
     // Puedes utilizar window.location.href para cambiar a otra página
     // y pasar el parámetro como parte de la URL, por ejemplo.
-    window.location.href = `/estadisticas.html?temperatura=${parametro}`;
+    window.location.href = `/estadisticas.html?idVariable=${parametro}`;
   }
 
   // Agrega un evento de envío al formulario para realizar el filtrado

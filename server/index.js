@@ -58,7 +58,7 @@ function insertarDatosAutomaticos(variableIds) {
 
 // Llama a la función de inserción automática en un intervalo de tiempo (por ejemplo, cada 10 segundos)
 setInterval(() => {
-  const variableIds = [1, 2, 3]; // Reemplaza con los IDs de las variables específicas
+  const variableIds = [8, 10, 12]; // Reemplaza con los IDs de las variables específicas
   insertarDatosAutomaticos(variableIds);
 }, 3 * 1000); // 10 segundos en milisegundos
 
@@ -90,7 +90,13 @@ io.on('connection', (socket) => {
     // Configurar una sala para la variable específica
     socket.join(`datos_temporales_${variableId}`);
   });
+  // Manejar la anulación de la suscripción del cliente a datos temporales
+  socket.on('unsubscribeFromDatosTemporales', (variableId) => {
+    console.log(`Cliente anulado de la suscripción a datos temporales para la variable ${variableId}`);
 
+    // Dejar la sala para la variable específica
+    socket.leave(`datos_temporales_${variableId}`);
+  });
   // Desconectar el socket
   socket.on('disconnect', () => {
     console.log('Cliente desconectado de Socket.IO');

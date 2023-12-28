@@ -641,7 +641,7 @@ function eliminarVariable(variableId) {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.message === "Variable eliminada con éxito") {
+      if (data.message === "Variable y datos asociados eliminados con éxito") {
         // Puedes agregar lógica adicional, como actualizar la interfaz de usuario
         alert("Variable eliminada exitosamente");
         mostrarVariables();

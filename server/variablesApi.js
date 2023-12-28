@@ -91,7 +91,7 @@ router.get("/variables", async (req, res) => {
     } catch (error) {
         console.error("Error al obtener todas las variables con datos de la tabla Escala: " + error.message);
         res.status(500).send("Error interno del servidor");
-    } 
+    }
 });
 router.put("/variables/:id", async (req, res) => {
     const { nombreVariable, unidadMedida, graficoEstadistico, idBarco, rangoMax, rangoMin } = req.body;
@@ -123,9 +123,11 @@ router.put("/variables/:id", async (req, res) => {
 
         // Actualizar la escala en la base de datos
         const updateEscalaSql =
-            "UPDATE Escala SET rangoMax = ?, rangoMin = ? WHERE idVariable = ?";
+            "UPDATE Escala SET nombre = ?, unidadMedida = ?, rangoMax = ?, rangoMin = ? WHERE idVariable = ?";
 
         await connection.query(updateEscalaSql, [
+            graficoEstadistico,
+            unidadMedida,
             rangoMax,
             rangoMin,
             variableId,
@@ -135,10 +137,10 @@ router.put("/variables/:id", async (req, res) => {
     } catch (error) {
         console.error("Error al actualizar la variable y escala:", error);
         res.status(500).send("Error interno del servidor");
-    } 
+    }
 });
 
-  router.delete("/variables/:id", async (req, res) => {
+router.delete("/variables/:id", async (req, res) => {
     const variableId = req.params.id;
 
     const connection = await db.promise();
@@ -147,9 +149,26 @@ router.put("/variables/:id", async (req, res) => {
         // Comenzar una transacción
         await connection.beginTransaction();
 
+        // Obtener la información de la variable antes de eliminarla
+        const variableInfoSql = "SELECT * FROM Variable WHERE idVariable = ?";
+        const [variableInfoRows] = await connection.query(variableInfoSql, [variableId]);
+
+        if (variableInfoRows.length === 0) {
+            // Si no se encuentra la variable, maneja el error
+            throw new Error("Variable no encontrada");
+        }
+
         // Eliminar la escala asociada a la variable
         const deleteEscalaSql = "DELETE FROM Escala WHERE idVariable = ?";
         await connection.query(deleteEscalaSql, [variableId]);
+
+        // Eliminar datos fijos asociados a la variable
+        const deleteDatosFijosSql = "DELETE FROM datos_fijos WHERE id_variable = ?";
+        await connection.query(deleteDatosFijosSql, [variableId]);
+
+        // Eliminar datos temporales asociados a la variable
+        const deleteDatosTemporalesSql = "DELETE FROM datos_temporales WHERE id_variable = ?";
+        await connection.query(deleteDatosTemporalesSql, [variableId]);
 
         // Eliminar la variable de la tabla Variable
         const deleteVariableSql = "DELETE FROM Variable WHERE idVariable = ?";
@@ -158,7 +177,7 @@ router.put("/variables/:id", async (req, res) => {
         // Confirmar la transacción
         await connection.commit();
 
-        res.status(200).json({ message: "Variable eliminada con éxito" });
+        res.status(200).json({ message: "Variable y datos asociados eliminados con éxito" });
     } catch (error) {
         // Revertir la transacción en caso de error
         if (connection) {
@@ -166,9 +185,10 @@ router.put("/variables/:id", async (req, res) => {
         }
 
         console.error("Error al eliminar la variable:", error);
-        res.status(500).send("Error interno del servidor");
-    } 
+        res.status(500).json({ error: "Error interno del servidor", message: error.message });
+    }
 });
+
 // Ruta GET para obtener una variable por ID
 router.get("/variables/:id", async (req, res) => {
     const variableId = req.params.id;
@@ -200,33 +220,76 @@ router.get("/variables/:id", async (req, res) => {
     } catch (error) {
         console.error("Error al obtener la variable por ID: " + error.message);
         res.status(500).send("Error interno del servidor");
-    } 
+    }
 });
 // Ruta GET para obtener datos temporales filtrados por ID de variable
 router.get('/variables/:id/datos_temporales', async (req, res) => {
-  const variableId = req.params.id;
+    const variableId = req.params.id;
 
-  try {
-    // Consulta SQL para obtener datos temporales filtrados por ID de variable
-    const selectDatosTemporalesSql = `
+    try {
+        // Consulta SQL para obtener datos temporales filtrados por ID de variable
+        const selectDatosTemporalesSql = `
       SELECT id, id_barco, id_variable, id_escala, timestamp, valor
       FROM datos_temporales
       WHERE id_variable = ?
     `;
 
-    // Ejecuta la consulta
-    const [datosTemporales] = await db.promise().query(selectDatosTemporalesSql, [variableId]);
+        // Ejecuta la consulta
+        const [datosTemporales] = await db.promise().query(selectDatosTemporalesSql, [variableId]);
 
-    // Envia la respuesta con los datos temporales
-    res.status(200).json(datosTemporales);
-  } catch (error) {
-    console.error("Error al obtener datos temporales por ID de variable: " + error.message);
-    res.status(500).send("Error interno del servidor");
-  }
+        // Envia la respuesta con los datos temporales
+        res.status(200).json(datosTemporales);
+    } catch (error) {
+        console.error("Error al obtener datos temporales por ID de variable: " + error.message);
+        res.status(500).send("Error interno del servidor");
+    }
 });
 
+router.get('/variables/:id/datos_fijos', async (req, res) => {
+    const variableId = req.params.id;
+    const { fechaInicio, fechaFin } = req.query;
+
+    try {
+        const selectDatosFijosSql = `
+        SELECT df.id, df.id_barco, df.id_variable, df.id_escala, df.timestamp, df.valor,
+            b.nombre AS nombre_barco,
+            b.anio AS anio_barco,
+            b.tipo_motor AS tipo_motor_barco,
+            b.horas_trabajo_motor AS horas_trabajo_motor_barco,
+            b.tipo_control AS tipo_control_barco,
+            b.imagen AS imagen_barco,
+            v.nombre AS nombre_variable,
+            v.unidadMedida AS unidad_medida_variable,
+            v.fechaCreacion AS fecha_creacion_variable,
+            v.graficoEstadistico AS grafico_estadistico_variable,
+            e.nombre AS nombre_escala,
+            e.unidadMedida AS unidad_medida_escala,
+            e.rangoMin AS rango_min_escala,
+            e.rangoMax AS rango_max_escala
+        FROM datos_fijos df
+        JOIN barcos b ON df.id_barco = b.id
+        JOIN Variable v ON df.id_variable = v.idVariable
+        JOIN Escala e ON df.id_escala = e.idEscala
+        WHERE df.id_variable = ? AND df.timestamp BETWEEN ? AND ?
+    `;
+
+        console.log("Consulta SQL:", selectDatosFijosSql);
+        console.log("Valores:", [variableId, fechaInicio, fechaFin]);
+
+        // Ejecuta la consulta
+        const [datosFijos] = await db.promise().query(selectDatosFijosSql, [variableId, fechaInicio, fechaFin]);
+
+        console.log("Datos obtenidos:", datosFijos);
+
+        // Envia la respuesta con los datos fijos
+        res.status(200).json(datosFijos);
+    } catch (error) {
+        console.error("Error al obtener datos fijos por ID de variable y rango de fecha y hora: " + error.message);
+        res.status(500).send("Error interno del servidor");
+    }
+});
 
 
 module.exports = {
     router
-  };
+};

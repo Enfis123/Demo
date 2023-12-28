@@ -21,23 +21,61 @@
         </nav>
     </header>
 
-
-
     <section id="analisis-datos">
         <div class="analisis-container">
             <div class="chart-container" id="chart-container">
                 <h2>Análisis de Datos</h2>
                 <label for="variable-select">Selecciona una variable:</label>
                 <select id="variable-select"></select>
-                <canvas id="chart"></canvas>
+
+                <!-- Dynamic chart canvas container -->
+                <div id="chart-wrapper"></div>
+
+                <!-- Agrega los sliders de zoom -->
+                <div class="zoom-sliders">
+                    <label for="x-zoom-slider">Zoom en el eje X:</label>
+                    <input type="range" id="x-zoom-slider" min="0" max="100" value="0,100">
+
+                    <label for="y-zoom-slider">Zoom en el eje Y:</label>
+                    <input type="range" id="y-zoom-slider" min="0" max="100" value="0,100">
+                </div>
+
             </div>
             <div class="dashboard-container" id="dashboard-container">
                 <h2>Menu</h2>
-                <!-- Agrega aquí tus opciones de dashboard -->
-                <div class="dashboard-options">
-                    <!-- Agrega más opciones según sea necesario -->
+
+                <!-- Sección para visualizar un valor de la base de datos -->
+                <div class="dashboard-section">
+                    <h3>Valor de la Base de Datos</h3>
+                    <p id="database-value"> <!-- Aquí se mostrará el valor de la base de datos --> </p>
                 </div>
+
+                <!-- Sección para seleccionar un rango de fecha y hora -->
+                <div class="dashboard-section">
+                    <h3>Seleccionar Rango de Fecha y Hora</h3>
+                    <label for="start-date">Fecha y Hora Inicial:</label>
+                    <input type="datetime-local" id="start-date" name="start-date">
+
+                    <label for="end-date">Fecha y Hora Final:</label>
+                    <input type="datetime-local" id="end-date" name="end-date">
+                </div>
+
+                <!-- Botón para buscar según el rango -->
+                <button id="buscar-datos-btn">Buscar</button>
+
+                <!-- Sección para guardar a Excel los datos buscados -->
+                <div class="dashboard-section">
+                    <h3>Guardar en Excel</h3>
+                    <button id="guardar-datos-excel-btn">Guardar en Excel</button>
+                </div>
+
+                <div id="static-chart-container" style="display: none;">
+                    <h3>Datos Consultados</h3>
+                    <canvas id="static-chart"></canvas>
+                </div>
+
             </div>
+
         </div>
     </section>
     <div class="dashboard-arrow" id="dashboard-arrow">&#9654;</div>
@@ -56,6 +94,12 @@
     <script src="/scripts/graficos.js"></script>
     <script src="/scripts/dashboard.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+
 
 </body>
 

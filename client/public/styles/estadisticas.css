@@ -93,13 +93,14 @@ footer {
   overflow: auto; /* Se cambia a auto para permitir el desplazamiento vertical si es necesario */
 }
 
-#chart {
+#chart-wrapper {
   max-width: 100%;
   height: auto;
 }
 
 .dashboard-container {
   overflow: hidden;
+  width: 0%;
   padding: 20px;
   background-color: #2a2a2a;
   transition: width 0.3s;
@@ -108,12 +109,200 @@ footer {
   overflow-y: auto; /* Se añade para permitir el desplazamiento vertical dentro del dashboard */
 }
 
+/* Estilo para el botón de flecha */
 .dashboard-arrow {
   position: fixed;
   top: 50%;
   right: 0;
   transform: translate(50%, -50%);
   cursor: pointer;
-  font-size: 30px;
-  color: #ffcc00;
+  font-size: 40px; /* Aumenta el tamaño del icono */
+  color: #1a68ceaf;
+  transition: color 0.3s ease; /* Agrega una transición de color */
+}
+
+/* Estilo para el botón de flecha cuando se pasa el mouse sobre él */
+.dashboard-arrow:hover {
+  color: #1a68ce; /* Cambia el color cuando se pasa el mouse */
+  transform: translate(50%, -50%) scale(1.1); /* Añade un efecto de escala al pasar el mouse */
+  transition: transform 0.3s ease, color 0.3s ease; /* Agrega una transición suave */
+}
+
+section#analisis-datos {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  overflow: hidden;
+
+}
+
+div.chart-container {
+  flex: 1;
+  background-color: #2a2a2a;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+select#variable-select {
+  width: 100%;
+  padding: 8px;
+  
+  margin-bottom: 20px;
+}
+
+
+div.zoom-sliders {
+  margin-top: 20px;
+}
+/* Estilo general para el select */
+select#variable-select {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #333; /* Cambiado a un tono oscuro */
+  border-radius: 5px;
+  background-color: #222; /* Fondo oscuro */
+  color: #fff; /* Texto blanco */
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+/* Estilo cuando el select está enfocado */
+select#variable-select:focus {
+  outline: none;
+  border-color: #4CAF50; /* Color de resaltado cuando está enfocado */
+}
+
+/* Estilo para las opciones del select */
+select#variable-select option {
+  background-color: #222; /* Fondo oscuro */
+  color: #fff; /* Texto blanco */
+}
+
+/* Estilo para las opciones cuando se pasa el mouse sobre ellas */
+select#variable-select option:hover {
+  background-color: #333; /* Color cuando se pasa el mouse */
+}
+
+/* Estilo para las opciones seleccionadas */
+select#variable-select option:checked {
+  background-color: #4CAF50; /* Color de fondo cuando está seleccionado */
+  color: #fff;
+}
+
+.dashboard-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #1a1a1a; /* Color de fondo oscuro */
+  border: 1px solid #333;
+  border-radius: 8px; /* Bordes redondeados */
+  animation: fadeIn 1s ease-in-out;
+
+  display: grid;
+  align-items: center;
+  text-align: center; /* Centrar el texto dentro de la sección */
+
+}
+
+.dashboard-section {
+  width: 100%; /* Ocupar todo el ancho disponible */
+  margin-bottom: 20px;
+  text-align: center; /* Centrar el texto dentro de la sección */
+}
+/* Resto del estilo, sin cambios */
+button {
+  padding: 10px;
+  background-color: #4caf50; /* Color de fondo verde */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049; /* Cambio de color al pasar el ratón */
+}
+
+#static-chart-container {
+  margin-top: 20px;
+}
+
+#static-chart {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+
+h2, h3 {
+  color: #e0e0e0; /* Color del texto para títulos */
+}
+
+.dashboard-section {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px; /* Menos espacio entre etiquetas */
+  color: #bdc3c7;
+}
+
+input, button {
+  padding: 10px;
+  margin-bottom: 12px; /* Menos espacio entre elementos */
+  background-color: #333; /* Fondo oscuro para campos de entrada y botones */
+  color: #e0e0e0;
+  border: 1px solid #555; /* Borde más oscuro */
+  border-radius: 5px;
+}
+
+input:hover, button:hover {
+  background-color: #444; /* Color más oscuro al pasar el ratón */
+}
+
+button {
+  cursor: pointer;
+  animation: scaleIn 0.5s ease-in-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9); /* Escala inicial ligeramente mayor */
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+p {
+  color: #bdc3c7;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in-out; /* Puedes ajustar la duración y el efecto según tus preferencias */
+}
+
+#static-chart-container {
+  display: none; /* Esto oculta el contenedor inicialmente */
+}
+
+/* Estilo para el gráfico estático */
+#static-chart-container {
+  margin-top: 20px;
+}
+
+/* Agregar un estilo adicional al gráfico si es necesario */
+#static-chart {
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
