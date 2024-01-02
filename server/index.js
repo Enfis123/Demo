@@ -38,7 +38,7 @@ function insertarDatosAutomaticos(variableIds) {
 
   // Realiza la inserción en la base de datos para cada variable
   const insertDatosSql = `
-    INSERT INTO datos_temporales (id_variable, timestamp, valor)
+    INSERT INTO datos_fijos (id_variable, timestamp, valor)
     VALUES (?, ?, ?)
   `;
 
@@ -58,7 +58,7 @@ function insertarDatosAutomaticos(variableIds) {
 
 // Llama a la función de inserción automática en un intervalo de tiempo (por ejemplo, cada 10 segundos)
 setInterval(() => {
-  const variableIds = [8, 10, 12]; // Reemplaza con los IDs de las variables específicas
+  const variableIds = [1, 2, 3]; // Reemplaza con los IDs de las variables específicas
   insertarDatosAutomaticos(variableIds);
 }, 3 * 1000); // 10 segundos en milisegundos
 
