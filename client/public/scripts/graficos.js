@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Obtén el parámetro idVariable de la URL
     var urlParams = new URLSearchParams(window.location.search);
     var idVariableFromURL = urlParams.get('idVariable');
+    // Obtiene una referencia al botón de volver
+    const volverBtn = document.getElementById('volverBarcosBtn');
+
+    // Agrega un evento de clic al botón de volver
+    volverBtn.addEventListener('click', function () {
+        // Redirige a la página deseada, puedes cambiar 'otra-pagina.html' por la URL de la página a la que quieres volver
+        window.location.href = '/barco.html';
+    });
 
     // Escoge la variable en el select según el parámetro de la URL
     if (idVariableFromURL) {

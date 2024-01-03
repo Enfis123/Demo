@@ -232,35 +232,45 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             }
 
-              termometroContainer.appendChild(termometro);
-              gridItem.appendChild(termometroContainer);
+            termometroContainer.appendChild(termometro);
+            gridItem.appendChild(termometroContainer);
 
-              // Crear el botón
-              const botonIrOtraPagina = document.createElement("button");
-              botonIrOtraPagina.className = "button-86"; // Agrega la clase
-              botonIrOtraPagina.textContent = "Ir Estadisticas";
+            // Crear el botón
+            const botonIrOtraPagina = document.createElement("button");
+            botonIrOtraPagina.className = "button-86"; // Agrega la clase
+            botonIrOtraPagina.textContent = "Ir Estadisticas";
 
-              // Supongamos que tienes la temperatura actual almacenada en una variable llamada temperaturaActual
-              //T
+            // Crear el botón
+            const botonIrProceso = document.createElement("button");
+            botonIrProceso.className = "button-proceso"; // Corregir la clase
+            botonIrProceso.textContent = "Ir Proceso";
+            // Supongamos que tienes la temperatura actual almacenada en una variable llamada temperaturaActual
+            //T
 
-              // Agregar un evento de clic al botón
-              botonIrOtraPagina.addEventListener("click", function () {
-                irAOtraPagina(variableId);
-              });
-
-              // Añadir el botón al contenedor o al elemento que prefieras
-              gridItem.appendChild(botonIrOtraPagina);
-              socket.emit('subscribeToDatosTemporales', variableId);
-
-              // Agregar el gridItem al contenedor principal
-              variablesGrid.appendChild(gridItem);
-
-              // Guardar el dial en un objeto para su posterior actualización
-              diales[variableId] = { dial, pointer, dataDisplay, rangoMinRedondeado, rangoMaxRedondeado };
-              termometros[variableId] = { termometro, indicador,rangoMinRedondeado,rangoMaxRedondeado };
-
-
+            // Agregar un evento de clic al botón
+            botonIrOtraPagina.addEventListener("click", function () {
+              irAOtraPagina(variableId);
             });
+
+           // Agregar un evento de clic al botón
+           botonIrProceso.addEventListener("click", function () {
+            irAOtraPaginaProceso(variableId);
+          });
+            // Añadir el botón al contenedor o al elemento que prefieras
+            gridItem.appendChild(botonIrOtraPagina);
+            gridItem.appendChild(botonIrProceso);
+
+            socket.emit('subscribeToDatosTemporales', variableId);
+
+            // Agregar el gridItem al contenedor principal
+            variablesGrid.appendChild(gridItem);
+
+            // Guardar el dial en un objeto para su posterior actualización
+            diales[variableId] = { dial, pointer, dataDisplay, rangoMinRedondeado, rangoMaxRedondeado };
+            termometros[variableId] = { termometro, indicador, rangoMinRedondeado, rangoMaxRedondeado };
+
+
+          });
 
           socket.on('nuevoRegistro', (nuevoRegistro) => {
             try {
@@ -359,7 +369,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // y pasar el parámetro como parte de la URL, por ejemplo.
     window.location.href = `/estadisticas.html?idVariable=${parametro}`;
   }
-
+  // Supongamos que tienes la siguiente función para cambiar a otra página
+  function irAOtraPaginaProceso(parametro) {
+    //TODO: Agregar referencia a la pagina.
+    window.location.href = ` `;
+  }
   // Agrega un evento de envío al formulario para realizar el filtrado
   filterForm.addEventListener("submit", (event) => {
     event.preventDefault();
