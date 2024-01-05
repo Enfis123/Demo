@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (link.download !== undefined) {
                 const url = URL.createObjectURL(blob);
                 link.setAttribute("href", url);
-                link.setAttribute("download", 'datos_fijos.csv');
+                link.setAttribute("download", 'Consulta_'+startDateObj+'.csv');
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);

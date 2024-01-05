@@ -58,7 +58,7 @@ function insertarDatosAutomaticos(variableIds) {
 
 // Llama a la función de inserción automática en un intervalo de tiempo (por ejemplo, cada 10 segundos)
 setInterval(() => {
-  const variableIds = [10, 12, 8]; // Reemplaza con los IDs de las variables específicas
+  const variableIds = [1, 2, 3]; // Reemplaza con los IDs de las variables específicas
   insertarDatosAutomaticos(variableIds);
 }, 3 * 1000); // 10 segundos en milisegundos
 
