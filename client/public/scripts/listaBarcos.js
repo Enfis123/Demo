@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
             circle.setAttribute("stroke-width", "2");
             dial.appendChild(circle);
 
-            const numItems = 10; // Número de elementos en el dial
+            const numItems = 5; // Número de elementos en el dial
             const rangoMinRedondeado = Math.round(variable.rangoMin);
             const rangoMaxRedondeado = Math.round(variable.rangoMax);
 
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             for (let i = rangoMinRedondeado; i <= rangoMaxRedondeado; i += paso) {
               // Calcula la posición angular para el número
-              const angle = ((i - rangoMinRedondeado) / (rangoMaxRedondeado - rangoMinRedondeado)) * 360 - 90;
+              const angle = ((i - rangoMinRedondeado) / (rangoMaxRedondeado - rangoMinRedondeado)) * 180 -180;
 
               // Convierte el ángulo a radianes
               const radianes = (angle * Math.PI) / 180;
@@ -223,6 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 text.setAttribute("text-anchor", "middle");
                 text.setAttribute("dominant-baseline", "middle");
                 text.setAttribute("font-size", "8px"); // Ajusta el tamaño de la fuente según tus preferencias
+                text.setAttribute("fill", "white");
+
                 const roundedValue = typeof i === 'number' ? i.toFixed(0) : i;
 
                 text.textContent = roundedValue; // Utiliza el valor redondeado como cadena
@@ -281,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const valorNormalizado = Math.min(Math.max(nuevoValorNumerico, diales[variableId].rangoMinRedondeado), diales[variableId].rangoMaxRedondeado);
 
                 // Calcular el ángulo correspondiente al nuevo valor en el rango de la variable
-                const angulo = ((valorNormalizado - diales[variableId].rangoMinRedondeado) / (diales[variableId].rangoMaxRedondeado - diales[variableId].rangoMinRedondeado)) * 360;
+                const angulo = ((valorNormalizado - diales[variableId].rangoMinRedondeado) / (diales[variableId].rangoMaxRedondeado - diales[variableId].rangoMinRedondeado)) * 180-90;
 
                 // Actualizar la posición del dial
                 diales[variableId].pointer.style.transform = `translate(-50%, -100%) rotate(${angulo}deg)`;

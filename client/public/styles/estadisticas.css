@@ -95,18 +95,8 @@ footer {
 
 #chart-wrapper {
   max-width: 100%;
+  width: 100%;
   height: auto;
-}
-
-.dashboard-container {
-  overflow: hidden;
-  width: 0%;
-  padding: 20px;
-  background-color: #2a2a2a;
-  transition: width 0.3s;
-  box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
-  overflow-y: auto; /* Se añade para permitir el desplazamiento vertical dentro del dashboard */
 }
 
 /* Estilo para el botón de flecha */
@@ -191,6 +181,14 @@ select#variable-select option:checked {
 }
 
 .dashboard-container {
+  overflow: hidden;
+  width: 0%;
+  padding: 20px;
+  background-color: #2a2a2a;
+  transition: width 0.3s;
+  box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  overflow-y: auto; /* Se añade para permitir el desplazamiento vertical dentro del dashboard */
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
@@ -202,9 +200,18 @@ select#variable-select option:checked {
   display: grid;
   align-items: center;
   text-align: center; /* Centrar el texto dentro de la sección */
-
 }
 
+/* Media query para dispositivos móviles */
+@media only screen and (max-width: 600px) {
+  .dashboard-container {
+    max-width: 100%; /* Ajusta el ancho máximo para dispositivos móviles */
+  }
+
+  .dashboard-arrow {
+    font-size: 30px; /* Ajusta el tamaño del icono de la flecha para dispositivos móviles */
+  }
+}
 .dashboard-section {
   width: 100%; /* Ocupar todo el ancho disponible */
   margin-bottom: 20px;

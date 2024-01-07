@@ -4,12 +4,10 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-attachment: fixed;
-  display: grid; /* Aplicar un layout de cuadrícula al cuerpo */
+  display: grid;
   min-height: 100vh;
-  grid-template-rows: auto 1fr auto; /* Auto-template grid */
+  grid-template-rows: auto 1fr auto;
 }
-
 .navbar {
   background-color: #333;
   padding: 10px 0;
@@ -45,6 +43,14 @@ body {
 
   .navbar li {
     margin: 10px 0;
+  }
+
+  .navbar {
+    padding: 5px 0;
+  }
+
+  .navbar a {
+    font-size: 14px;
   }
 }
 
@@ -84,6 +90,7 @@ footer {
 .main-content {
   margin: 20px 0; /* Agrega margen en la parte superior e inferior */
 }
+
 .barco-list {
   display: flex;
   flex-wrap: wrap;
@@ -107,6 +114,18 @@ footer {
   max-width: 100%;
   height: auto;
 }
+
+/* Media query para dispositivos móviles */
+@media only screen and (max-width: 600px) {
+  .barco-list {
+    margin: 10px; /* Ajusta el margen para dispositivos móviles */
+  }
+
+  .barco-card {
+    width: 100%; /* Establece el ancho al 100% para ocupar todo el ancho de la pantalla */
+  }
+}
+
 
 /* CSS */
 .button-86 {
@@ -289,7 +308,17 @@ footer {
   
 
 }
+/* Media query para dispositivos móviles */
+@media only screen and (max-width: 600px) {
+  .detalle-container {
+    margin: 10px; /* Ajusta el margen para dispositivos móviles */
+    padding: 10px; /* Ajusta el relleno para dispositivos móviles */
+  }
 
+  .grid-container {
+    grid-template-columns: 1fr; /* Cambia a una columna para dispositivos móviles */
+  }
+}
 /* Estilos para el encabezado del grid */
 .grid-header {
   background-color: #333; /* Color de fondo para el encabezado */

@@ -89,6 +89,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 };
 
                 var options = {
+                    responsive: true,
+                    maintainAspectRatio: false, // Permite ajustar manualmente el tamaño
+                    aspectRatio: 1, // Relación de aspecto (ancho:alto) para el gráfico
+
                     scales: {
                         x: {
 
@@ -228,6 +232,10 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         var options = {
+            responsive: true,
+            maintainAspectRatio: false, // Permite ajustar manualmente el tamaño
+            aspectRatio: 1, // Relación de aspecto (ancho:alto) para el gráfico
+
             scales: {
                 x: {
 
