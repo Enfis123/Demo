@@ -10,6 +10,7 @@ body {
 }
 .navbar {
   background-color: #333;
+  min-height: 120px;
   padding: 10px 0;
 }
 
@@ -530,4 +531,18 @@ footer {
 .button-proceso:active::after {
   transition: 0s;
   transform: translate(0, 5%);
+}
+#imagen-container {
+  position: relative;
+  width: 500px;
+  height: 100px;
+  margin-left: 40px;
+  transition: margin-bottom 0.3s;
+  /* Agregado para una transición suave al cambiar el espacio */
+}
+
+#imagen-container:hover {
+  border-color: #333;
+  margin-bottom: 20px;
+  /* Ajusta el espacio cuando se pasa el ratón sobre el contenedor */
 }

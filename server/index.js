@@ -7,6 +7,7 @@ const loginApi = require('./loginApi');
 const usuarioApi = require('./usuarioApi'); // Asegúrate de que la ruta sea correcta
 const barcoApi = require('./barcoApi'); // Asegúrate de que la ruta sea correcta
 const variablesApi = require('./variablesApi'); // Asegúrate de que la ruta sea correcta
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -28,6 +29,32 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }); // Inicializa multer con la configuración
 
+const storagePortada = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../client/public/fotos/portadas'));
+  },
+  filename: (req, file, cb) => {
+    const nombreArchivo = 'portadaRobotron';
+
+    // Obtén la extensión del archivo original
+    const extension = path.extname(file.originalname).toLowerCase();
+
+    // Elimina la imagen existente antes de guardar la nueva de forma sincrónica
+    try {
+      fs.unlinkSync(path.join(__dirname, '../client/public/fotos/portadas', nombreArchivo + extension));
+    } catch (err) {
+      // Si hay un error que no sea "no existe", manejarlo
+      if (err.code !== 'ENOENT') {
+        return cb(err);
+      }
+    }
+
+    // Luego, llama a la función de callback con el nombre del nuevo archivo y su extensión
+    cb(null, nombreArchivo + extension);
+  },
+});
+
+const uploadPortada = multer({ storage: storagePortada });
 
 
 //COMENTAR PARA QUITAR LLENADO
@@ -157,7 +184,37 @@ app.post('/api/subir-imagen', upload.single('imagen'), (req, res) => {
   // Devuelve la respuesta adecuada al cliente
   res.status(200).json({ url: imagenPath });
 });
+// Ruta para manejar la subida de la imagen de portada
+app.post('/api/subir-imagen-portada', uploadPortada.single('portada'), (req, res) => {
+  // Accede a la información de la imagen subida
+  if (!req.file) {
+    return res.status(400).json({ error: 'No se proporcionó ninguna imagen de portada' });
+  }
 
+  const portadaPath = `/fotos/portadas/${req.file.filename}`;
+
+  // Realiza las operaciones necesarias con la información de la imagen y otros datos
+
+  // Devuelve la respuesta adecuada al cliente
+  res.status(200).json({ url: portadaPath });
+});
+// Ruta para obtener la única imagen de portada
+app.get('/api/obtener-imagen-portada', (req, res) => {
+  const carpetaPortadas = path.join(__dirname, '../client/public/fotos/portadas');
+
+  // Esto es solo un ejemplo, debes ajustar esta lógica según tus necesidades
+  const imagenesPortada = fs.readdirSync(carpetaPortadas).filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
+
+  if (imagenesPortada.length === 0) {
+    return res.status(404).json({ error: 'No se encontró ninguna imagen de portada' });
+  }
+
+  const primeraImagenPortada = imagenesPortada[0];
+  const urlImagenPortada = `/fotos/portadas/${primeraImagenPortada}`;
+
+  // Devuelve la URL o la imagen directamente como respuesta
+  res.status(200).json({ url: urlImagenPortada });
+});
 // Agrega el middleware de autenticación a la ruta de datos.html
 app.get('/datos.html', requireAuthentication, (req, res) => {
   console.log('Accediendo a datos.html');

@@ -4,16 +4,20 @@ body {
     color: #fff;
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0; 
+    padding: 0;
     background-attachment: fixed;
-    display: grid; /* Aplicar un layout de cuadrícula al cuerpo */
+    display: grid;
+    /* Aplicar un layout de cuadrícula al cuerpo */
     min-height: 100vh;
-    grid-template-rows: auto 1fr auto; /* Auto-template grid */
+    grid-template-rows: auto 1fr auto;
+    /* Auto-template grid */
 }
+
 
 
 .navbar {
     background-color: #333;
+    min-height: 120px;
     padding: 10px 0;
 }
 
@@ -30,19 +34,21 @@ body {
 .navbar a {
     text-decoration: none;
     color: #fff;
-    font-size: 16px; /* Tamaño de fuente para los enlaces */
-    transition: color 0.3s; /* Transición de color suave al pasar el cursor */
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
 .navbar a:hover {
-    color: #ffcc00; /* Cambia de color al pasar el cursor */
+    color: #ffcc00;
 }
 
 .cover {
     text-align: center;
     padding: 100px 0;
-    background-image: url('../fotos/portada.jpg'); /* Reemplaza con la ruta de tu imagen de portada */
-    background-size: cover; /* Cubre horizontalmente toda la página */
+    background-image: url('../fotos/portada.jpg');
+    /* Reemplaza con la ruta de tu imagen de portada */
+    background-size: cover;
+    /* Cubre horizontalmente toda la página */
     background-position: center;
     position: relative;
 }
@@ -52,7 +58,8 @@ body {
 .cover img {
     max-width: 100%;
     position: relative;
-    z-index: 2; /* Coloca la imagen por encima del filtro */
+    z-index: 2;
+    /* Coloca la imagen por encima del filtro */
 }
 
 /* Estilos para pantallas más pequeñas (por ejemplo, dispositivos móviles) */
@@ -68,12 +75,14 @@ body {
 }
 
 /* Estilos para la descripción */
-.description {      
+.description {
     margin-top: 20px;
-    text-align: center; /* Centra el texto */
-    padding: 50px; 
+    text-align: center;
+    /* Centra el texto */
+    padding: 50px;
     color: #f0e5e5;
-    background-color: rgba(0, 0, 0, 0.5); /* Filtro de opacidad (ajusta el valor para la opacidad deseada) */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Filtro de opacidad (ajusta el valor para la opacidad deseada) */
 
 }
 
@@ -99,7 +108,8 @@ footer {
 }
 
 .footer-links a:hover {
-    color: #ffcc00; /* Cambia de color al pasar el cursor */
+    color: #ffcc00;
+    /* Cambia de color al pasar el cursor */
 }
 
 .fa-lock,
@@ -110,3 +120,18 @@ footer {
     font-size: 20px;
     margin-right: 5px;
 }
+
+#imagen-container {
+    position: relative;
+    width: 500px;
+    height: 100px;
+    margin-left: 40px;
+    transition: margin-bottom 0.3s;
+    /* Agregado para una transición suave al cambiar el espacio */
+  }
+  
+  #imagen-container:hover {
+    border-color: #333;
+    margin-bottom: 20px;
+    /* Ajusta el espacio cuando se pasa el ratón sobre el contenedor */
+  }

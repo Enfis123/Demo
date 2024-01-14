@@ -9,24 +9,34 @@
     <link rel="stylesheet" href="styles/estadisticas.css">
 </head>
 
-<body>
+<body onload="cargarImagenPortada()">
     <header class="navbar">
+        <label for="input-imagen" style="cursor: pointer; display: flex; flex-direction: column; align-items: center;">
+            <div id="imagen-container" style="border: 2px dashed #ccc; padding: 10px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                <span id="label-text" style="margin-bottom: 5px;">Imagen</span>
+                <img id="imagen-preview" style="width: 100%; height: auto; max-height: 100px; display: none; object-fit: contain;" />
+            </div>
+        </label>
+        <input type="file" id="input-imagen" style="display: none;" onchange="subirImagenAlServidor(this)">
+        
         <nav>
-            <ul>
+      
+            <ul>    
                 <li><a href="/"><i class="fas fa-home"></i> Inicio</a></li>
                 <li><a href="/barco.html"><i class="fas fa-ship"></i> Barco</a></li>
                 <li><a href="/estadisticas.html"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
-                <li><a href="/control.html"><i class="fas fa-cogs"></i> Control</a></li>
+                <li><a href="/control.html"><i class="fas fa-cogs"></i> Control</a></li>    
             </ul>
         </nav>
     </header>
+
     <!-- Agrega este botón después del botón "Guardar en Excel" -->
     <button id="volverBarcosBtn" class="button-86">Volver a barcos</button>
 
     <section id="analisis-datos">
         <div class="analisis-container">
             <div class="chart-container" id="chart-container">
-                <h2>Análisis de Datos</h2>
+                <h2 id="titulo-analisis">Análisis de Datos</h2>
                 <label for="variable-select">Selecciona una variable:</label>
                 <select id="variable-select"></select>
 
@@ -101,6 +111,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+    <script src="/scripts/imagen.js"></script>
 
 
 </body>

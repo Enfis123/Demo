@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "dropzone": "^6.0.0-beta.2",
     "express": "^4.18.2",
     "file-saver": "^2.0.5",
     "jquery-knob": "^1.2.11",

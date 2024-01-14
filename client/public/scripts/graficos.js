@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Obtén el parámetro idVariable de la URL
     var urlParams = new URLSearchParams(window.location.search);
     var idVariableFromURL = urlParams.get('idVariable');
+    var barcoNombre = urlParams.get('barcoNombre');
     // Obtiene una referencia al botón de volver
     const volverBtn = document.getElementById('volverBarcosBtn');
 
@@ -16,7 +17,19 @@ document.addEventListener('DOMContentLoaded', function () {
         // Redirige a la página deseada, puedes cambiar 'otra-pagina.html' por la URL de la página a la que quieres volver
         window.location.href = '/barco.html';
     });
+    // Verifica si el parámetro está definido antes de usarlo
+    if (barcoNombre !== null) {
+        // Cambia el contenido del h2 con el valor del parámetro
+        var h2Element = document.getElementById('titulo-analisis'); // Supongamos que tienes un h2 con el id 'titulo-analisis'
 
+        if (h2Element !== null) {
+            h2Element.textContent = 'Análisis para el barco ' + barcoNombre;
+        } else {
+            console.error("Elemento h2 no encontrado.");
+        }
+    } else {
+        console.error("El parámetro 'barcoNombre' no está definido en la URL.");
+    }
     // Escoge la variable en el select según el parámetro de la URL
     if (idVariableFromURL) {
         variableSelect.value = idVariableFromURL;
@@ -196,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (link.download !== undefined) {
                 const url = URL.createObjectURL(blob);
                 link.setAttribute("href", url);
-                link.setAttribute("download", 'Consulta_'+startDateObj+'.csv');
+                link.setAttribute("download", 'Consulta_' + startDateObj + '.csv');
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);

@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             for (let i = rangoMinRedondeado; i <= rangoMaxRedondeado; i += paso) {
               // Calcula la posición angular para el número
-              const angle = ((i - rangoMinRedondeado) / (rangoMaxRedondeado - rangoMinRedondeado)) * 180 -180;
+              const angle = ((i - rangoMinRedondeado) / (rangoMaxRedondeado - rangoMinRedondeado)) * 210 -195;
 
               // Convierte el ángulo a radianes
               const radianes = (angle * Math.PI) / 180;
@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Agregar un evento de clic al botón
             botonIrOtraPagina.addEventListener("click", function () {
-              irAOtraPagina(variableId);
+              irAOtraPagina(variableId,barcoNombre);
             });
 
            // Agregar un evento de clic al botón
@@ -283,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const valorNormalizado = Math.min(Math.max(nuevoValorNumerico, diales[variableId].rangoMinRedondeado), diales[variableId].rangoMaxRedondeado);
 
                 // Calcular el ángulo correspondiente al nuevo valor en el rango de la variable
-                const angulo = ((valorNormalizado - diales[variableId].rangoMinRedondeado) / (diales[variableId].rangoMaxRedondeado - diales[variableId].rangoMinRedondeado)) * 180-90;
+                const angulo = ((valorNormalizado - diales[variableId].rangoMinRedondeado) / (diales[variableId].rangoMaxRedondeado - diales[variableId].rangoMinRedondeado)) * 210-105;
 
                 // Actualizar la posición del dial
                 diales[variableId].pointer.style.transform = `translate(-50%, -100%) rotate(${angulo}deg)`;
@@ -366,10 +366,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
   // Supongamos que tienes la siguiente función para cambiar a otra página
-  function irAOtraPagina(parametro) {
+  function irAOtraPagina(parametro,parametro2) {
     // Puedes utilizar window.location.href para cambiar a otra página
     // y pasar el parámetro como parte de la URL, por ejemplo.
-    window.location.href = `/estadisticas.html?idVariable=${parametro}`;
+    window.location.href = `/estadisticas.html?idVariable=${parametro}&barcoNombre=${parametro2}`;
   }
   // Supongamos que tienes la siguiente función para cambiar a otra página
   function irAOtraPaginaProceso(parametro) {
