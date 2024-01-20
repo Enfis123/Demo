@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             for (let i = rangoMinRedondeado; i <= rangoMaxRedondeado; i += paso) {
               // Calcula la posición angular para el número
-              const angle = ((i - rangoMinRedondeado) / (rangoMaxRedondeado - rangoMinRedondeado)) * 210 -195;
+              const angle = ((i - rangoMinRedondeado) / (rangoMaxRedondeado - rangoMinRedondeado)) * 210 - 195;
 
               // Convierte el ángulo a radianes
               const radianes = (angle * Math.PI) / 180;
@@ -251,37 +251,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Agregar un evento de clic al botón
             botonIrOtraPagina.addEventListener("click", function () {
-              irAOtraPagina(variableId,barcoNombre);
+              irAOtraPagina(variableId, barcoNombre);
             });
 
-           // Agregar un evento de clic al botón
-           botonIrProceso.addEventListener("click", function () {
-      
-            fetch("/api/navegacion", {
-              method: "POST", // O el método HTTP adecuado
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ nombre : barcoNombre, barco_id: barcoId }),
-            })
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error(`Error en la solicitud: ${response.status}`);
-                }
-                return response.json();
+            // Agregar un evento de clic al botón
+            botonIrProceso.addEventListener("click", function () {
+
+              fetch("/api/navegacion", {
+                method: "POST", // O el método HTTP adecuado
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ nombre: barcoNombre, barco_id: barcoId }),
               })
-              .then(data => {
-                // Manejar la respuesta de la API según sea necesario
-                console.log("Respuesta de la API:", data);
-          
-                // Después de obtener la respuesta de la API, redirigir a otra página
-                irAOtraPaginaProceso(variableId);
-              })
-              .catch(error => {
-                console.error("Error al realizar la solicitud a la API:", error);
-                // Puedes manejar el error de alguna manera si es necesario
-              });
-          });
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error(`Error en la solicitud: ${response.status}`);
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  // Manejar la respuesta de la API según sea necesario
+                  console.log("Respuesta de la API:", data);
+
+                  // Después de obtener la respuesta de la API, redirigir a otra página
+                  window.location.href = 'http://45.239.48.169:6063/';
+                })
+                .catch(error => {
+                  console.error("Error al realizar la solicitud a la API:", error);
+                  // Puedes manejar el error de alguna manera si es necesario
+                });
+            });
             // Añadir el botón al contenedor o al elemento que prefieras
             gridItem.appendChild(botonIrOtraPagina);
             gridItem.appendChild(botonIrProceso);
@@ -307,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const valorNormalizado = Math.min(Math.max(nuevoValorNumerico, diales[variableId].rangoMinRedondeado), diales[variableId].rangoMaxRedondeado);
 
                 // Calcular el ángulo correspondiente al nuevo valor en el rango de la variable
-                const angulo = ((valorNormalizado - diales[variableId].rangoMinRedondeado) / (diales[variableId].rangoMaxRedondeado - diales[variableId].rangoMinRedondeado)) * 210-105;
+                const angulo = ((valorNormalizado - diales[variableId].rangoMinRedondeado) / (diales[variableId].rangoMaxRedondeado - diales[variableId].rangoMinRedondeado)) * 210 - 105;
 
                 // Actualizar la posición del dial
                 diales[variableId].pointer.style.transform = `translate(-50%, -100%) rotate(${angulo}deg)`;
@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
   // Supongamos que tienes la siguiente función para cambiar a otra página
-  function irAOtraPagina(parametro,parametro2) {
+  function irAOtraPagina(parametro, parametro2) {
     // Puedes utilizar window.location.href para cambiar a otra página
     // y pasar el parámetro como parte de la URL, por ejemplo.
     window.location.href = `/estadisticas.html?idVariable=${parametro}&barcoNombre=${parametro2}`;
