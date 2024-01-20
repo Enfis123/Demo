@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
            // Agregar un evento de clic al botón
            botonIrProceso.addEventListener("click", function () {
-            irAOtraPaginaProceso(variableId);
+            window.location.href='http://45.239.48.169:6063/';
           });
             // Añadir el botón al contenedor o al elemento que prefieras
             gridItem.appendChild(botonIrOtraPagina);
@@ -372,10 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = `/estadisticas.html?idVariable=${parametro}&barcoNombre=${parametro2}`;
   }
   // Supongamos que tienes la siguiente función para cambiar a otra página
-  function irAOtraPaginaProceso(parametro) {
-    //TODO: Agregar referencia a la pagina.
-    window.location.href = ` `;
-  }
+
   // Agrega un evento de envío al formulario para realizar el filtrado
   filterForm.addEventListener("submit", (event) => {
     event.preventDefault();

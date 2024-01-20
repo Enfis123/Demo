@@ -808,7 +808,7 @@ function abrirEditarModalBarco(barcoId) {
     const imagenEdit = imagenEditInput.files[0]; // Obtener el archivo de imagen
 
     // Verificar si se cargó una nueva imagen, de lo contrario, usar la URL del API
-    const imagenBarcoURL = imagenEdit ? await subirImagenAlServidor(imagenEdit) : barcoData;
+    const imagenBarcoURL = imagenEdit ? await subirImagenAlServidor(imagenEdit) :  barcoData.imagen;
 
     const editedBarcoData = {
       nombre: document.getElementById("edit-nombre").value,
