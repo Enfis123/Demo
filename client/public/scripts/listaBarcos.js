@@ -256,7 +256,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
            // Agregar un evento de clic al botón
            botonIrProceso.addEventListener("click", function () {
-            window.location.href='http://45.239.48.169:6063/';
+      
+            fetch("/api/navegacion", {
+              method: "POST", // O el método HTTP adecuado
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ nombre : barcoNombre, barco_id: barcoId }),
+            })
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`Error en la solicitud: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then(data => {
+                // Manejar la respuesta de la API según sea necesario
+                console.log("Respuesta de la API:", data);
+          
+                // Después de obtener la respuesta de la API, redirigir a otra página
+                irAOtraPaginaProceso(variableId);
+              })
+              .catch(error => {
+                console.error("Error al realizar la solicitud a la API:", error);
+                // Puedes manejar el error de alguna manera si es necesario
+              });
           });
             // Añadir el botón al contenedor o al elemento que prefieras
             gridItem.appendChild(botonIrOtraPagina);

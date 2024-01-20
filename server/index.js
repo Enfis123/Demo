@@ -7,6 +7,7 @@ const loginApi = require('./loginApi');
 const usuarioApi = require('./usuarioApi'); // Asegúrate de que la ruta sea correcta
 const barcoApi = require('./barcoApi'); // Asegúrate de que la ruta sea correcta
 const variablesApi = require('./variablesApi'); // Asegúrate de que la ruta sea correcta
+const navegacionApi = require('./navegacionApi'); // Asegúrate de que la ruta sea correcta
 const fs = require('fs');
 
 const app = express();
@@ -85,7 +86,7 @@ function insertarDatosAutomaticos(variableIds) {
 
 // Llama a la función de inserción automática en un intervalo de tiempo (por ejemplo, cada 10 segundos)
 setInterval(() => {
-  const variableIds = [10, 8, 12]; // Reemplaza con los IDs de las variables específicas
+  const variableIds = [1]; // Reemplaza con los IDs de las variables específicas
   insertarDatosAutomaticos(variableIds);
 }, 3 * 1000); // 10 segundos en milisegundos
 
@@ -105,6 +106,7 @@ app.use(express.json());
 app.use('/api', loginApi);
 app.use('/api', usuarioApi);
 app.use('/api', barcoApi);
+app.use('/api', navegacionApi);
 app.use('/api', variablesApi.router); // Asegúrate de utilizar '.router' aquí
 // Suscripción a datos temporales en tiempo real
 io.on('connection', (socket) => {
