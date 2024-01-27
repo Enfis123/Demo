@@ -112,15 +112,37 @@ document.addEventListener("DOMContentLoaded", () => {
             const dial = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             dial.setAttribute("viewBox", "0 0 100 100");
             dial.className = "dial";
+            // Crear un elemento de círculo
             const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
             circle.setAttribute("cx", "50");
             circle.setAttribute("cy", "50");
             circle.setAttribute("r", "40");
-            circle.setAttribute("fill", "#f0f0f0");
-            circle.setAttribute("stroke", "#333");
-            circle.setAttribute("stroke-width", "2");
+            circle.style.fill = "#f0f0f0";
+            circle.style.strokeWidth = "4"; // Ajustado para que sea más grueso
+            circle.style.filter = "drop-shadow(2px 2px 4px rgba(0,0,0,0.5))";
             dial.appendChild(circle);
 
+            // Añadir marcadores
+            const numMarkers = 60; // Número de marcadores
+            const markerRadius = 38; // Radio para colocar los marcadores
+            const markerGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+            for (let i = 0; i < numMarkers; i++) {
+              const angle = (i * 360 / numMarkers) * (Math.PI / 180);
+              const markerX = 50 + markerRadius * Math.cos(angle);
+              const markerY = 50 + markerRadius * Math.sin(angle);
+
+              const marker = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+              marker.setAttribute("cx", markerX);
+              marker.setAttribute("cy", markerY);
+
+              // Asignar tamaño según la condición
+              marker.setAttribute("r", i % 5 === 0 ? "2" : "1"); // Tamaño más grande si el índice es múltiplo de 5
+              marker.style.fill = "#333"; // Color de los marcadores
+              markerGroup.appendChild(marker);
+            }
+
+            dial.appendChild(markerGroup);
             const numItems = 5; // Número de elementos en el dial
             const rangoMinRedondeado = Math.round(variable.rangoMin);
             const rangoMaxRedondeado = Math.round(variable.rangoMax);
@@ -147,7 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
               text.setAttribute("dominant-baseline", "middle");
               text.setAttribute("font-size", "8px"); // Ajusta el tamaño de la fuente según tus preferencias
               text.textContent = i.toFixed(0); // Utiliza el valor redondeado como cadena
-
+              
+              // Añadir estilos CSS al texto
+              text.style.fill = "#333"; // Color del texto
+              text.style.fontFamily = "Arial, sans-serif"; // Tipo de fuente
+              text.style.fontWeight = "bold"; // Peso de la fuente (negrita)
               // Añade el número al dial
               dial.appendChild(text);
             }
@@ -173,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Crear el cuerpo del termómetro (rectángulo principal)
             const rectangulo = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rectangulo.classList.add("temperature-body");
             rectangulo.setAttribute("x", "45");
             rectangulo.setAttribute("y", "10");
             rectangulo.setAttribute("width", "10");
@@ -188,16 +215,19 @@ document.addEventListener("DOMContentLoaded", () => {
             triangulo.setAttribute("fill", "#f0f0f0");
             triangulo.setAttribute("stroke", "#333");
             triangulo.setAttribute("stroke-width", "2");
+            triangulo.classList.add("temperature-top");
             termometro.appendChild(triangulo);
 
             // Crear el indicador de temperatura (rectángulo móvil)
             const indicador = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            indicador.classList.add("temperature-indicator");
             indicador.setAttribute("x", "45");
             indicador.setAttribute("y", "10");
             indicador.setAttribute("width", "10");
             indicador.setAttribute("height", "90"); // Ajusta la altura según tus necesidades
             indicador.setAttribute("fill", "#f0f0f0"); // Puedes ajustar el color según la temperatura
             termometro.appendChild(indicador);
+
 
             // Número de elementos en el termómetro
             const numItemsTermometro = 10;
