@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const anioFilter = document.getElementById("anio-filter");
   const tipoMotorFilter = document.getElementById("tipo-motor-filter");
   const tipoControlFilter = document.getElementById("tipo-control-filter");
+  let variablesLoaded = 0;  // Número de variables ya cargadas
+  const variablesPerPage = 6;  // Número de variables a cargar por página
+  let allVariables = [];  // Almacena todas las variables obtenidas del servidor
+
   function fetchAndDisplayBarcos() {
     // Realiza una solicitud a la API para obtener los datos de los barcos
     fetch("/api/barcos")
@@ -84,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error al cargar los datos de los barcos:", error);
       });
   }
+
   function fetchAndDisplayVariables(barcoId, barcoNombre) {
 
 
@@ -94,7 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const detallesContainer = document.querySelector(".detalle-container");
         const variablesGrid = document.createElement("div");
         variablesGrid.className = "grid-container";
-
+        allVariables = variables;
+        ///TODO: VER EL FOR EACH PARA EL RELLENADO LIMITADO A 6
         if (variables.length > 0) {
           variables.forEach((variable) => {
             const gridItem = document.createElement("div");
@@ -169,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
               text.setAttribute("dominant-baseline", "middle");
               text.setAttribute("font-size", "8px"); // Ajusta el tamaño de la fuente según tus preferencias
               text.textContent = i.toFixed(0); // Utiliza el valor redondeado como cadena
-              
+
               // Añadir estilos CSS al texto
               text.style.fill = "#333"; // Color del texto
               text.style.fontFamily = "Arial, sans-serif"; // Tipo de fuente
@@ -419,6 +425,45 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Error al realizar la solicitud fetch:', error);
       });
   }
+  // Función para cargar un conjunto de variables
+  function loadVariables(startIndex, endIndex) {
+    // Obtener un subconjunto de variables desde el arreglo completo
+    const subset = allVariables.slice(startIndex, endIndex);
+
+    // Procesar y mostrar las variables en el DOM
+    const variablesContainer = document.querySelector('.variables-container');
+
+    subset.forEach((variable) => {
+      // Crear elementos HTML y mostrar la variable
+      const variableElement = document.createElement('div');
+      variableElement.classList.add('variable-item');
+
+      // Aquí iría tu lógica actual de creación de elementos
+      // ... (por ejemplo, agregar contenido, estilos, etc.)
+
+      // Agregar el elemento al contenedor principal
+      variablesContainer.appendChild(variableElement);
+    });
+  }
+
+  // Función para cargar más variables cuando el usuario hace scroll
+  function loadMoreVariables() {
+    const startIndex = variablesLoaded;
+    const endIndex = startIndex + variablesPerPage;
+
+    // Verificar si hay más variables para cargar
+    if (startIndex < allVariables.length) {
+      // Cargar un conjunto adicional de variables
+      loadVariables(startIndex, endIndex);
+
+      // Actualizar la cantidad total de variables cargadas
+      variablesLoaded = endIndex;
+    } else {
+      // Ya se han cargado todas las variables, ocultar el botón
+      document.getElementById('loadMoreButton').style.display = 'none';
+    }
+  }
+ 
   // Supongamos que tienes la siguiente función para cambiar a otra página
   function irAOtraPagina(parametro, parametro2) {
     // Puedes utilizar window.location.href para cambiar a otra página

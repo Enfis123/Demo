@@ -221,13 +221,13 @@ footer {
   background-color: #77788641;
   color: #fff;
   display: grid;
-  min-height: 100vh;
   grid-template-rows: auto 1fr auto;
   overflow-y: auto;
   padding: 20px;
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra ligera */
   margin: 20px; /* Márgenes exteriores */
+  overflow-y: auto;
   
 }
 .detalle-container h2 {
@@ -284,16 +284,13 @@ footer {
 #volver-button:hover {
   background-color: #0058a0;
 }
-/* Define la cuadrícula */
 .grid-container {
   display: grid;
-  min-height: 90vh;
   grid-template-columns: 1fr 1fr 1fr; /* Divide en tres columnas iguales */
   gap: 10px; /* Espacio entre los contenedores */
   margin-top: 20px; /* Espacio desde el título */
-  overflow-y: auto;
-
-}
+  height: 600px; /* o un tamaño específico que se adapte a tus necesidades */
+  overflow-y: auto;}
 
 /* Estilos para los elementos del grid */
 .grid-item {
@@ -306,8 +303,6 @@ footer {
   border-radius: 5px;
   align-items: start; /* Alinea los elementos en la parte superior del grid-item */
   display: grid;
-  
-
 }
 /* Media query para dispositivos móviles */
 @media only screen and (max-width: 600px) {
@@ -417,7 +412,7 @@ footer {
 .termometro-container {
   width: 100%;
   max-width: 150px; /* Fijar el ancho máximo a 150px */
-  height: 90%; /* Utiliza toda la altura disponible */
+  height: 100%; /* Utiliza toda la altura disponible */
   margin: 0 auto; /* Centrar el contenedor en la página */
   
   /* Agregar sombras */
@@ -451,46 +446,6 @@ footer {
 }
 .temperature-indicator {
   transition: height 0.5s ease-in-out; /* Ajusta la duración y la función de temporización según tus preferencias */
-}
-
-/* Agrega estilos adicionales según sea necesario */
-
-
-
-/* Estilos para los gráficos */
-.chart-container {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  margin: 20px;
-}
-
-/* Estilos para el contenedor del gráfico de barras */
-.bar-chart {
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-/* Estilos para el contenedor del gráfico de líneas */
-.line-chart {
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-/* Estilos para el contenedor del gráfico de donas */
-.doughnut-chart {
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-/* Estilos para los títulos de los gráficos */
-.chart-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
 }
 
 /* Estilos para los botones de acción */
