@@ -75,8 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
           detallesButton.addEventListener("click", () => {
             // Oculta el contenedor de la lista de barcos con una animación
             barcoContainer.style.animation = "fadeOut 0.5s forwards";
-            fetchAndDisplayVariables(barco.id, barco.nombre);
             detalleContainer.style.animation = "fadeIn 0.5s forwards";
+            fetchAndDisplayVariables(barco.id, barco.nombre);
             detalleContainer.style.display = "block";
           });
           barcoCard.appendChild(detallesButton);

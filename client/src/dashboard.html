@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotron</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <!-- Material Dashboard CSS -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body onload="cargarImagenPortada()">
+    <header class="navbar">
+        <label for="input-imagen" style="cursor: pointer; display: flex; flex-direction: column; align-items: center;">
+            <div id="imagen-container"
+                style="border: 2px dashed #ccc; padding: 10px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                <span id="label-text" style="margin-bottom: 5px;">Imagen</span>
+                <img id="imagen-preview"
+                    style="width: 100%; height: auto; max-height: 100px; display: none; object-fit: contain;" />
+            </div>
+        </label>
+        <input type="file" id="input-imagen" style="display: none;" onchange="subirImagenAlServidor(this)">
+
+        <nav>
+
+            <ul>
+                <li><a href="/"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="/barco.html"><i class="fas fa-ship"></i> Barco</a></li>
+                <li><a href="http://45.239.48.169:6063"><i class="fas fa-chart-bar"></i> SCADA</a></li>
+                <li><a href="/estadisticas.html"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
+                <li><a href="/control.html"><i class="fas fa-cogs"></i> Control</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="dashboard">
+        <h2 id="titulo-analisis">Análisis de Datos</h2>
+        <label for="barco-select">Selecciona una Barco:</label>
+        <select id="barco-select"></select>
+        <label for="variable-select">Selecciona una variable:</label>
+        <select id="variable-select"></select>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre de la Variable</th>
+                    <th>Valor de la Variable</th>
+                    <th>Dial Gauge</th>
+                    <th>Luz Roja</th>
+                    <th>Luz Verde</th>
+                    <th>Detalle</th>
+                    <th>Estadistica</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Variable 1</td>
+                    <td>123</td>
+                    <td>
+                        <!-- Estructura HTML -->
+                        <div class="dial-gauge-container">
+                            <input type="text" class="dial-gauge">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="red-light"></div>
+                    </td>
+                    <td>
+                        <div class="green-light"></div>
+                    </td>
+                    <td>
+                        <button class="btn" onclick="desplegarDetalle()">Ver detalle</button>
+                    </td>
+                    <td>
+                        <button class="btn" onclick="irAEstadistica()">Estadisticas</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Variable 1</td>
+                    <td>123</td>
+                    <td>
+                        <!-- Estructura HTML -->
+                        <div class="dial-gauge-container">
+                            <input type="text" class="dial-gauge">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="red-light"></div>
+                    </td>
+                    <td>
+                        <div class="green-light"></div>
+                    </td>
+                    <td>
+                        <button class="btn" onclick="desplegarDetalle()">Ver detalle</button>
+                    </td>
+                    <td>
+                        <button class="btn" onclick="irAEstadistica()">Estadisticas</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="update"> <button class="btn" class="update-btn" onclick="updateTable()">Actualizar Tabla</button> </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="enlace-de-privacidad"><i class="fas fa-lock"></i> Términos de privacidad</a> |
+            <a href="enlace-de-facebook"><i class="fab fa-facebook"></i> Facebook</a> |
+            <a href="enlace-de-instagram"><i class="fab fa-instagram"></i> Instagram</a> |
+            <a href="enlace-de-twitter"><i class="fab fa-twitter"></i> Twitter</a> |
+            <a href="https://www.robotron.com.ec/"><i class="fas fa-info-circle"></i> Información general</a>
+        </div>
+        <p>&copy; 2023 Robotron. Todos los derechos reservados.</p>
+    </footer>
+    <!-- Incluye jQuery desde un CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Incluye jQuery Knob desde un CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.11/jquery.knob.min.js"></script>
+
+    <script src="/scripts/paginaDashboard.js"></script>
+    <script src="/scripts/imagen.js"></script>
+
+
+
+</body>
+
+</html>
