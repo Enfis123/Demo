@@ -181,6 +181,54 @@ select#variable-select option:checked {
   color: #fff;
 }
 
+select#variable-select {
+  width: 100%;
+  padding: 8px;
+  
+  margin-bottom: 20px;
+}
+
+
+div.zoom-sliders {
+  margin-top: 20px;
+}
+/* Estilo general para todos los select */
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #333; /* Cambiado a un tono oscuro */
+  border-radius: 5px;
+  background-color: #222; /* Fondo oscuro */
+  color: #fff; /* Texto blanco */
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+/* Estilo cuando el select está enfocado */
+select:focus {
+  outline: none;
+  border-color: #4CAF50; /* Color de resaltado cuando está enfocado */
+}
+
+/* Estilo para las opciones del select */
+select option {
+  background-color: #222; /* Fondo oscuro */
+  color: #fff; /* Texto blanco */
+}
+
+/* Estilo para las opciones cuando se pasa el mouse sobre ellas */
+select option:hover {
+  background-color: #333; /* Color cuando se pasa el mouse */
+}
+
+/* Estilo para las opciones seleccionadas */
+select option:checked {
+  background-color: #4CAF50; /* Color de fondo cuando está seleccionado */
+  color: #fff;
+}
+
+
 .dashboard-container {
   overflow: hidden;
   width: 0%;

@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Agregar un evento de clic al botón
             botonIrOtraPagina.addEventListener("click", function () {
-              irAOtraPagina(variableId, barcoNombre);
+              irAOtraPagina(variableId, barcoNombre,barcoId);
             });
 
             // Agregar un evento de clic al botón
@@ -465,10 +465,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
  
   // Supongamos que tienes la siguiente función para cambiar a otra página
-  function irAOtraPagina(parametro, parametro2) {
+  function irAOtraPagina(parametro, parametro2, parametro3) {
     // Puedes utilizar window.location.href para cambiar a otra página
     // y pasar el parámetro como parte de la URL, por ejemplo.
-    window.location.href = `/estadisticas.html?idVariable=${parametro}&barcoNombre=${parametro2}`;
+    window.location.href = `/estadisticas.html?idVariable=${parametro}&barcoNombre=${parametro2}&barcoId=${parametro3}`;
   }
   // Supongamos que tienes la siguiente función para cambiar a otra página
 
