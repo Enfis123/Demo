@@ -153,6 +153,37 @@ router.get('/barcos/:id/variables', (req, res) => {
     res.status(200).json(results);
   });
 });
+router.get('/barcos/:id_barco/todas-las-tablas', (req, res) => {
+  // Obtén el ID del barco de los parámetros de la URL
+  const idBarco = req.params.id_barco;
+
+  // Consulta SQL que realiza un JOIN en las tablas para obtener la información del barco específico
+  const sql = `
+  SELECT Variable.*, df.timestamp, df.valor, Escala.rangoMin, Escala.rangoMax
+  FROM Variable
+  LEFT JOIN (
+      SELECT id_variable, MAX(timestamp) as ultimaFecha
+      FROM datos_fijos
+      GROUP BY id_variable
+  ) ultimosDatos ON Variable.idVariable = ultimosDatos.id_variable
+  LEFT JOIN datos_fijos df ON ultimosDatos.id_variable = df.id_variable AND ultimosDatos.ultimaFecha = df.timestamp
+  LEFT JOIN Escala ON Variable.idVariable = Escala.idVariable
+  WHERE Variable.idBarco = ?;
+  
+  `;
+
+  // Ejecuta la consulta en la base de datos
+  db.query(sql, [idBarco], (err, results) => {
+      if (err) {
+          console.error('Error al consultar la base de datos: ' + err);
+          return res.status(500).json({ error: 'Error interno del servidor' });
+      }
+
+      // Devuelve los resultados como respuesta
+      res.status(200).json(results);
+  });
+});
+
 
 
 // Ruta para obtener una variable de un barco por su ID

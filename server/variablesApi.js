@@ -75,7 +75,7 @@ router.get("/variables", async (req, res) => {
         // Consulta SQL para obtener todas las variables con sus datos de la tabla Escala
         const selectVariablesSql = `
         SELECT 
-        V.idVariable, V.idBarco, V.nombre AS nombreVariable, V.unidadMedida, V.fechaCreacion, V.graficoEstadistico,
+        V.idVariable, V.idBarco, V.nombre AS nombreVariable, V.unidadMedida, V.fechaCreacion, V.graficoEstadistico, V.alm_l,V.alm_h,
         E.idEscala, E.nombre AS nombreEscala, E.rangoMin, E.rangoMax,
         B.nombre AS nombreBarco
         FROM Variable V

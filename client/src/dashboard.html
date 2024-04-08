@@ -7,8 +7,6 @@
     <title>Robotron</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles/dashboard.css">
-    <!-- Material Dashboard CSS -->
-    <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 
 <body onload="cargarImagenPortada()">
@@ -22,7 +20,6 @@
             </div>
         </label>
         <input type="file" id="input-imagen" style="display: none;" onchange="subirImagenAlServidor(this)">
-
         <nav>
 
             <ul>
@@ -34,19 +31,28 @@
             </ul>
         </nav>
     </header>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2 id="modalTitle">Detalles</h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
 
+    <div class="one">
+        <h1>Análisis de Datos</h1>
+    </div>
     <div id="dashboard">
-        <h2 id="titulo-analisis">Análisis de Datos</h2>
+
         <label for="barco-select">Selecciona una Barco:</label>
         <select id="barco-select"></select>
-        <label for="variable-select">Selecciona una variable:</label>
-        <select id="variable-select"></select>
-        <table id="tablaVariables"> 
+        </select>
 
+        <table id="tablaVariables">
             <thead>
                 <tr>
                     <th>Nombre de la Variable</th>
-                    <th>Valor de la Variable</th>
+                    <th>Unidad de medida de la Variable</th>
                     <th>Dial Gauge</th>
                     <th>Luz Roja</th>
                     <th>Luz Verde</th>
@@ -55,54 +61,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Variable 1</td>
-                    <td>123</td>
-                    <td>
-                        <!-- Estructura HTML -->
-                        <div class="dial-gauge-container">
-                            <input type="text" class="dial-gauge">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="red-light"></div>
-                    </td>
-                    <td>
-                        <div class="green-light"></div>
-                    </td>
-                    <td>
-                        <button class="btn" onclick="desplegarDetalle()">Ver detalle</button>
-                    </td>
-                    <td>
-                        <button class="btn" onclick="irAEstadistica()">Estadisticas</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Variable 1</td>
-                    <td>123</td>
-                    <td>
-                        <!-- Estructura HTML -->
-                        <div class="dial-gauge-container">
-                            <input type="text" class="dial-gauge">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="red-light"></div>
-                    </td>
-                    <td>
-                        <div class="green-light"></div>
-                    </td>
-                    <td>
-                        <button class="btn" onclick="desplegarDetalle()">Ver detalle</button>
-                    </td>
-                    <td>
-                        <button class="btn" onclick="irAEstadistica()">Estadisticas</button>
-                    </td>
-                </tr>
+                <!-- Aquí se agregarán las filas de datos dinámicamente -->
             </tbody>
         </table>
     </div>
-    <div id="update"> <button class="btn" class="update-btn" onclick="updateTable()">Actualizar Tabla</button> </div>
+    <div id="update">
+        <button class="btn update-btn" onclick="construirTabla(document.getElementById('barco-select').value)">
+            Actualizar Tabla
+        </button>
+    </div>
 
     <footer>
         <div class="footer-links">
@@ -122,6 +89,7 @@
 
     <script src="/scripts/paginaDashboard.js"></script>
     <script src="/scripts/imagen.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 

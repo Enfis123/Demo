@@ -67,3 +67,9 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+-- Agregar campos alm_l y alm_h a la tabla Variable
+ALTER TABLE Variable
+ADD COLUMN alm_l DECIMAL(12, 2),
+ADD COLUMN alm_h DECIMAL(12, 2);
