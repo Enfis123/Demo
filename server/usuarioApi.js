@@ -1,6 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 const { db, obtenerNuevosRegistros } = require('./db');
+const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
+const xss = require('xss');
+
+// Configurar middleware para CSRF
+const csrfProtection = csrf({ cookie: true });
+router.use(cookieParser());
+
 // Función para verificar la existencia de un usuario por nombre de usuario
 function checkUserExists(username, callback) {
   const checkUserExistsQuery = "SELECT * FROM usuarios WHERE username = ?";
@@ -13,6 +23,7 @@ function checkUserExists(username, callback) {
     callback(null, results.length > 0);
   });
 }
+
 // Ruta para obtener todos los usuarios
 router.get("/users", (req, res) => {
   // Consulta SQL para obtener todos los usuarios de la base de datos
@@ -27,47 +38,71 @@ router.get("/users", (req, res) => {
     res.status(200).json(results);
   });
 });
-router.post("/users", (req, res) => {
-  const { username, password, email, user_role, account_status } = req.body;
 
-  // Verificar si el usuario ya existe
-  checkUserExists(username, (error, userExists) => {
-    if (error) {
-      return res.status(500).json({ error: "Error interno del servidor" });
-    }
+// Middleware de validación para el cuerpo de la solicitud
+const validateRegisterInput = [
+  body('username').trim().isLength({ min: 1 }).escape().withMessage('Username es requerido'),
+  body('password').trim().isLength({ min: 6 }).escape().withMessage('La contraseña debe tener al menos 6 caracteres'),
+  body('email').trim().isEmail().normalizeEmail().escape().withMessage('Correo electrónico no válido'),
+  body('user_role').trim().escape(),
+  body('account_status').trim().escape()
+];
 
-    if (userExists) {
-      return res.status(409).json({ error: "El usuario ya existe" });
-    }
-    // Genera una fecha y hora actual para registration_date
-    const currentDateTime = new Date();
+// Endpoint para registrar un nuevo usuario
+router.post("/users", validateRegisterInput, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-    // Consulta SQL para insertar un nuevo usuario en la base de datos
-    const insertSql =
-      "INSERT INTO usuarios (username, password, email, registration_date, user_role, account_status) VALUES (?, ?, ?, ?, ?, ?)";
+  let { username, password, email, user_role, account_status } = req.body;
 
-    db.query(
-      insertSql,
-      [username, password, email, currentDateTime, user_role, account_status],
-      (err, results) => {
-        if (err) {
-          console.error("Error al crear un nuevo usuario: " + err);
-          return res.status(500).send("Error interno del servidor");
-        }
+  // Sanitizar los datos de entrada
+  username = xss(username);
+  email = xss(email);
+  user_role = xss(user_role);
+  account_status = xss(account_status);
 
-        // Verifica si se creó correctamente el nuevo usuario
-        if (results.affectedRows === 1) {
-          res.status(201).json({ message: "Usuario creado con éxito" });
-        } else {
-          res.status(500).json({ message: "Error al crear el usuario" });
-        }
+  try {
+    // Verificar si el usuario ya existe en la base de datos
+    const checkUserExistsQuery = "SELECT * FROM usuarios WHERE username = ?";
+    db.query(checkUserExistsQuery, [username], async (error, results) => {
+      if (error) {
+        console.error("Error al consultar la base de datos:", error);
+        return res.status(500).send("Error del servidor");
       }
-    );
-  });
-});
 
+      if (results.length > 0) {
+        return res.status(409).json({ error: "El usuario ya existe" });
+      }
+
+      // Hash de la contraseña
+      const saltRounds = 10;
+      try {
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Insertar nuevo usuario en la base de datos
+        const insertSql = "INSERT INTO usuarios (username, password, email, user_role, account_status) VALUES (?, ?, ?, ?, ?)";
+        db.query(insertSql, [username, hashedPassword, email, user_role, account_status], (err, result) => {
+          if (err) {
+            console.error("Error al insertar en la base de datos:", err);
+            return res.status(500).send("Error del servidor");
+          }
+          console.log("Usuario registrado con éxito");
+          res.status(201).json({ message: "Usuario registrado con éxito" });
+        });
+      } catch (hashError) {
+        console.error("Error al hashear la contraseña:", hashError);
+        res.status(500).send("Error del servidor");
+      }
+    });
+  } catch (error) {
+    console.error("Error inesperado:", error);
+    res.status(500).send("Error del servidor");
+  }
+});
 // Ruta para obtener un usuario por su ID
-router.get("/users/:id", (req, res) => {
+router.get("/users/:id", csrfProtection, (req, res) => {
   const userId = req.params.id;
   // Consulta SQL para obtener un usuario específico por su ID
   const getUserByIdQuery = "SELECT * FROM usuarios WHERE id = ?";
@@ -87,10 +122,16 @@ router.get("/users/:id", (req, res) => {
 });
 
 // Ruta para editar un usuario por su ID
-router.put("/users/:id", (req, res) => {
+router.put("/users/:id", csrfProtection, (req, res) => {
   const userId = req.params.id;
   const { username, password, email, user_role, account_status } = req.body;
 
+  // Sanitizar los datos de entrada
+  username = xss(username);
+  password = xss(password); // La contraseña no se debe sanitizar para mantener su seguridad.
+  email = xss(email);
+  user_role = xss(user_role);
+  account_status = xss(account_status);
   // Consulta SQL para actualizar un usuario por su ID
   const updateUserQuery =
     "UPDATE usuarios SET username = ?, password = ?, email = ?, user_role = ?, account_status = ? WHERE id = ?";
@@ -112,8 +153,9 @@ router.put("/users/:id", (req, res) => {
     }
   );
 });
+
 // Ruta para eliminar un usuario por su ID
-router.delete("/users/:id", (req, res) => {
+router.delete("/users/:id", csrfProtection, (req, res) => {
   const userId = req.params.id;
 
   // Consulta SQL para eliminar un usuario por su ID
@@ -133,4 +175,10 @@ router.delete("/users/:id", (req, res) => {
   });
 });
 
+// Ruta para obtener el token CSRF
+router.get("/csrf-token", csrfProtection, (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
+
 module.exports = router;
+

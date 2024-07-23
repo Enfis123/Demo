@@ -4,11 +4,16 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const { db, obtenerNuevosRegistros } = require('./db');
 const loginApi = require('./loginApi');
+const { body, validationResult } = require('express-validator'); // Importa express-validator
 const usuarioApi = require('./usuarioApi'); // Asegúrate de que la ruta sea correcta
 const barcoApi = require('./barcoApi'); // Asegúrate de que la ruta sea correcta
 const variablesApi = require('./variablesApi'); // Asegúrate de que la ruta sea correcta
 const navegacionApi = require('./navegacionApi'); // Asegúrate de que la ruta sea correcta
 const fs = require('fs');
+const crypto = require('crypto');
+const csurf = require('csurf');
+const helmet = require('helmet');
+const { escape } = require('html-escaper');
 
 const app = express();
 const port = 3000;
@@ -58,6 +63,10 @@ const storagePortada = multer.diskStorage({
 const uploadPortada = multer({ storage: storagePortada });
 
 
+// Función para generar un token CSRF aleatorio
+function generarTokenCSRF() {
+  return crypto.randomBytes(32).toString('hex'); // Genera una cadena hexadecimal aleatoria de 32 bytes
+}
 //COMENTAR PARA QUITAR LLENADO
 // Función para insertar datos automáticamente para una variable específica
 function insertarDatosAutomaticos(variableIds) {
@@ -86,7 +95,7 @@ function insertarDatosAutomaticos(variableIds) {
 
 // Llama a la función de inserción automática en un intervalo de tiempo (por ejemplo, cada 10 segundos)
 setInterval(() => {
-  const variableIds = [8,10,12]; // Reemplaza con los IDs de las variables específicas
+  const variableIds = [1,2,3]; // Reemplaza con los IDs de las variables específicas
   insertarDatosAutomaticos(variableIds);
 }, 3 * 1000); // 10 segundos en milisegundos
 
@@ -159,12 +168,106 @@ async function emitirNuevosRegistros() {
 // Puedes configurar un temporizador para ejecutar la emisión periódicamente
 setInterval(emitirNuevosRegistros, 3000); // Emitir cada 5 segundos, ajusta según tus necesidades
 
+// Configura helmet con CSP
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'","https:"], // Permitir todo el contenido desde el mismo origen
+        scriptSrc: ["'self'", "https:"], // Permitir scripts desde el mismo origen y CDN específico
+        styleSrc: ["'self'", "https:", "'unsafe-inline'"], // Permitir estilos desde el mismo origen y estilos en línea si es necesario
+        imgSrc: ["'self'", "https:","data:"], // Permitir imágenes del mismo dominio y desde HTTPS
+        connectSrc: ["'self'"], // Permitir conexiones solo al mismo dominio
+        fontSrc: ["'self'", "https:"], // Permitir fuentes de HTTPS
+        objectSrc: ["'none'"], // No permitir objetos
+        frameSrc: ["'none'"], // No permitir iframes
+        // Añade más directivas si es necesario
+      },
+    },
+  })
+);
+
+// Validación y sanitización de la subida de imágenes
+app.post('/api/subir-imagen', 
+  upload.single('imagen'), 
+  [
+    body('imagen').custom((value, { req }) => {
+      if (!req.file) {
+        throw new Error('No se proporcionó ninguna imagen');
+      }
+      const filetypes = /jpeg|jpg|png/;
+      const mimetype = filetypes.test(req.file.mimetype);
+      const extname = filetypes.test(path.extname(req.file.originalname).toLowerCase());
+      if (!mimetype || !extname) {
+        throw new Error('Formato de archivo no permitido');
+      }
+      return true;
+    })
+  ], 
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const imagenPath = `/fotos/barcos/${req.file.filename}`;
+    res.status(200).json({ url: imagenPath });
+  }
+);
+
+// Validación y sanitización de la subida de imagen de portada
+app.post('/api/subir-imagen-portada', 
+  uploadPortada.single('portada'), 
+  [
+    body('portada').custom((value, { req }) => {
+      if (!req.file) {
+        throw new Error('No se proporcionó ninguna imagen de portada');
+      }
+      const filetypes = /jpeg|jpg|png/;
+      const mimetype = filetypes.test(req.file.mimetype);
+      const extname = filetypes.test(path.extname(req.file.originalname).toLowerCase());
+      if (!mimetype || !extname) {
+        throw new Error('Formato de archivo no permitido');
+      }
+      return true;
+    })
+  ], 
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const portadaPath = `/fotos/portadas/${req.file.filename}`;
+    res.status(200).json({ url: portadaPath });
+  }
+);
+// Middleware para establecer el token CSRF en la cookie
+app.use((req, res, next) => {
+  const csrfToken = generarTokenCSRF();
+
+  // Establecer la cookie con el nombre XSRF-TOKEN
+  res.cookie('XSRF-TOKEN', csrfToken, {
+    httpOnly: true,   // La cookie solo es accesible a través del servidor
+    // Otras opciones: maxAge, sameSite, etc.
+  });
+
+  // Asegurarse de enviar el token CSRF también en una cabecera personalizada para el cliente
+  res.setHeader('X-CSRF-Token', csrfToken);
+
+  next();
+});
+// Middleware para manejar CSRF
+const csrfProtection = csurf({ cookie: true });
+
+// Aplicar el middleware csrfProtection a todas las rutas
+app.use(csrfProtection);
 
 // Middleware de autenticación
 function requireAuthentication(req, res, next) {
+  const csrfToken = req.cookies['XSRF-TOKEN'];
   const username = req.cookies.username;
-
-  if (!username) {
+  if (!csrfToken || !username){
     console.log('Middleware: Usuario no autenticado. Redirigiendo a la página de inicio.');
     return res.redirect('/');
   }
@@ -172,34 +275,6 @@ function requireAuthentication(req, res, next) {
 
   next();
 }
-// Ruta para manejar la subida de la imagen
-app.post('/api/subir-imagen', upload.single('imagen'), (req, res) => {
-  // Aquí puedes acceder a la información de la imagen subida
-  if (!req.file) {
-    return res.status(400).json({ error: 'No se proporcionó ninguna imagen' });
-  }
-
-  const imagenPath = `/fotos/barcos/${req.file.filename}`;
-
-  // Realiza las operaciones necesarias con la información de la imagen y otros datos
-
-  // Devuelve la respuesta adecuada al cliente
-  res.status(200).json({ url: imagenPath });
-});
-// Ruta para manejar la subida de la imagen de portada
-app.post('/api/subir-imagen-portada', uploadPortada.single('portada'), (req, res) => {
-  // Accede a la información de la imagen subida
-  if (!req.file) {
-    return res.status(400).json({ error: 'No se proporcionó ninguna imagen de portada' });
-  }
-
-  const portadaPath = `/fotos/portadas/${req.file.filename}`;
-
-  // Realiza las operaciones necesarias con la información de la imagen y otros datos
-
-  // Devuelve la respuesta adecuada al cliente
-  res.status(200).json({ url: portadaPath });
-});
 // Ruta para obtener la única imagen de portada
 app.get('/api/obtener-imagen-portada', (req, res) => {
   const carpetaPortadas = path.join(__dirname, '../client/public/fotos/portadas');
@@ -212,7 +287,7 @@ app.get('/api/obtener-imagen-portada', (req, res) => {
   }
 
   const primeraImagenPortada = imagenesPortada[0];
-  const urlImagenPortada = `/fotos/portadas/${primeraImagenPortada}`;
+  const urlImagenPortada = escape(`/fotos/portadas/${primeraImagenPortada}`);
 
   // Devuelve la URL o la imagen directamente como respuesta
   res.status(200).json({ url: urlImagenPortada });
@@ -223,31 +298,34 @@ app.get('/datos.html', requireAuthentication, (req, res) => {
   res.sendFile(path.join(__dirname, '../client/src/datos.html'));
 });
 
-app.get('/barco.html', (req, res) => {
+app.get('/barco.html',requireAuthentication, (req, res) => {
   console.log('Accediendo a barco.html');
   res.sendFile(path.join(__dirname, '../client/src/barco.html'));
 });
-app.get('/dashboard.html', (req, res) => {
+app.get('/dashboard.html',requireAuthentication, (req, res) => {
   console.log('Accediendo a dashboard.html');
   res.sendFile(path.join(__dirname, '../client/src/dashboard.html'));
 });
 
 // Ruta para servir control.html sin autenticación
-app.get('/control.html', (req, res) => {
+app.get('/control.html',requireAuthentication, (req, res) => {
   console.log('Accediendo a control.html');
   res.sendFile(path.join(__dirname, '../client/src/control.html'));
 });
 
 // Ruta para servir estadisticas.html sin autenticación
-app.get('/estadisticas.html', (req, res) => {
+app.get('/estadisticas.html',requireAuthentication, (req, res) => {
   console.log('Accediendo a estadisticas.html');
   res.sendFile(path.join(__dirname, '../client/src/estadisticas.html'));
 });
-
+app.get('/index.html',requireAuthentication, (req, res) => {
+  console.log('Accediendo a la página de inicio');
+  res.sendFile(path.join(__dirname, '../client/src/index.html'));
+});
 // Ruta de inicio
 app.get('/', (req, res) => {
   console.log('Accediendo a la página de inicio');
-  res.sendFile(path.join(__dirname, '../client/src/index.html'));
+  res.sendFile(path.join(__dirname, '../client/src/control.html'));
 });
 
 server.listen(port, () => {

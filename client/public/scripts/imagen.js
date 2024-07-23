@@ -1,7 +1,24 @@
+document.addEventListener('DOMContentLoaded', function() {
+    cargarImagenPortada();
+});
 function subirImagenAlServidor(input) {
     var archivo = input.files[0];
 
     if (archivo) {
+        // Validación del tipo de archivo
+        var validExtensions = ['image/jpeg', 'image/png'];
+        if (!validExtensions.includes(archivo.type)) {
+            alert('Solo se permiten archivos JPEG o PNG');
+            return;
+        }
+
+        // Validación del tamaño del archivo (por ejemplo, máximo 2 MB)
+        var maxSize = 2 * 1024 * 1024;
+        if (archivo.size > maxSize) {
+            alert('El tamaño máximo permitido es de 2 MB');
+            return;
+        }
+
         var formData = new FormData();
         formData.append('portada', archivo);
 
@@ -19,8 +36,11 @@ function subirImagenAlServidor(input) {
         .catch(error => {
             console.error('Error al subir la imagen:', error);
         });
+    } else {
+        alert('Por favor, seleccione una imagen para subir.');
     }
 }
+
 function cargarImagenPortada() {
     fetch('/api/obtener-imagen-portada')
         .then(response => {

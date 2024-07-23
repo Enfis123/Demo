@@ -161,3 +161,59 @@ footer {
   margin-bottom: 20px;
   /* Ajusta el espacio cuando se pasa el ratón sobre el contenedor */
 }
+/* QR container */
+.qr-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.qr-container img {
+  max-width: 200px;
+  margin-top: 10px;
+}
+
+.qr-container p {
+  font-size: 14px;
+  color: #666666;
+}
+
+/* Verification form */
+.verification-form {
+  text-align: center;
+}
+
+.verification-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #ffffff;
+}
+.verification-form input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.verification-form input[type="text"]:focus {
+  border-color: #6666ff;
+  outline: none;
+}
+
+.verification-form button {
+  background-color: #6666ff;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.verification-form button:hover {
+  background-color: #5555cc;
+}

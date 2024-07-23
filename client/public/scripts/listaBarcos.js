@@ -464,11 +464,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
  
-  // Supongamos que tienes la siguiente función para cambiar a otra página
   function irAOtraPagina(parametro, parametro2, parametro3) {
-    // Puedes utilizar window.location.href para cambiar a otra página
-    // y pasar el parámetro como parte de la URL, por ejemplo.
-    window.location.href = `/estadisticas.html?idVariable=${parametro}&barcoNombre=${parametro2}&barcoId=${parametro3}`;
+    // Codifica los parámetros para que sean seguros para la URL
+    const encodedParametro = encodeURIComponent(parametro);
+    const encodedParametro2 = encodeURIComponent(parametro2);
+    const encodedParametro3 = encodeURIComponent(parametro3);
+  
+    // Construye la URL con los parámetros codificados
+    const url = `/estadisticas.html`;
+  
+    // Redirige a la nueva URL
+    window.location.href = url;
   }
   // Supongamos que tienes la siguiente función para cambiar a otra página
 

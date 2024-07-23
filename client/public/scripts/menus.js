@@ -334,14 +334,20 @@ function previewImage() {
   var input = document.getElementById('imagen');
   var preview = document.getElementById('imagen-preview-img');
 
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      preview.src = e.target.result;
-    };
+  // Añade un manejador de eventos para el evento 'change'
+  input.addEventListener('change', function () {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
 
-    reader.readAsDataURL(input.files[0]);
-  }
+      // Define la función que se ejecuta cuando la imagen se ha cargado
+      reader.onload = function (e) {
+        preview.src = e.target.result; // Establece la fuente de la vista previa a la imagen cargada
+      };
+
+      // Lee el archivo como una URL de datos
+      reader.readAsDataURL(input.files[0]);
+    }
+  });
 
   // Oculta la imagen por defecto
   var defaultImage = document.getElementById('imagen-preview-default');
