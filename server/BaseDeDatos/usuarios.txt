@@ -6,8 +6,10 @@ CREATE TABLE usuarios (
     registration_date DATETIME,
     user_role ENUM('admin', 'user'),
     last_access DATETIME,
-    account_status ENUM('activo', 'inactivo')
+    account_status ENUM('activo', 'inactivo'),
+    email VARCHAR(100),
 );
+ALTER TABLE usuarios ADD COLUMN secret VARCHAR(255);
 
 -- Insertar usuarios de ejemplo
 INSERT INTO usuarios (username, password, email, registration_date, user_role, last_access, account_status)
