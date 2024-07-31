@@ -133,5 +133,10 @@ router.post("/verify", async (req, res) => {
     res.status(500).send("Error interno del servidor");
   }
 });
-
+// Ruta para logout y eliminar la cookie
+router.post("/logout", (req, res) => {
+  // Eliminar la cookie configurándola con una fecha de expiración en el pasado
+  res.cookie('username', '', { expires: new Date(0), httpOnly: true, secure: true });
+  res.status(200).json({ success: true, message: "Logout exitoso" });
+});
 module.exports = router;
